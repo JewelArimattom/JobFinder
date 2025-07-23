@@ -106,14 +106,14 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="flex items-center space-x-8">
-                        <a href="/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
-                        <a href="" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
-                        <a href="/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
-                        <a href="/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
-                        <a href="/frontend/components/postJobs.html"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm relative z-10">
+                        <a href="jobs.html" class="gradient-text font-bold transition-colors">Jobs</a>
+                        <a href="#" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
+                        <a href="resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
+                        <a href="about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                        <a href="post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
                             Post Job
-                        </button></a>
-                    </div>  
+                        </a>
+                    </div>
                 </div>
                 <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
                     <i class="fas fa-bars"></i>
@@ -158,10 +158,6 @@
                                 <label for="type-full-time" class="ml-3 text-slate-600">Full-time</label>
                             </div>
                             <div class="flex items-center">
-                                <input type="checkbox" id="type-part-time" value="Part-time" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                                <label for="type-part-time" class="ml-3 text-slate-600">Part-time</label>
-                            </div>
-                            <div class="flex items-center">
                                 <input type="checkbox" id="type-contract" value="Contract" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
                                 <label for="type-contract" class="ml-3 text-slate-600">Contract</label>
                             </div>
@@ -200,12 +196,11 @@
             <!-- Job Listings -->
             <div class="lg:col-span-3">
                 <div class="mb-6 flex justify-between items-center">
-                    <h2 class="text-2xl font-bold text-slate-900">Showing <span id="job-count">12</span> results</h2>
+                    <h2 class="text-2xl font-bold text-slate-900">Showing <span id="job-count">0</span> results</h2>
                     <div class="relative">
                         <select id="sort-by" class="appearance-none bg-white border border-slate-300 rounded-lg py-2 pl-3 pr-8 text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
                             <option value="newest">Sort by: Newest</option>
                             <option value="relevance">Sort by: Relevance</option>
-                            <option value="salary_high">Sort by: Salary (High)</option>
                         </select>
                         <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 pointer-events-none"></i>
                     </div>
@@ -237,13 +232,13 @@
                     <h4 class="text-lg font-bold mb-6 text-white">For Job Seekers</h4>
                     <ul class="space-y-3">
                         <li><a href="jobs.html" class="text-slate-400 hover:text-white transition-colors">Browse Jobs</a></li>
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
+                        <li><a href="resources.html" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-lg font-bold mb-6 text-white">For Employers</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
+                        <li><a href="post-job.html" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
                         <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a></li>
                     </ul>
                 </div>
@@ -256,19 +251,20 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // Master list of all jobs
     const allJobs = [
-        { title: 'Senior Frontend Developer', company: 'TechCorp', location: 'Bangalore, KA', salary: '₹18-25 LPA', type: 'Full-time', experience: 'Senior Level', posted: '1d ago', logo: 'https://placehold.co/100x100/667eea/ffffff?text=T', tags: ['React', 'TypeScript', 'Next.js'] },
-        { title: 'Product Manager', company: 'InnovateHub', location: 'Pune, MH', salary: '₹20-30 LPA', type: 'Full-time', experience: 'Senior Level', posted: '2d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Roadmap', 'Agile', 'Analytics'] },
-        { title: 'UI/UX Designer', company: 'CreativeMinds', location: 'Mumbai, MH', salary: '₹10-15 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '3d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Figma', 'User Research', 'Prototyping'] },
-        { title: 'Backend Engineer (Node.js)', company: 'DataStream', location: 'Remote', salary: '₹15-22 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '4d ago', logo: 'https://placehold.co/100x100/34d399/ffffff?text=D', tags: ['Node.js', 'AWS', 'PostgreSQL'] },
-        { title: 'Digital Marketing Specialist', company: 'GrowthLeap', location: 'Delhi, DL', salary: '₹8-12 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '5d ago', logo: 'https://placehold.co/100x100/fbbf24/ffffff?text=G', tags: ['SEO', 'SEM', 'Social Media'] },
-        { title: 'Data Scientist', company: 'AI Labs', location: 'Hyderabad, TS', salary: '₹25-35 LPA', type: 'Full-time', experience: 'Senior Level', posted: '5d ago', logo: 'https://placehold.co/100x100/60a5fa/ffffff?text=A', tags: ['Python', 'ML', 'TensorFlow'] },
-        { title: 'Marketing Intern', company: 'InnovateHub', location: 'Pune, MH', salary: '₹25k/month', type: 'Internship', experience: 'Entry Level', posted: '6d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Marketing', 'Content', 'Social Media'] },
-        { title: 'Junior Graphic Designer', company: 'CreativeMinds', location: 'Remote', salary: '₹5-8 LPA', type: 'Full-time', experience: 'Entry Level', posted: '7d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Illustrator', 'Photoshop'] },
-        { title: 'DevOps Engineer', company: 'CloudServe', location: 'Bangalore, KA', salary: '₹16-24 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '8d ago', logo: 'https://placehold.co/100x100/c084fc/ffffff?text=C', tags: ['Kubernetes', 'Docker', 'CI/CD'] },
-        { title: 'HR Manager', company: 'PeopleFirst', location: 'Mumbai, MH', salary: '₹12-18 LPA', type: 'Full-time', experience: 'Senior Level', posted: '9d ago', logo: 'https://placehold.co/100x100/f87171/ffffff?text=P', tags: ['Recruitment', 'HR Policy'] },
-        { title: 'Content Writer', company: 'WordSmiths', location: 'Remote', salary: '₹6-9 LPA', type: 'Contract', experience: 'Mid-Level', posted: '10d ago', logo: 'https://placehold.co/100x100/fb923c/ffffff?text=W', tags: ['Writing', 'SEO', 'Blogging'] },
-        { title: 'Sales Development Representative', company: 'LeadGenius', location: 'Noida, UP', salary: '₹7-11 LPA', type: 'Full-time', experience: 'Entry Level', posted: '11d ago', logo: 'https://placehold.co/100x100/4ade80/ffffff?text=L', tags: ['Sales', 'CRM', 'Outreach'] },
+        { id: 1, title: 'Senior Frontend Developer', company: 'TechCorp', location: 'Bangalore, KA', salary: '₹18-25 LPA', type: 'Full-time', experience: 'Senior Level', posted: '1d ago', logo: 'https://placehold.co/100x100/667eea/ffffff?text=T', tags: ['React', 'TypeScript', 'Next.js'] },
+        { id: 2, title: 'Product Manager', company: 'InnovateHub', location: 'Pune, MH', salary: '₹20-30 LPA', type: 'Full-time', experience: 'Senior Level', posted: '2d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Roadmap', 'Agile', 'Analytics'] },
+        { id: 3, title: 'UI/UX Designer', company: 'CreativeMinds', location: 'Mumbai, MH', salary: '₹10-15 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '3d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Figma', 'User Research', 'Prototyping'] },
+        { id: 4, title: 'Backend Engineer (Node.js)', company: 'DataStream', location: 'Remote', salary: '₹15-22 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '4d ago', logo: 'https://placehold.co/100x100/34d399/ffffff?text=D', tags: ['Node.js', 'AWS', 'PostgreSQL'] },
+        { id: 5, title: 'Digital Marketing Specialist', company: 'GrowthLeap', location: 'Delhi, DL', salary: '₹8-12 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '5d ago', logo: 'https://placehold.co/100x100/fbbf24/ffffff?text=G', tags: ['SEO', 'SEM', 'Social Media'] },
+        { id: 6, title: 'Data Scientist', company: 'AI Labs', location: 'Hyderabad, TS', salary: '₹25-35 LPA', type: 'Full-time', experience: 'Senior Level', posted: '5d ago', logo: 'https://placehold.co/100x100/60a5fa/ffffff?text=A', tags: ['Python', 'ML', 'TensorFlow'] },
+        { id: 7, title: 'Marketing Intern', company: 'InnovateHub', location: 'Pune, MH', salary: '₹25k/month', type: 'Internship', experience: 'Entry Level', posted: '6d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Marketing', 'Content', 'Social Media'] },
+        { id: 8, title: 'Junior Graphic Designer', company: 'CreativeMinds', location: 'Remote', salary: '₹5-8 LPA', type: 'Full-time', experience: 'Entry Level', posted: '7d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Illustrator', 'Photoshop'] },
+        { id: 9, title: 'DevOps Engineer', company: 'CloudServe', location: 'Bangalore, KA', salary: '₹16-24 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '8d ago', logo: 'https://placehold.co/100x100/c084fc/ffffff?text=C', tags: ['Kubernetes', 'Docker', 'CI/CD'] },
+        { id: 10, title: 'HR Manager', company: 'PeopleFirst', location: 'Mumbai, MH', salary: '₹12-18 LPA', type: 'Full-time', experience: 'Senior Level', posted: '9d ago', logo: 'https://placehold.co/100x100/f87171/ffffff?text=P', tags: ['Recruitment', 'HR Policy'] },
+        { id: 11, title: 'Content Writer', company: 'WordSmiths', location: 'Remote', salary: '₹6-9 LPA', type: 'Contract', experience: 'Mid-Level', posted: '10d ago', logo: 'https://placehold.co/100x100/fb923c/ffffff?text=W', tags: ['Writing', 'SEO', 'Blogging'] },
+        { id: 12, title: 'Sales Development Representative', company: 'LeadGenius', location: 'Noida, UP', salary: '₹7-11 LPA', type: 'Full-time', experience: 'Entry Level', posted: '11d ago', logo: 'https://placehold.co/100x100/4ade80/ffffff?text=L', tags: ['Sales', 'CRM', 'Outreach'] },
     ];
 
     const listingsContainer = document.getElementById('job-listings-container');
@@ -301,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <img src="${job.logo}" alt="${job.company} logo" class="w-14 h-14 rounded-xl mr-4">
                         <div class="flex-1">
                             <p class="text-sm text-slate-500">${job.company}</p>
-                            <h3 class="text-lg font-bold text-slate-900 hover:text-indigo-600 transition-colors cursor-pointer">${job.title}</h3>
+                            <h3 class="text-lg font-bold text-slate-900">${job.title}</h3>
                         </div>
                         <span class="text-xs text-slate-500 whitespace-nowrap">${job.posted}</span>
                     </div>
@@ -311,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="flex-grow"></div>
                     <div class="flex flex-wrap gap-2 mb-6">${tagsHtml}</div>
-                    <button class="w-full text-center font-bold bg-slate-100 hover:bg-indigo-100 text-indigo-700 py-3 rounded-lg transition-all duration-300">View Details</button>
+                    <a href="/frontend/components/job-detail.html?id=${job.id}" class="w-full text-center font-bold bg-slate-100 hover:bg-indigo-100 text-indigo-700 py-3 rounded-lg transition-all duration-300">View Details</a>
                 </div>
             `;
             listingsContainer.insertAdjacentHTML('beforeend', card);
