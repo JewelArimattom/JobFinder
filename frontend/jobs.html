@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Jobs - JobFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* bg-slate-100 */
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        .job-card {
+            background: white;
+            border: 1px solid #e2e8f0; /* slate-200 */
+            border-radius: 1.5rem; /* rounded-3xl */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: card-fade-in 0.5s ease forwards;
+        }
+
+        @keyframes card-fade-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            border-color: #818cf8; /* indigo-400 */
+        }
+
+        .filter-section {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        .search-input {
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            border-color: #6366f1; /* indigo-600 */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+        }
+
+        .custom-checkbox:checked {
+            background-color: #6366f1;
+            border-color: #6366f1;
+        }
+        .custom-checkbox:checked + label {
+            font-weight: 600;
+            color: #1e293b; /* slate-800 */
+        }
+        
+        .pagination-btn {
+            transition: all 0.2s ease;
+        }
+        .pagination-btn.active {
+            background-color: #6366f1;
+            color: white;
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-8">
+                        <a href="/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                        <a href="" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
+                        <a href="/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
+                        <a href="/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                        <a href="/frontend/components/postJobs.html"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm relative z-10">
+                            Post Job
+                        </button></a>
+                    </div>  
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid lg:grid-cols-4 gap-8">
+            
+            <!-- Filters Sidebar -->
+            <aside class="lg:col-span-1 h-fit lg:sticky top-24">
+                <div class="filter-section p-6">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6">Search & Filters</h3>
+                    
+                    <!-- Keyword Search -->
+                    <div class="mb-6">
+                        <label for="keyword-search" class="block text-sm font-semibold text-slate-700 mb-2">Keyword</label>
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="keyword-search" placeholder="Job title or skill" class="search-input w-full pl-10 pr-4 py-2.5 rounded-xl">
+                        </div>
+                    </div>
+                    
+                    <!-- Location Search -->
+                    <div class="mb-6">
+                        <label for="location-search" class="block text-sm font-semibold text-slate-700 mb-2">Location</label>
+                        <div class="relative">
+                            <i class="fas fa-map-marker-alt absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="location-search" placeholder="City or state" class="search-input w-full pl-10 pr-4 py-2.5 rounded-xl">
+                        </div>
+                    </div>
+
+                    <!-- Job Type -->
+                    <div class="mb-6 border-t border-slate-200 pt-6">
+                        <h4 class="font-bold text-slate-800 mb-3">Job Type</h4>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="type-full-time" value="Full-time" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="type-full-time" class="ml-3 text-slate-600">Full-time</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="type-part-time" value="Part-time" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="type-part-time" class="ml-3 text-slate-600">Part-time</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="type-contract" value="Contract" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="type-contract" class="ml-3 text-slate-600">Contract</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="type-internship" value="Internship" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="type-internship" class="ml-3 text-slate-600">Internship</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience Level -->
+                    <div class="mb-6 border-t border-slate-200 pt-6">
+                        <h4 class="font-bold text-slate-800 mb-3">Experience Level</h4>
+                         <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="exp-entry" value="Entry Level" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="exp-entry" class="ml-3 text-slate-600">Entry Level</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="exp-mid" value="Mid-Level" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="exp-mid" class="ml-3 text-slate-600">Mid-Level</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="exp-senior" value="Senior Level" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="exp-senior" class="ml-3 text-slate-600">Senior Level</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="apply-filters-btn" class="btn-primary w-full py-3 rounded-xl font-bold text-white">
+                        Apply Filters
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Job Listings -->
+            <div class="lg:col-span-3">
+                <div class="mb-6 flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-slate-900">Showing <span id="job-count">12</span> results</h2>
+                    <div class="relative">
+                        <select id="sort-by" class="appearance-none bg-white border border-slate-300 rounded-lg py-2 pl-3 pr-8 text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="newest">Sort by: Newest</option>
+                            <option value="relevance">Sort by: Relevance</option>
+                            <option value="salary_high">Sort by: Salary (High)</option>
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <div id="job-listings-container" class="grid md:grid-cols-2 gap-6">
+                    <!-- Job cards will be injected here by JavaScript -->
+                </div>
+
+                <!-- Pagination -->
+                <div id="pagination-container" class="mt-12 flex justify-center items-center space-x-2">
+                    <!-- Pagination buttons will be injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="lg:col-span-2">
+                    <h3 class="text-3xl font-black gradient-text mb-4">JobFinder</h3>
+                    <p class="text-slate-400 max-w-md leading-relaxed mb-6">
+                        Empowering careers across India. Connect with opportunities that match your ambitions and grow with companies that value your potential.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">For Job Seekers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="jobs.html" class="text-slate-400 hover:text-white transition-colors">Browse Jobs</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">For Employers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-slate-400 text-sm">
+                <p>&copy; 2025 JobFinder. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const allJobs = [
+        { title: 'Senior Frontend Developer', company: 'TechCorp', location: 'Bangalore, KA', salary: '₹18-25 LPA', type: 'Full-time', experience: 'Senior Level', posted: '1d ago', logo: 'https://placehold.co/100x100/667eea/ffffff?text=T', tags: ['React', 'TypeScript', 'Next.js'] },
+        { title: 'Product Manager', company: 'InnovateHub', location: 'Pune, MH', salary: '₹20-30 LPA', type: 'Full-time', experience: 'Senior Level', posted: '2d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Roadmap', 'Agile', 'Analytics'] },
+        { title: 'UI/UX Designer', company: 'CreativeMinds', location: 'Mumbai, MH', salary: '₹10-15 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '3d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Figma', 'User Research', 'Prototyping'] },
+        { title: 'Backend Engineer (Node.js)', company: 'DataStream', location: 'Remote', salary: '₹15-22 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '4d ago', logo: 'https://placehold.co/100x100/34d399/ffffff?text=D', tags: ['Node.js', 'AWS', 'PostgreSQL'] },
+        { title: 'Digital Marketing Specialist', company: 'GrowthLeap', location: 'Delhi, DL', salary: '₹8-12 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '5d ago', logo: 'https://placehold.co/100x100/fbbf24/ffffff?text=G', tags: ['SEO', 'SEM', 'Social Media'] },
+        { title: 'Data Scientist', company: 'AI Labs', location: 'Hyderabad, TS', salary: '₹25-35 LPA', type: 'Full-time', experience: 'Senior Level', posted: '5d ago', logo: 'https://placehold.co/100x100/60a5fa/ffffff?text=A', tags: ['Python', 'ML', 'TensorFlow'] },
+        { title: 'Marketing Intern', company: 'InnovateHub', location: 'Pune, MH', salary: '₹25k/month', type: 'Internship', experience: 'Entry Level', posted: '6d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Marketing', 'Content', 'Social Media'] },
+        { title: 'Junior Graphic Designer', company: 'CreativeMinds', location: 'Remote', salary: '₹5-8 LPA', type: 'Full-time', experience: 'Entry Level', posted: '7d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Illustrator', 'Photoshop'] },
+        { title: 'DevOps Engineer', company: 'CloudServe', location: 'Bangalore, KA', salary: '₹16-24 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '8d ago', logo: 'https://placehold.co/100x100/c084fc/ffffff?text=C', tags: ['Kubernetes', 'Docker', 'CI/CD'] },
+        { title: 'HR Manager', company: 'PeopleFirst', location: 'Mumbai, MH', salary: '₹12-18 LPA', type: 'Full-time', experience: 'Senior Level', posted: '9d ago', logo: 'https://placehold.co/100x100/f87171/ffffff?text=P', tags: ['Recruitment', 'HR Policy'] },
+        { title: 'Content Writer', company: 'WordSmiths', location: 'Remote', salary: '₹6-9 LPA', type: 'Contract', experience: 'Mid-Level', posted: '10d ago', logo: 'https://placehold.co/100x100/fb923c/ffffff?text=W', tags: ['Writing', 'SEO', 'Blogging'] },
+        { title: 'Sales Development Representative', company: 'LeadGenius', location: 'Noida, UP', salary: '₹7-11 LPA', type: 'Full-time', experience: 'Entry Level', posted: '11d ago', logo: 'https://placehold.co/100x100/4ade80/ffffff?text=L', tags: ['Sales', 'CRM', 'Outreach'] },
+    ];
+
+    const listingsContainer = document.getElementById('job-listings-container');
+    const jobCountEl = document.getElementById('job-count');
+    const applyFiltersBtn = document.getElementById('apply-filters-btn');
+    const paginationContainer = document.getElementById('pagination-container');
+    
+    let currentPage = 1;
+    const jobsPerPage = 6;
+
+    function renderJobs(jobs) {
+        listingsContainer.innerHTML = '';
+        
+        const paginatedJobs = jobs.slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage);
+
+        if (paginatedJobs.length === 0) {
+            listingsContainer.innerHTML = `<div class="md:col-span-2 text-center py-16">
+                <i class="fas fa-search fa-4x text-slate-300 mb-6"></i>
+                <h3 class="text-2xl font-bold text-slate-700 mb-2">No Jobs Found</h3>
+                <p class="text-slate-500">Try adjusting your search filters.</p>
+            </div>`;
+            return;
+        }
+
+        paginatedJobs.forEach((job, index) => {
+            const tagsHtml = job.tags.map(tag => `<span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-full">${tag}</span>`).join('');
+            const card = `
+                <div class="job-card p-6 flex flex-col" style="animation-delay: ${index * 100}ms">
+                    <div class="flex items-start mb-4">
+                        <img src="${job.logo}" alt="${job.company} logo" class="w-14 h-14 rounded-xl mr-4">
+                        <div class="flex-1">
+                            <p class="text-sm text-slate-500">${job.company}</p>
+                            <h3 class="text-lg font-bold text-slate-900 hover:text-indigo-600 transition-colors cursor-pointer">${job.title}</h3>
+                        </div>
+                        <span class="text-xs text-slate-500 whitespace-nowrap">${job.posted}</span>
+                    </div>
+                    <div class="text-sm text-slate-600 space-y-2 mb-4">
+                        <div class="flex items-center"><i class="fas fa-map-marker-alt w-4 mr-2 text-slate-400"></i>${job.location}</div>
+                        <div class="flex items-center"><i class="fas fa-wallet w-4 mr-2 text-slate-400"></i>${job.salary}</div>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="flex flex-wrap gap-2 mb-6">${tagsHtml}</div>
+                    <button class="w-full text-center font-bold bg-slate-100 hover:bg-indigo-100 text-indigo-700 py-3 rounded-lg transition-all duration-300">View Details</button>
+                </div>
+            `;
+            listingsContainer.insertAdjacentHTML('beforeend', card);
+        });
+    }
+
+    function renderPagination(totalJobs) {
+        paginationContainer.innerHTML = '';
+        const totalPages = Math.ceil(totalJobs / jobsPerPage);
+
+        if (totalPages <= 1) return;
+
+        // Previous button
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = `<i class="fas fa-chevron-left"></i>`;
+        prevBtn.className = 'pagination-btn h-10 w-10 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                filterAndRender();
+            }
+        });
+        paginationContainer.appendChild(prevBtn);
+
+        // Page number buttons
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            pageBtn.className = `pagination-btn h-10 w-10 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 ${currentPage === i ? 'active' : ''}`;
+            pageBtn.addEventListener('click', () => {
+                currentPage = i;
+                filterAndRender();
+            });
+            paginationContainer.appendChild(pageBtn);
+        }
+
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = `<i class="fas fa-chevron-right"></i>`;
+        nextBtn.className = 'pagination-btn h-10 w-10 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                filterAndRender();
+            }
+        });
+        paginationContainer.appendChild(nextBtn);
+    }
+
+    function filterAndRender() {
+        const keyword = document.getElementById('keyword-search').value.toLowerCase();
+        const location = document.getElementById('location-search').value.toLowerCase();
+        
+        const jobTypes = Array.from(document.querySelectorAll('input[id^="type-"]:checked')).map(cb => cb.value);
+        const expLevels = Array.from(document.querySelectorAll('input[id^="exp-"]:checked')).map(cb => cb.value);
+
+        const filteredJobs = allJobs.filter(job => {
+            const matchesKeyword = !keyword || job.title.toLowerCase().includes(keyword) || job.tags.some(tag => tag.toLowerCase().includes(keyword));
+            const matchesLocation = !location || job.location.toLowerCase().includes(location);
+            const matchesType = jobTypes.length === 0 || jobTypes.includes(job.type);
+            const matchesExp = expLevels.length === 0 || expLevels.includes(job.experience);
+            return matchesKeyword && matchesLocation && matchesType && matchesExp;
+        });
+        
+        jobCountEl.textContent = filteredJobs.length;
+        renderJobs(filteredJobs);
+        renderPagination(filteredJobs.length);
+    }
+    
+    applyFiltersBtn.addEventListener('click', () => {
+        currentPage = 1; // Reset to first page on new filter application
+        filterAndRender();
+    });
+    
+    // Initial render
+    filterAndRender();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - JobFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* bg-slate-100 */
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+
+        .form-card {
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #334155; /* slate-700 */
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-8">
+                        <a href="/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                        <a href="#" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
+                        <a href="/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
+                        <a href="/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                        <a href="components/postJobs.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
+                            Post Job
+                        </a>
+                    </div>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="py-16 md:py-24">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-black text-slate-900">Post a New Job Opening</h1>
+                <p class="text-lg text-slate-600 mt-4">Fill out the details below to reach thousands of qualified candidates across India.</p>
+            </div>
+
+            <!-- Job Posting Form -->
+            <form class="space-y-8">
+                <!-- Card 1: Basic Information -->
+                <div class="form-card p-8">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-4">Basic Information</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="job-title" class="form-label">Job Title</label>
+                            <input type="text" id="job-title" class="form-input" placeholder="e.g., Senior Software Engineer" required>
+                        </div>
+                        <div>
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" id="location" class="form-input" placeholder="e.g., Bangalore, or Remote" required>
+                        </div>
+                        <div>
+                            <label for="job-type" class="form-label">Job Type</label>
+                            <select id="job-type" class="form-select" required>
+                                <option value="" disabled selected>Select job type</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="experience-level" class="form-label">Experience Level</label>
+                            <select id="experience-level" class="form-select" required>
+                                <option value="" disabled selected>Select experience level</option>
+                                <option value="Entry Level">Entry Level</option>
+                                <option value="Mid-Level">Mid-Level</option>
+                                <option value="Senior Level">Senior Level</option>
+                                <option value="Lead/Manager">Lead / Manager</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Salary & Compensation -->
+                <div class="form-card p-8">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-4">Salary & Compensation</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <label for="salary-min" class="form-label">Minimum Salary</label>
+                            <input type="number" id="salary-min" class="form-input" placeholder="e.g., 15">
+                        </div>
+                        <div>
+                            <label for="salary-max" class="form-label">Maximum Salary</label>
+                            <input type="number" id="salary-max" class="form-input" placeholder="e.g., 25">
+                        </div>
+                        <div>
+                            <label for="salary-unit" class="form-label">Salary Unit</label>
+                            <select id="salary-unit" class="form-select">
+                                <option value="LPA">LPA (Lakhs Per Annum)</option>
+                                <option value="Per Month">Per Month</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Job Description -->
+                <div class="form-card p-8">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-4">Job Description</h2>
+                    <div>
+                        <label for="job-description" class="form-label">Detailed Description</label>
+                        <textarea id="job-description" class="form-textarea" rows="10" placeholder="Describe the role, responsibilities, qualifications, and benefits..." required></textarea>
+                    </div>
+                    <div class="mt-6">
+                        <label for="skills" class="form-label">Required Skills</label>
+                        <input type="text" id="skills" class="form-input" placeholder="e.g., React, Node.js, Python (comma-separated)">
+                        <p class="text-sm text-slate-500 mt-2">Add skills separated by a comma to help candidates find your job.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Company Information -->
+                <div class="form-card p-8">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-4">About Your Company</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="company-name" class="form-label">Company Name</label>
+                            <input type="text" id="company-name" class="form-input" placeholder="Your company's name" required>
+                        </div>
+                        <div>
+                            <label for="company-website" class="form-label">Company Website</label>
+                            <input type="url" id="company-website" class="form-input" placeholder="https://example.com" required>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <label for="company-logo" class="form-label">Company Logo</label>
+                        <input type="file" id="company-logo" class="form-input file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200" accept="image/png, image/jpeg">
+                    </div>
+                </div>
+
+                <!-- Submission -->
+                <div class="flex justify-end items-center gap-4 pt-4">
+                    <button type="button" class="font-bold text-slate-600 px-6 py-3 rounded-xl hover:bg-slate-200 transition-colors">
+                        Save as Draft
+                    </button>
+                    <button type="submit" class="btn-primary text-white font-bold px-8 py-3 rounded-xl">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Post Job
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="lg:col-span-2">
+                    <h3 class="text-3xl font-black gradient-text mb-4">JobFinder</h3>
+                    <p class="text-slate-400 max-w-md leading-relaxed mb-6">
+                        Empowering careers across India. Connect with opportunities that match your ambitions and grow with companies that value your potential.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">For Job Seekers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="jobs.html" class="text-slate-400 hover:text-white transition-colors">Browse Jobs</a></li>
+                        <li><a href="resources.html" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">For Employers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="post-job.html" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-slate-400 text-sm">
+                <p>&copy; 2025 JobFinder. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

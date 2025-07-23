@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About JobFinder - Your Partner in Career Growth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* bg-slate-50 */
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .testimonial-card {
+             background: white;
+             border: 1px solid #e2e8f0;
+        }
+
+        .hero-bg-pattern {
+            background-image: radial-gradient(#dbeafe 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-8">
+                        <a href="/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                        <a href="" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
+                        <a href="/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
+                        <a href="/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                        <a href="/frontend/components/postJobs.html"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm relative z-10">
+                            Post Job
+                        </button></a>
+                    </div>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative py-24 lg:py-32 hero-bg-pattern">
+        <div class="relative z-10 max-w-4xl mx-auto text-center px-4">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6">
+                We're Here to Help You Find a Job You <span class="gradient-text">Love</span>.
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                JobFinder was born from a simple idea: job searching in India should be easier, more transparent, and more rewarding. We're dedicated to connecting talented individuals like you with the nation's best opportunities.
+            </p>
+        </div>
+    </header>
+
+    <!-- Our Mission Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="pr-8">
+                    <span class="text-sm font-bold uppercase text-indigo-600">Our Mission</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2 mb-6">
+                        Empowering India's Workforce, One Career at a Time.
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed mb-4">
+                        Our mission is to build a platform that you can trust. We focus on quality over quantity, ensuring every job listing is from a verified company. We leverage smart technology to match your unique skills with the right roles, saving you time and effort.
+                    </p>
+                    <p class="text-slate-600 leading-relaxed">
+                        We believe that the right job can transform a life. That's why we provide not just listings, but also the resources and insights you need to grow your career and achieve your ambitions.
+                    </p>
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1974&auto=format&fit=crop" alt="A team collaborating in a modern office" class="rounded-2xl shadow-xl w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features for Job Seekers Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                 <span class="text-sm font-bold uppercase text-indigo-600">How we help you</span>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">
+                    Your Career Toolkit
+                </h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto mt-4">
+                    We've built JobFinder with features designed to give you an advantage in your job search.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1: Smart Matching -->
+                <div class="feature-card p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-indigo-100 flex items-center justify-center">
+                        <i class="fas fa-robot text-2xl text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">AI-Powered Matching</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Our smart algorithm analyzes your profile and preferences to suggest jobs where you're a top candidate.
+                    </p>
+                </div>
+
+                <!-- Feature 2: Verified Companies -->
+                <div class="feature-card p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-green-100 flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Verified Companies Only</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Apply with confidence. We manually verify every company to protect you from scams and fake listings.
+                    </p>
+                </div>
+
+                <!-- Feature 3: Career Resources -->
+                <div class="feature-card p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-purple-100 flex items-center justify-center">
+                        <i class="fas fa-book-open text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Free Career Resources</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Access our library of articles, resume templates, and interview tips to help you succeed at every step.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900">
+                    Success Stories from Job Seekers
+                </h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto mt-4">
+                    See what others have to say about finding their dream job with JobFinder.
+                </p>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card p-8 rounded-2xl">
+                    <p class="text-slate-700 leading-loose mb-6">"JobFinder's AI matching was spot on! It connected me with a startup in Bangalore that was the perfect culture fit. I got the job in two weeks!"</p>
+                    <div class="flex items-center">
+                        <img class="w-12 h-12 rounded-full object-cover mr-4" src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop" alt="Prakash Singh">
+                        <div>
+                            <p class="font-bold text-slate-900">Prakash Singh</p>
+                            <p class="text-sm text-slate-500">Senior Software Engineer</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card p-8 rounded-2xl">
+                    <p class="text-slate-700 leading-loose mb-6">"As a recent graduate, the job market felt overwhelming. The resources on JobFinder, especially the resume builder, gave me the confidence to apply. Thank you!"</p>
+                    <div class="flex items-center">
+                        <img class="w-12 h-12 rounded-full object-cover mr-4" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop" alt="Anjali Mehta">
+                        <div>
+                            <p class="font-bold text-slate-900">Anjali Mehta</p>
+                            <p class="text-sm text-slate-500">Marketing Associate</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card p-8 rounded-2xl">
+                    <p class="text-slate-700 leading-loose mb-6">"I was looking for a remote position, and JobFinder's filters made it so easy to find legitimate work-from-home opportunities. Highly recommended."</p>
+                    <div class="flex items-center">
+                        <img class="w-12 h-12 rounded-full object-cover mr-4" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop" alt="Rohan Desai">
+                        <div>
+                            <p class="font-bold text-slate-900">Rohan Desai</p>
+                            <p class="text-sm text-slate-500">Digital Nomad & UX Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-700 rounded-2xl p-12 text-center shadow-2xl">
+                <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+                    Ready to Start Your Journey?
+                </h2>
+                <p class="text-purple-200 text-lg max-w-xl mx-auto mb-8">
+                    Your next career move is just a few clicks away. Join over a million job seekers and find where you belong.
+                </p>
+                <a href="index.html" class="inline-block bg-white text-indigo-600 font-bold px-8 py-4 rounded-full text-lg transition-transform hover:scale-105">
+                    <i class="fas fa-search mr-2"></i> Find Jobs Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="lg:col-span-2">
+                    <h3 class="text-3xl font-black gradient-text mb-4">JobFinder</h3>
+                    <p class="text-slate-400 max-w-md leading-relaxed mb-6">
+                        Empowering careers across India. Connect with opportunities that match your ambitions and grow with companies that value your potential.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">For Job Seekers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Browse Jobs</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Resume Builder</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Salary Guide</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">For Employers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Recruiting Solutions</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Employer Branding</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8 text-center text-slate-400 text-sm">
+                <p>&copy; 2025 JobFinder. All rights reserved. Made with ❤️ for India's workforce. Last updated: July 2025.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

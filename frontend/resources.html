@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Resources - JobFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* bg-slate-50 */
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+        
+        .article-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
+        }
+
+        .category-card {
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .category-card:hover {
+            border-color: #667eea;
+            background-color: #f4f5ff;
+            transform: scale(1.03);
+        }
+        
+        .hero-bg-pattern {
+            background-color: #ffffff;
+            background-image: radial-gradient(#e0e7ff 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-8">
+                        <a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                        <a href="#" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
+                        <a href="resources.html" class="gradient-text font-bold transition-colors">Resources</a>
+                        <a href="about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                       <a href="components/postJobs.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
+                            Post Job
+                        </a>
+                    </div>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative py-24 lg:py-32 hero-bg-pattern">
+        <div class="relative z-10 max-w-4xl mx-auto text-center px-4">
+            <span class="text-sm font-bold uppercase text-indigo-600">Career Development</span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mt-2 mb-6">
+                Your Career Growth <span class="gradient-text">Starts Here</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Explore expert advice, practical guides, and powerful tools designed to help you navigate every stage of your career journey with confidence.
+            </p>
+        </div>
+    </header>
+
+    <!-- Featured Articles Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900">Featured Insights</h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto mt-4">
+                    Handpicked articles to help you master the job market and accelerate your career.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Article 1 -->
+                <div class="article-card">
+                    <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop" alt="Person writing a resume" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm font-semibold text-indigo-600">Resume Writing</span>
+                        <h3 class="text-xl font-bold text-slate-800 mt-2 mb-3 hover:text-indigo-700 transition-colors"><a href="#">The 2025 Guide to Crafting an ATS-Friendly Resume</a></h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">Learn how to beat the applicant tracking systems and get your resume into human hands.</p>
+                        <a href="#" class="font-bold text-indigo-600 hover:underline">Read More <i class="fas fa-arrow-right ml-1 text-xs"></i></a>
+                    </div>
+                </div>
+                <!-- Article 2 -->
+                <div class="article-card">
+                    <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop" alt="People in an interview" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm font-semibold text-indigo-600">Interview Tips</span>
+                        <h3 class="text-xl font-bold text-slate-800 mt-2 mb-3 hover:text-indigo-700 transition-colors"><a href="#">How to Answer "Tell Me About Yourself" Like a Pro</a></h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">Master the most common interview question with our proven framework for a compelling story.</p>
+                        <a href="#" class="font-bold text-indigo-600 hover:underline">Read More <i class="fas fa-arrow-right ml-1 text-xs"></i></a>
+                    </div>
+                </div>
+                <!-- Article 3 -->
+                <div class="article-card">
+                    <img src="https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=1974&auto=format&fit=crop" alt="People negotiating a deal" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm font-semibold text-indigo-600">Salary Negotiation</span>
+                        <h3 class="text-xl font-bold text-slate-800 mt-2 mb-3 hover:text-indigo-700 transition-colors"><a href="#">5 Strategies to Negotiate a Higher Salary in India</a></h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">Don't leave money on the table. Use these tactics to secure the compensation you deserve.</p>
+                        <a href="#" class="font-bold text-indigo-600 hover:underline">Read More <i class="fas fa-arrow-right ml-1 text-xs"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Categories -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900">Explore Our Guides</h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto mt-4">
+                    Dive deep into specific topics with our comprehensive resource categories.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Category 1 -->
+                <a href="#" class="category-card flex items-center p-6 rounded-2xl">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-file-alt text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Resume & CVs</h3>
+                        <p class="text-sm text-slate-500">Templates & Tips</p>
+                    </div>
+                </a>
+                <!-- Category 2 -->
+                <a href="#" class="category-card flex items-center p-6 rounded-2xl">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-comments text-2xl text-green-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Interview Prep</h3>
+                        <p class="text-sm text-slate-500">Questions & Answers</p>
+                    </div>
+                </a>
+                <!-- Category 3 -->
+                <a href="#" class="category-card flex items-center p-6 rounded-2xl">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-chart-line text-2xl text-purple-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Career Growth</h3>
+                        <p class="text-sm text-slate-500">Skills & Strategies</p>
+                    </div>
+                </a>
+                <!-- Category 4 -->
+                <a href="#" class="category-card flex items-center p-6 rounded-2xl">
+                    <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-rupee-sign text-2xl text-amber-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Salary Guides</h3>
+                        <p class="text-sm text-slate-500">Benchmarks & Data</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter CTA -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl p-12 text-center shadow-lg border border-slate-200">
+                <i class="fas fa-envelope-open-text text-4xl text-indigo-500 mb-4"></i>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+                    Get Career Advice Delivered to You
+                </h2>
+                <p class="text-slate-600 text-lg max-w-xl mx-auto mb-8">
+                    Join our newsletter for weekly tips, new job alerts, and industry insights to keep you ahead of the curve.
+                </p>
+                <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                    <input type="email" placeholder="Enter your email address" class="w-full px-5 py-3 rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 focus:ring-2 focus:outline-none transition-all" required>
+                    <button type="submit" class="btn-primary text-white font-bold px-8 py-3 rounded-xl whitespace-nowrap">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="lg:col-span-2">
+                    <h3 class="text-3xl font-black gradient-text mb-4">JobFinder</h3>
+                    <p class="text-slate-400 max-w-md leading-relaxed mb-6">
+                        Empowering careers across India. Connect with opportunities that match your ambitions and grow with companies that value your potential.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">For Job Seekers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="jobs.html" class="text-slate-400 hover:text-white transition-colors">Browse Jobs</a></li>
+                        <li><a href="resources.html" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">For Employers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-slate-400 text-sm">
+                <p>&copy; 2025 JobFinder. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
