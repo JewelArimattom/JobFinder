@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Now - JobFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* bg-slate-100 */
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+
+        .form-card {
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #334155; /* slate-700 */
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s ease;
+        }
+        .file-upload-area.drag-over {
+            border-color: #6366f1;
+            background-color: #eef2ff;
+        }
+
+        /* Stepper Styles */
+        .stepper-item {
+            transition: all 0.3s ease;
+        }
+        .stepper-item.active .stepper-circle {
+            background-color: #6366f1;
+            color: white;
+            border-color: #6366f1;
+        }
+        .stepper-item.active .stepper-text {
+            color: #1e293b;
+            font-weight: 600;
+        }
+        .stepper-item.completed .stepper-circle {
+            background-color: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        .stepper-item.completed .stepper-line {
+            background-color: #10b981;
+        }
+        .stepper-line {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="py-16 md:py-24">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 id="form-title" class="text-3xl md:text-4xl font-black text-slate-900">Apply for Senior Frontend Developer</h1>
+                <p id="form-subtitle" class="text-lg text-slate-600 mt-2">at TechCorp</p>
+            </div>
+
+            <!-- Application Form -->
+            <div class="form-card p-8">
+                <!-- Stepper -->
+                <div class="flex items-center mb-12">
+                    <div id="step-1" class="stepper-item flex-1 flex items-center gap-4">
+                        <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500">1</div>
+                        <span class="stepper-text text-slate-500">Personal Info</span>
+                    </div>
+                    <div class="stepper-line flex-1 h-1 bg-slate-200"></div>
+                    <div id="step-2" class="stepper-item flex-1 flex items-center gap-4">
+                        <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500">2</div>
+                        <span class="stepper-text text-slate-500">Experience</span>
+                    </div>
+                    <div class="stepper-line flex-1 h-1 bg-slate-200"></div>
+                    <div id="step-3" class="stepper-item flex-1 flex items-center gap-4">
+                        <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500">3</div>
+                        <span class="stepper-text text-slate-500">Review</span>
+                    </div>
+                </div>
+
+                <form id="application-form" class="space-y-8">
+                    <!-- Step 1: Personal Information -->
+                    <fieldset id="form-step-1">
+                        <div class="space-y-6">
+                            <div>
+                                <label for="full-name" class="form-label">Full Name</label>
+                                <input type="text" id="full-name" class="form-input" placeholder="e.g., Priya Sharma" required>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                                </div>
+                                <div>
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" id="phone" class="form-input" placeholder="+91 98765 43210" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="portfolio" class="form-label">Portfolio / LinkedIn URL</label>
+                                <input type="url" id="portfolio" class="form-input" placeholder="https://linkedin.com/in/..." required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Step 2: Experience & Resume -->
+                    <fieldset id="form-step-2" class="hidden">
+                        <div class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="current-salary" class="form-label">Current Salary (LPA)</label>
+                                    <input type="text" id="current-salary" class="form-input" placeholder="e.g., 15 LPA">
+                                </div>
+                                <div>
+                                    <label for="expected-salary" class="form-label">Expected Salary (LPA)</label>
+                                    <input type="text" id="expected-salary" class="form-input" placeholder="e.g., 20 LPA">
+                                </div>
+                            </div>
+                             <div>
+                                <label for="notice-period" class="form-label">Notice Period</label>
+                                <select id="notice-period" class="form-select">
+                                    <option>Immediate Joiner</option>
+                                    <option>15 Days</option>
+                                    <option>1 Month</option>
+                                    <option>2 Months</option>
+                                    <option>3 Months or more</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Upload Your Resume/CV</label>
+                                <div id="file-upload-area" class="file-upload-area rounded-lg p-8 text-center">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-4"></i>
+                                    <p class="font-semibold text-slate-700 mb-2">Drag & drop your file here</p>
+                                    <p class="text-sm text-slate-500 mb-4">or</p>
+                                    <label for="resume-file" class="cursor-pointer font-bold text-indigo-600 bg-indigo-100 px-4 py-2 rounded-lg hover:bg-indigo-200 transition-colors">Browse File</label>
+                                    <input type="file" id="resume-file" class="hidden" required>
+                                    <p id="file-name" class="text-sm text-slate-600 mt-4"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Step 3: Review Application -->
+                    <fieldset id="form-step-3" class="hidden">
+                        <div id="review-section" class="space-y-4">
+                            <!-- Review content will be populated here -->
+                        </div>
+                         <div class="mt-8 flex items-start">
+                            <input id="terms" name="terms" type="checkbox" class="h-5 w-5 mt-1 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded" required>
+                            <label for="terms" class="ml-3 block text-sm text-slate-600">
+                                I confirm that all the information provided is accurate and true.
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Navigation Buttons -->
+                    <div id="form-navigation" class="pt-8 border-t border-slate-200 flex justify-between items-center">
+                        <button type="button" id="prev-btn" class="font-bold py-3 px-6 rounded-xl btn-secondary hidden">Previous</button>
+                        <button type="button" id="next-btn" class="font-bold py-3 px-6 rounded-xl btn-primary ml-auto">Next Step</button>
+                        <button type="submit" id="submit-btn" class="font-bold py-3 px-6 rounded-xl btn-primary hidden">Submit Application</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- DATA ---
+    const allJobs = [
+        { id: 1, title: 'Senior Frontend Developer', company: 'TechCorp' },
+        { id: 2, title: 'Product Manager', company: 'InnovateHub' },
+        { id: 3, title: 'UI/UX Designer', company: 'CreativeMinds' },
+    ];
+
+    // --- DOM ELEMENTS ---
+    const formTitle = document.getElementById('form-title');
+    const formSubtitle = document.getElementById('form-subtitle');
+    const applicationForm = document.getElementById('application-form');
+    const fileUploadArea = document.getElementById('file-upload-area');
+    const resumeFileInput = document.getElementById('resume-file');
+    const fileNameDisplay = document.getElementById('file-name');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const steps = [document.getElementById('form-step-1'), document.getElementById('form-step-2'), document.getElementById('form-step-3')];
+    const stepperItems = [document.getElementById('step-1'), document.getElementById('step-2'), document.getElementById('step-3')];
+
+    let currentStep = 1;
+
+    function loadJobInfo() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = parseInt(urlParams.get('id'));
+        if (!jobId) {
+            formTitle.textContent = "Application Form";
+            formSubtitle.textContent = "Job not specified";
+            return;
+        }
+        const job = allJobs.find(j => j.id === jobId);
+        if (job) {
+            document.title = `Apply for ${job.title} - JobFinder`;
+            formTitle.textContent = `Apply for ${job.title}`;
+            formSubtitle.textContent = `at ${job.company}`;
+        } else {
+            formTitle.textContent = "Job Not Found";
+            formSubtitle.textContent = "This listing may have expired.";
+        }
+    }
+
+    function updateFormStep() {
+        steps.forEach((step, index) => {
+            step.classList.toggle('hidden', index + 1 !== currentStep);
+        });
+
+        stepperItems.forEach((item, index) => {
+            const circle = item.querySelector('.stepper-circle');
+            item.classList.remove('active', 'completed');
+            if (index + 1 < currentStep) {
+                item.classList.add('completed');
+                circle.innerHTML = `<i class="fas fa-check"></i>`;
+            } else if (index + 1 === currentStep) {
+                item.classList.add('active');
+                circle.textContent = index + 1;
+            } else {
+                 circle.textContent = index + 1;
+            }
+        });
+
+        prevBtn.classList.toggle('hidden', currentStep === 1);
+        nextBtn.classList.toggle('hidden', currentStep === steps.length);
+        submitBtn.classList.toggle('hidden', currentStep !== steps.length);
+    }
+    
+    function populateReview() {
+        const reviewSection = document.getElementById('review-section');
+        const formData = {
+            "Full Name": document.getElementById('full-name').value,
+            "Email": document.getElementById('email').value,
+            "Phone": document.getElementById('phone').value,
+            "Portfolio": document.getElementById('portfolio').value,
+            "Current Salary": document.getElementById('current-salary').value,
+            "Expected Salary": document.getElementById('expected-salary').value,
+            "Notice Period": document.getElementById('notice-period').value,
+            "Resume": resumeFileInput.files.length > 0 ? resumeFileInput.files[0].name : "Not provided"
+        };
+
+        let reviewHtml = `<h3 class="text-xl font-bold text-slate-800 mb-4">Please review your information</h3>`;
+        for (const [key, value] of Object.entries(formData)) {
+            reviewHtml += `
+                <div class="grid grid-cols-3 gap-4 py-2 border-b border-slate-100">
+                    <dt class="font-semibold text-slate-500">${key}</dt>
+                    <dd class="col-span-2 text-slate-700">${value || '-'}</dd>
+                </div>
+            `;
+        }
+        reviewSection.innerHTML = reviewHtml;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentStep < steps.length) {
+            currentStep++;
+            if(currentStep === steps.length) {
+                populateReview();
+            }
+            updateFormStep();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) {
+            currentStep--;
+            updateFormStep();
+        }
+    });
+
+    // File upload UI handlers
+    fileUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); fileUploadArea.classList.add('drag-over'); });
+    fileUploadArea.addEventListener('dragleave', () => fileUploadArea.classList.remove('drag-over'));
+    fileUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUploadArea.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            resumeFileInput.files = files;
+            fileNameDisplay.textContent = `File selected: ${files[0].name}`;
+        }
+    });
+    resumeFileInput.addEventListener('change', () => {
+        if (resumeFileInput.files.length > 0) {
+            fileNameDisplay.textContent = `File selected: ${resumeFileInput.files[0].name}`;
+        }
+    });
+
+    applicationForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const mainContent = document.querySelector('main');
+        mainContent.innerHTML = `
+            <div class="max-w-2xl mx-auto text-center py-20">
+                <i class="fas fa-check-circle text-6xl text-green-500 mb-6"></i>
+                <h1 class="text-4xl font-black text-slate-900">Application Submitted!</h1>
+                <p class="text-lg text-slate-600 mt-4">Thank you for applying. We have received your application and will be in touch shortly if your profile is a good match.</p>
+                <a href="jobs.html" class="mt-8 inline-block btn-primary text-white font-bold px-8 py-3 rounded-xl">
+                    Back to Job Listings
+                </a>
+            </div>
+        `;
+    });
+
+    loadJobInfo();
+    updateFormStep();
+});
+</script>
+</body>
+</html>
