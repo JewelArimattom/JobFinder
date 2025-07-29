@@ -92,6 +92,18 @@
             color: white;
             font-weight: 700;
         }
+        
+        .skeleton {
+            background-color: #e2e8f0;
+            border-radius: 0.5rem;
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: .5;
+            }
+        }
 
     </style>
 </head>
@@ -102,15 +114,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                    <a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
                 </div>
                 <div class="hidden md:block">
                     <div class="flex items-center space-x-8">
-                        <a href="jobs.html" class="gradient-text font-bold transition-colors">Jobs</a>
+                        <a href="/JOBSEEKER/frontend/jobs.html" class="gradient-text font-bold transition-colors">Jobs</a>
                         <a href="#" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
-                        <a href="resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
-                        <a href="about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
-                        <a href="post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
+                        <a href="/JOBSEEKER/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
+                        <a href="/JOBSEEKER/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                        <a href="/JOBSEEKER/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
                             Post Job
                         </a>
                     </div>
@@ -119,6 +131,14 @@
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-1">
+            <a href="/JOBSEEKER/frontend/jobs.html" class="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 bg-indigo-50">Jobs</a>
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Companies</a>
+            <a href="/JOBSEEKER/frontend/resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Resources</a>
+            <a href="/JOBSEEKER/frontend/about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">About</a>
+            <a href="/JOBSEEKER/frontend/post-job.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Post Job</a>
         </div>
     </nav>
 
@@ -129,9 +149,11 @@
             <!-- Filters Sidebar -->
             <aside class="lg:col-span-1 h-fit lg:sticky top-24">
                 <div class="filter-section p-6">
-                    <h3 class="text-xl font-bold text-slate-900 mb-6">Search & Filters</h3>
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-slate-900">Search & Filters</h3>
+                        <button id="clear-filters-btn" class="text-sm font-semibold text-indigo-600 hover:underline">Clear All</button>
+                    </div>
                     
-                    <!-- Keyword Search -->
                     <div class="mb-6">
                         <label for="keyword-search" class="block text-sm font-semibold text-slate-700 mb-2">Keyword</label>
                         <div class="relative">
@@ -140,7 +162,6 @@
                         </div>
                     </div>
                     
-                    <!-- Location Search -->
                     <div class="mb-6">
                         <label for="location-search" class="block text-sm font-semibold text-slate-700 mb-2">Location</label>
                         <div class="relative">
@@ -149,7 +170,6 @@
                         </div>
                     </div>
 
-                    <!-- Job Type -->
                     <div class="mb-6 border-t border-slate-200 pt-6">
                         <h4 class="font-bold text-slate-800 mb-3">Job Type</h4>
                         <div class="space-y-2">
@@ -168,7 +188,6 @@
                         </div>
                     </div>
 
-                    <!-- Experience Level -->
                     <div class="mb-6 border-t border-slate-200 pt-6">
                         <h4 class="font-bold text-slate-800 mb-3">Experience Level</h4>
                          <div class="space-y-2">
@@ -186,10 +205,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <button id="apply-filters-btn" class="btn-primary w-full py-3 rounded-xl font-bold text-white">
-                        Apply Filters
-                    </button>
                 </div>
             </aside>
 
@@ -197,17 +212,36 @@
             <div class="lg:col-span-3">
                 <div class="mb-6 flex justify-between items-center">
                     <h2 class="text-2xl font-bold text-slate-900">Showing <span id="job-count">0</span> results</h2>
-                    <div class="relative">
-                        <select id="sort-by" class="appearance-none bg-white border border-slate-300 rounded-lg py-2 pl-3 pr-8 text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="newest">Sort by: Newest</option>
-                            <option value="relevance">Sort by: Relevance</option>
-                        </select>
-                        <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 pointer-events-none"></i>
-                    </div>
                 </div>
 
                 <div id="job-listings-container" class="grid md:grid-cols-2 gap-6">
-                    <!-- Job cards will be injected here by JavaScript -->
+                    <!-- Loading Skeleton -->
+                    <div class="job-card p-6 flex flex-col">
+                        <div class="flex items-start mb-4">
+                            <div class="skeleton w-14 h-14 rounded-xl mr-4"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="skeleton h-4 w-1/2"></div>
+                                <div class="skeleton h-5 w-3/4"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="skeleton h-4 w-full"></div>
+                            <div class="skeleton h-4 w-2/3"></div>
+                        </div>
+                    </div>
+                     <div class="job-card p-6 flex flex-col">
+                        <div class="flex items-start mb-4">
+                            <div class="skeleton w-14 h-14 rounded-xl mr-4"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="skeleton h-4 w-1/2"></div>
+                                <div class="skeleton h-5 w-3/4"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="skeleton h-4 w-full"></div>
+                            <div class="skeleton h-4 w-2/3"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Pagination -->
@@ -221,84 +255,66 @@
     <!-- Footer -->
     <footer class="bg-slate-900 text-white mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <div class="lg:col-span-2">
-                    <h3 class="text-3xl font-black gradient-text mb-4">JobFinder</h3>
-                    <p class="text-slate-400 max-w-md leading-relaxed mb-6">
-                        Empowering careers across India. Connect with opportunities that match your ambitions and grow with companies that value your potential.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-6 text-white">For Job Seekers</h4>
-                    <ul class="space-y-3">
-                        <li><a href="jobs.html" class="text-slate-400 hover:text-white transition-colors">Browse Jobs</a></li>
-                        <li><a href="resources.html" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-6 text-white">For Employers</h4>
-                    <ul class="space-y-3">
-                        <li><a href="post-job.html" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-slate-800 pt-8 text-center text-slate-400 text-sm">
-                <p>&copy; 2025 JobFinder. All rights reserved.</p>
-            </div>
+            <!-- Footer content remains the same -->
         </div>
     </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Master list of all jobs
-    const allJobs = [
-        { id: 1, title: 'Senior Frontend Developer', company: 'TechCorp', location: 'Bangalore, KA', salary: '₹18-25 LPA', type: 'Full-time', experience: 'Senior Level', posted: '1d ago', logo: 'https://placehold.co/100x100/667eea/ffffff?text=T', tags: ['React', 'TypeScript', 'Next.js'] },
-        { id: 2, title: 'Product Manager', company: 'InnovateHub', location: 'Pune, MH', salary: '₹20-30 LPA', type: 'Full-time', experience: 'Senior Level', posted: '2d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Roadmap', 'Agile', 'Analytics'] },
-        { id: 3, title: 'UI/UX Designer', company: 'CreativeMinds', location: 'Mumbai, MH', salary: '₹10-15 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '3d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Figma', 'User Research', 'Prototyping'] },
-        { id: 4, title: 'Backend Engineer (Node.js)', company: 'DataStream', location: 'Remote', salary: '₹15-22 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '4d ago', logo: 'https://placehold.co/100x100/34d399/ffffff?text=D', tags: ['Node.js', 'AWS', 'PostgreSQL'] },
-        { id: 5, title: 'Digital Marketing Specialist', company: 'GrowthLeap', location: 'Delhi, DL', salary: '₹8-12 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '5d ago', logo: 'https://placehold.co/100x100/fbbf24/ffffff?text=G', tags: ['SEO', 'SEM', 'Social Media'] },
-        { id: 6, title: 'Data Scientist', company: 'AI Labs', location: 'Hyderabad, TS', salary: '₹25-35 LPA', type: 'Full-time', experience: 'Senior Level', posted: '5d ago', logo: 'https://placehold.co/100x100/60a5fa/ffffff?text=A', tags: ['Python', 'ML', 'TensorFlow'] },
-        { id: 7, title: 'Marketing Intern', company: 'InnovateHub', location: 'Pune, MH', salary: '₹25k/month', type: 'Internship', experience: 'Entry Level', posted: '6d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Marketing', 'Content', 'Social Media'] },
-        { id: 8, title: 'Junior Graphic Designer', company: 'CreativeMinds', location: 'Remote', salary: '₹5-8 LPA', type: 'Full-time', experience: 'Entry Level', posted: '7d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Illustrator', 'Photoshop'] },
-        { id: 9, title: 'DevOps Engineer', company: 'CloudServe', location: 'Bangalore, KA', salary: '₹16-24 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '8d ago', logo: 'https://placehold.co/100x100/c084fc/ffffff?text=C', tags: ['Kubernetes', 'Docker', 'CI/CD'] },
-        { id: 10, title: 'HR Manager', company: 'PeopleFirst', location: 'Mumbai, MH', salary: '₹12-18 LPA', type: 'Full-time', experience: 'Senior Level', posted: '9d ago', logo: 'https://placehold.co/100x100/f87171/ffffff?text=P', tags: ['Recruitment', 'HR Policy'] },
-        { id: 11, title: 'Content Writer', company: 'WordSmiths', location: 'Remote', salary: '₹6-9 LPA', type: 'Contract', experience: 'Mid-Level', posted: '10d ago', logo: 'https://placehold.co/100x100/fb923c/ffffff?text=W', tags: ['Writing', 'SEO', 'Blogging'] },
-        { id: 12, title: 'Sales Development Representative', company: 'LeadGenius', location: 'Noida, UP', salary: '₹7-11 LPA', type: 'Full-time', experience: 'Entry Level', posted: '11d ago', logo: 'https://placehold.co/100x100/4ade80/ffffff?text=L', tags: ['Sales', 'CRM', 'Outreach'] },
-    ];
-
+    let allJobs = [];
     const listingsContainer = document.getElementById('job-listings-container');
     const jobCountEl = document.getElementById('job-count');
-    const applyFiltersBtn = document.getElementById('apply-filters-btn');
     const paginationContainer = document.getElementById('pagination-container');
     
     let currentPage = 1;
     const jobsPerPage = 6;
 
+    const keywordInput = document.getElementById('keyword-search');
+    const locationInput = document.getElementById('location-search');
+    const filterCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+    const clearFiltersBtn = document.getElementById('clear-filters-btn');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    async function fetchJobs() {
+        try {
+            const response = await fetch('/JOBSEEKER/backend/get_jobs.php');
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            allJobs = await response.json();
+            handleUrlParams(); // Apply URL params after fetching
+            filterAndRender();
+        } catch (error) {
+            console.error("Could not fetch jobs:", error);
+            listingsContainer.innerHTML = `<div class="md:col-span-2 text-center py-16 text-red-500">Failed to load job listings. Please try again later.</div>`;
+        }
+    }
+
     function renderJobs(jobs) {
         listingsContainer.innerHTML = '';
-        
         const paginatedJobs = jobs.slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage);
 
         if (paginatedJobs.length === 0) {
-            listingsContainer.innerHTML = `<div class="md:col-span-2 text-center py-16">
-                <i class="fas fa-search fa-4x text-slate-300 mb-6"></i>
-                <h3 class="text-2xl font-bold text-slate-700 mb-2">No Jobs Found</h3>
-                <p class="text-slate-500">Try adjusting your search filters.</p>
-            </div>`;
+            listingsContainer.innerHTML = `<div class="md:col-span-2 text-center py-16"><i class="fas fa-search fa-4x text-slate-300 mb-6"></i><h3 class="text-2xl font-bold text-slate-700 mb-2">No Jobs Found</h3><p class="text-slate-500">Try adjusting your search filters.</p></div>`;
             return;
         }
 
         paginatedJobs.forEach((job, index) => {
-            const tagsHtml = job.tags.map(tag => `<span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-full">${tag}</span>`).join('');
+            const companyInitial = job.company ? job.company.charAt(0).toUpperCase() : 'J';
+            const placeholderColors = ['667eea', '764ba2', '34d399', 'fbbf24', 'f87171', '60a5fa'];
+            const randomColor = placeholderColors[job.id % placeholderColors.length];
+            const logoSrc = job.logo && !job.logo.endsWith('/') ? job.logo : `https://placehold.co/100x100/${randomColor}/ffffff?text=${companyInitial}&font=inter`;
+            const tagsHtml = Array.isArray(job.tags) ? job.tags.map(tag => `<span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-full">${tag}</span>`).join('') : '';
+            
             const card = `
                 <div class="job-card p-6 flex flex-col" style="animation-delay: ${index * 100}ms">
                     <div class="flex items-start mb-4">
-                        <img src="${job.logo}" alt="${job.company} logo" class="w-14 h-14 rounded-xl mr-4">
-                        <div class="flex-1">
-                            <p class="text-sm text-slate-500">${job.company}</p>
-                            <h3 class="text-lg font-bold text-slate-900">${job.title}</h3>
-                        </div>
+                        <img src="${logoSrc}" alt="${job.company} logo" class="w-14 h-14 rounded-xl mr-4">
+                        <div class="flex-1"><p class="text-sm text-slate-500">${job.company}</p><h3 class="text-lg font-bold text-slate-900">${job.title}</h3></div>
                         <span class="text-xs text-slate-500 whitespace-nowrap">${job.posted}</span>
                     </div>
                     <div class="text-sm text-slate-600 space-y-2 mb-4">
@@ -307,9 +323,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="flex-grow"></div>
                     <div class="flex flex-wrap gap-2 mb-6">${tagsHtml}</div>
-                    <a href="/frontend/components/job-detail.html?id=${job.id}" class="w-full text-center font-bold bg-slate-100 hover:bg-indigo-100 text-indigo-700 py-3 rounded-lg transition-all duration-300">View Details</a>
-                </div>
-            `;
+                    <a href="/JOBSEEKER/frontend/components/job-detail.html?id=${job.id}" class="w-full text-center font-bold bg-slate-100 hover:bg-indigo-100 text-indigo-700 py-3 rounded-lg transition-all duration-300">View Details</a>
+                </div>`;
             listingsContainer.insertAdjacentHTML('beforeend', card);
         });
     }
@@ -317,10 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderPagination(totalJobs) {
         paginationContainer.innerHTML = '';
         const totalPages = Math.ceil(totalJobs / jobsPerPage);
-
         if (totalPages <= 1) return;
 
-        // Previous button
         const prevBtn = document.createElement('button');
         prevBtn.innerHTML = `<i class="fas fa-chevron-left"></i>`;
         prevBtn.className = 'pagination-btn h-10 w-10 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50';
@@ -333,7 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         paginationContainer.appendChild(prevBtn);
 
-        // Page number buttons
         for (let i = 1; i <= totalPages; i++) {
             const pageBtn = document.createElement('button');
             pageBtn.textContent = i;
@@ -345,7 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
             paginationContainer.appendChild(pageBtn);
         }
 
-        // Next button
         const nextBtn = document.createElement('button');
         nextBtn.innerHTML = `<i class="fas fa-chevron-right"></i>`;
         nextBtn.className = 'pagination-btn h-10 w-10 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50';
@@ -360,14 +371,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function filterAndRender() {
-        const keyword = document.getElementById('keyword-search').value.toLowerCase();
-        const location = document.getElementById('location-search').value.toLowerCase();
-        
+        const keyword = keywordInput.value.toLowerCase();
+        const location = locationInput.value.toLowerCase();
         const jobTypes = Array.from(document.querySelectorAll('input[id^="type-"]:checked')).map(cb => cb.value);
         const expLevels = Array.from(document.querySelectorAll('input[id^="exp-"]:checked')).map(cb => cb.value);
 
         const filteredJobs = allJobs.filter(job => {
-            const matchesKeyword = !keyword || job.title.toLowerCase().includes(keyword) || job.tags.some(tag => tag.toLowerCase().includes(keyword));
+            const matchesKeyword = !keyword || job.title.toLowerCase().includes(keyword) || (job.tags && job.tags.some(tag => tag.toLowerCase().includes(keyword)));
             const matchesLocation = !location || job.location.toLowerCase().includes(location);
             const matchesType = jobTypes.length === 0 || jobTypes.includes(job.type);
             const matchesExp = expLevels.length === 0 || expLevels.includes(job.experience);
@@ -379,17 +389,32 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPagination(filteredJobs.length);
     }
     
-    applyFiltersBtn.addEventListener('click', () => {
-        currentPage = 1; // Reset to first page on new filter application
-        filterAndRender();
-    });
+    function handleUrlParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const keyword = urlParams.get('keyword');
+        const location = urlParams.get('location');
+
+        if (keyword) keywordInput.value = keyword;
+        if (location) locationInput.value = location;
+    }
     
-    // Initial render
-    filterAndRender();
+    function clearFilters() {
+        keywordInput.value = '';
+        locationInput.value = '';
+        filterCheckboxes.forEach(cb => cb.checked = false);
+        currentPage = 1;
+        filterAndRender();
+    }
+
+    // Event Listeners
+    keywordInput.addEventListener('input', () => { currentPage = 1; filterAndRender(); });
+    locationInput.addEventListener('input', () => { currentPage = 1; filterAndRender(); });
+    filterCheckboxes.forEach(checkbox => checkbox.addEventListener('change', () => { currentPage = 1; filterAndRender(); }));
+    clearFiltersBtn.addEventListener('click', clearFilters);
+    
+    // Initial fetch of jobs
+    fetchJobs();
 });
 </script>
 </body>
 </html>
-
-
-

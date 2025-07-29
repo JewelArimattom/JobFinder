@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - JobFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-blur { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease; }
+        .status-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .status-applied { background-color: #eff6ff; color: #3b82f6; }
+        .status-viewed { background-color: #fefce8; color: #ca8a04; }
+        .status-rejected { background-color: #fee2e2; color: #ef4444; }
+    </style>
+</head>
+<body>
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                <div class="hidden md:block">
+                    <div id="nav-links" class="flex items-center space-x-8">
+                        <a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <header class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                <div class="flex items-center space-x-6">
+                    <div id="profile-avatar" class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
+                        </div>
+                    <div>
+                        <h1 id="profile-name" class="text-4xl font-black text-slate-900">Loading...</h1>
+                        <p id="profile-email" class="text-lg text-slate-500 mt-1">Please wait</p>
+                    </div>
+                </div>
+            </header>
+
+            <div>
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">My Job Applications</h2>
+                <div id="applied-jobs-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinksContainer = document.getElementById('nav-links');
+
+        async function updateAuthState() {
+            // This is the same auth script from your index page to show Login/Logout
+            // It ensures the navbar is consistent
+            try {
+                const response = await fetch('../backend/check_auth.php');
+                const authData = await response.json();
+
+                if (authData.loggedin) {
+                    navLinksContainer.innerHTML += `
+                        <div class="relative" id="profile-menu-container">
+                            <button id="profile-menu-button" class="flex items-center focus:outline-none">
+                                <img src="https://img.icons8.com/?size=100&id=7819&format=png&color=000000" alt="User Avatar" class="w-10 h-10 rounded-full">
+                            </button>
+                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50">
+                                <a href="profile.html" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">My Profile</a>
+                                <a href="../backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Logout</a>
+                            </div>
+                        </div>`;
+                    addDropdownListeners();
+                } else {
+                    window.location.href = '/JOBSEEKER/frontend/components/signUp.html'; // Redirect if not logged in
+                }
+            } catch (error) {
+                 window.location.href = '/JOBSEEKER/frontend/components/signUp.html';
+            }
+        }
+
+        function addDropdownListeners() {
+            const menuButton = document.getElementById('profile-menu-button');
+            const dropdown = document.getElementById('profile-dropdown');
+            if (menuButton && dropdown) {
+                 menuButton.addEventListener('click', () => dropdown.classList.toggle('hidden'));
+                 window.addEventListener('click', e => {
+                    if (!menuButton.contains(e.target)) dropdown.classList.add('hidden');
+                });
+            }
+        }
+
+        async function fetchProfileData() {
+            const container = document.getElementById('applied-jobs-container');
+            const nameEl = document.getElementById('profile-name');
+            const emailEl = document.getElementById('profile-email');
+            const avatarEl = document.getElementById('profile-avatar');
+
+            try {
+                const response = await fetch('../backend/get_profile_data.php');
+                const data = await response.json();
+
+                if (!data.success || !data.user) {
+                    throw new Error(data.message || 'Could not load profile data.');
+                }
+                
+                // --- Populate Profile Header ---
+                nameEl.textContent = data.user.full_name;
+                emailEl.textContent = data.user.email;
+                avatarEl.textContent = data.user.full_name.charAt(0).toUpperCase();
+
+                // --- Populate Applied Jobs ---
+                if (data.applications.length === 0) {
+                    container.innerHTML = `<p class="text-slate-500 col-span-full text-center py-8">You haven't applied for any jobs yet.</p>`;
+                    return;
+                }
+
+                container.innerHTML = ''; // Clear loading state
+                data.applications.forEach(app => {
+                    const statusClass = `status-${app.status.toLowerCase()}`;
+                    const logoSrc = (app.logo && !app.logo.endsWith('/')) ? app.logo : `https://placehold.co/100x100/e2e8f0/64748b?text=${app.company.charAt(0)}&font=inter`;
+
+                    const card = `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/50 flex flex-col">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <img src="${logoSrc}" alt="${app.company}" class="w-12 h-12 rounded-xl object-contain">
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-lg">${app.title}</h3>
+                                <p class="text-slate-600">${app.company}</p>
+                            </div>
+                        </div>
+                        <div class="flex-grow space-y-3 text-sm text-slate-600 mb-6">
+                           <p><i class="fas fa-map-marker-alt w-4 mr-2 text-slate-400"></i>${app.location}</p>
+                           <p><i class="fas fa-calendar-alt w-4 mr-2 text-slate-400"></i>Applied on ${app.application_date_formatted}</p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+                            <span class="status-badge ${statusClass}">${app.status}</span>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-semibold text-sm">View Job</a>
+                        </div>
+                    </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', card);
+                });
+
+
+            } catch (error) {
+                container.innerHTML = `<p class="text-red-500 col-span-full text-center py-8">Error: ${error.message}</p>`;
+            }
+        }
+
+        updateAuthState();
+        fetchProfileData();
+    });
+    </script>
+</body>
+</html>

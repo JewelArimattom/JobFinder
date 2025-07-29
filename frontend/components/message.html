@@ -77,22 +77,33 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                    <a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
                 </div>
                 <div class="hidden md:block">
-                    <div class="flex items-center space-x-8">
-                        <a href="/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
-                        <a href="/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
-                        <a href="/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
-                        <a href="/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
+                    <div id="desktop-menu" class="flex items-center space-x-8">
+                        <a href="/JOBSEEKER/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                        <a href="/JOBSEEKER/frontend/messages.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Messages</a>
+                        <a href="/JOBSEEKER/frontend/resources.html" class="gradient-text font-bold transition-colors">Resources</a>
+                        <a href="/JOBSEEKER/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                        <a href="/JOBSEEKER/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
                             Post Job
                         </a>
                     </div>
                 </div>
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
-                    <i class="fas fa-bars"></i>
-                </button>
+                 <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-1">
+            <a href="jobs.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Jobs</a>
+            <a href="messages.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Messages</a>
+            <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 bg-indigo-50">Resources</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">About</a>
+            <a href="/JOBSEEKER/frontend/components/post-job.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Post Job</a>
         </div>
     </nav>
 

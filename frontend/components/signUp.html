@@ -8,127 +8,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9; /* bg-slate-100 */
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-blur {
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
-        }
-
-        .login-card {
-            background-color: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
-        }
-
-        .form-input {
-            width: 100%;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-            padding: 0.75rem 1rem 0.75rem 2.5rem; /* Add padding for icon */
-            transition: all 0.3s ease;
-        }
-        .form-input:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-            outline: none;
-        }
-        
-        .form-label {
-            font-weight: 600;
-            color: #334155; /* slate-700 */
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        
-        .social-btn {
-            transition: all 0.3s ease;
-        }
-        .social-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-blur { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid #e2e8f0; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4); }
+        .login-card { background-color: white; border-radius: 1.5rem; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+        .form-input { width: 100%; border: 2px solid #e2e8f0; border-radius: 0.75rem; padding: 0.75rem 1rem 0.75rem 2.5rem; transition: all 0.3s ease; }
+        .form-input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); outline: none; }
+        .form-label { font-weight: 600; color: #334155; margin-bottom: 0.5rem; display: block; }
+        .social-btn { transition: all 0.3s ease; }
+        .social-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body class="text-slate-800">
-
-    <!-- Navigation -->
     <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                    <a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
                 </div>
-                <div class="hidden md:block">
-                    <div class="flex items-center space-x-8">
-                        <a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
-                        <a href="#" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
-                        <a href="resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
-                        <a href="about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
-                        <a href="post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
-                            Post Job
-                        </a>
-                    </div>
-                </div>
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="min-h-screen flex items-center justify-center py-16 md:py-24">
         <div class="max-w-md w-full mx-auto px-4">
-            
             <div class="login-card p-8 md:p-10">
-                <!-- Header -->
                 <div class="text-center mb-8">
                     <h1 class="text-3xl font-black text-slate-900">Welcome Back!</h1>
                     <p class="text-slate-500 mt-2">Sign in to continue to your account.</p>
                 </div>
 
-                <!-- Login Form -->
-                <form class="space-y-6">
+                <form action="../../backend/login_handler.php" method="POST" class="space-y-6">
                     <div>
                         <label for="email" class="form-label">Email Address</label>
                         <div class="relative">
                             <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
-                            <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required>
                         </div>
                     </div>
-
                     <div>
                         <label for="password" class="form-label">Password</label>
                         <div class="relative">
                             <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
-                            <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
                         </div>
                     </div>
-
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded">
@@ -138,43 +64,18 @@
                             <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
                         </div>
                     </div>
-
                     <div>
-                        <button type="submit" class="w-full btn-primary text-white font-bold py-3 rounded-xl">
-                            Sign In
-                        </button>
+                        <button type="submit" class="w-full btn-primary text-white font-bold py-3 rounded-xl">Sign In</button>
                     </div>
                 </form>
-
-                <!-- Divider -->
-                <div class="my-6 flex items-center">
-                    <div class="flex-grow border-t border-slate-200"></div>
-                    <span class="flex-shrink mx-4 text-sm text-slate-400">Or continue with</span>
-                    <div class="flex-grow border-t border-slate-200"></div>
-                </div>
-
-                <!-- Social Logins -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <button class="social-btn w-full flex items-center justify-center py-2.5 border border-slate-300 rounded-xl bg-white hover:bg-slate-50">
-                        <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5 mr-2">
-                        <span class="font-semibold text-slate-700">Google</span>
-                    </button>
-                    <button class="social-btn w-full flex items-center justify-center py-2.5 border border-slate-300 rounded-xl bg-white hover:bg-slate-50">
-                        <i class="fab fa-linkedin-in text-[#0A66C2] text-xl mr-2"></i>
-                        <span class="font-semibold text-slate-700">LinkedIn</span>
-                    </button>
-                </div>
-
-                <!-- Sign Up Link -->
                 <div class="mt-8 text-center">
                     <p class="text-sm text-slate-600">
                         Don't have an account?
-                        <a href="/frontend/components/loginUP.html" class="font-bold text-indigo-600 hover:underline">Sign up for free</a>
+                        <a href="/JOBSEEKER/frontend/components/loginUP.html" class="font-bold text-indigo-600 hover:underline">Sign up for free</a>
                     </p>
                 </div>
             </div>
         </div>
     </main>
-
 </body>
 </html>

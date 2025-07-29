@@ -6,244 +6,192 @@
     <title>AI Career Resources - JobFinder</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* bg-slate-50 */
+        :root {
+            --primary-color: #6366f1; /* indigo-500 */
+            --primary-gradient-start: #667eea;
+            --primary-gradient-end: #764ba2;
+            --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+            --slate-600: #475569; --slate-800: #1e293b; --slate-900: #0f172a;
         }
-        
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--slate-50); }
         .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            background: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-
-        .nav-blur {
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid #e2e8f0;
-        }
-
+        .nav-blur { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid var(--slate-200); }
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+            background: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
+            transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
-        }
-        .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        
-        .hero-bg-pattern {
-            background-color: #ffffff;
-            background-image: radial-gradient(#e0e7ff 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-
-        .form-input {
-            width: 100%;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-            padding: 1rem 1.25rem;
-            transition: all 0.3s ease;
-        }
-        .form-input:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-            outline: none;
-        }
-
-        .advice-card {
-            background-color: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 1rem;
-            transition: all 0.3s ease;
-        }
-        .advice-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1);
-        }
-
-        /* Tab Styles */
-        .advice-tab {
-            transition: all 0.3s ease;
-        }
-        .advice-tab.active {
-            color: #6366f1;
-            border-bottom-color: #6366f1;
-            font-weight: 600;
-        }
-
-        /* Loading Spinner */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #6366f1;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: translateY(0); box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2); }
+        .hero-bg-pattern { background-color: #ffffff; background-image: radial-gradient(#e0e7ff 1px, transparent 1px); background-size: 24px 24px; }
+        .form-input { border: 2px solid var(--slate-200); border-radius: 0.75rem; padding: 1rem 1.25rem; transition: all 0.3s ease; }
+        .form-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); outline: none; }
+        .advice-card { background-color: white; border: 1px solid var(--slate-200); border-radius: 1rem; transition: all 0.3s ease; animation: popIn 0.5s ease-out forwards; opacity: 0; }
+        .advice-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1); }
+        .advice-tab { transition: all 0.3s ease; }
+        .advice-tab.active { color: var(--primary-color); border-bottom-color: var(--primary-color); font-weight: 600; }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .skeleton-box { background-color: var(--slate-100); border-radius: 0.5rem; animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 50% { opacity: .5; } }
     </style>
 </head>
 <body class="text-slate-800">
 
-    <!-- Navigation -->
     <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
-                </div>
+                <div class="flex-shrink-0"><a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a></div>
                 <div class="hidden md:block">
-                    <div id="desktop-menu" class="flex items-center space-x-8">
-                        <a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
-                        <a href="messages.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Messages</a>
-                        <a href="resources.html" class="gradient-text font-bold transition-colors">Resources</a>
-                        <a href="about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
-                        <a href="post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
-                            Post Job
-                        </a>
+                    <div class="flex items-center space-x-8">
+                        <a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium">Jobs</a>
+                        <a href="resources.html" class="gradient-text font-bold">Resources</a>
+                        <a href="about.html" class="text-slate-600 hover:text-slate-900 font-medium">About</a>
+                        <a href="/JOBSEEKER/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</a>
                     </div>
                 </div>
-                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
+                <div class="md:hidden"><button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100"><i class="fas fa-bars"></i></button></div>
             </div>
         </div>
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-1">
-            <a href="jobs.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Jobs</a>
-            <a href="messages.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Messages</a>
-            <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 bg-indigo-50">Resources</a>
-            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">About</a>
-            <a href="post-job.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Post Job</a>
+            <a href="jobs.html" class="block px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-50">Jobs</a>
+            <a href="resources.html" class="block px-3 py-2 rounded-md font-medium text-indigo-600 bg-indigo-50">Resources</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-50">About</a>
+            <a href="/JOBSEEKER/frontend/components/post-job.html" class="block px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-50">Post Job</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <header class="relative py-24 lg:py-32 hero-bg-pattern">
         <div class="relative z-10 max-w-4xl mx-auto text-center px-4">
             <span class="text-sm font-bold uppercase text-indigo-600">AI-Powered Career Growth</span>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mt-2 mb-6">
-                Your Personal <span class="gradient-text">Skill Advisor</span>
-            </h1>
-            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                Enter your current role and your career goal to let our AI generate a customized roadmap of skills and tips to help you level up.
-            </p>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mt-2 mb-6">Your Personal <span class="gradient-text">Skill Advisor</span></h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">Enter your current and desired roles to get a customized roadmap of skills, resources, and salary insights to level up your career.</p>
         </div>
     </header>
 
-    <!-- AI Advisor Section -->
-    <section class="py-20">
+    <section id="advisor-section" class="py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
                 <h2 class="text-2xl font-bold text-center text-slate-800 mb-6">Chart Your Career Path</h2>
                 <div class="grid md:grid-cols-2 gap-6 mb-4">
                     <div>
-                        <label for="current-role" class="font-semibold text-slate-600 mb-2 block">Your Current Role</label>
-                        <input type="text" id="current-role-input" class="form-input" placeholder="e.g., Software Engineer">
+                        <label for="current-role-input" class="font-semibold text-slate-600 mb-2 block">Your Current Role</label>
+                        <input type="text" id="current-role-input" class="form-input" placeholder="e.g., Teacher">
                     </div>
                     <div>
-                        <label for="next-role" class="font-semibold text-slate-600 mb-2 block">Your Desired Next Role</label>
-                         <input type="text" id="next-role-input" class="form-input" placeholder="e.g., Senior Software Engineer">
+                        <label for="next-role-input" class="font-semibold text-slate-600 mb-2 block">Your Desired Role</label>
+                        <input type="text" id="next-role-input" class="form-input" placeholder="e.g., Head Teacher">
                     </div>
                 </div>
                 <button id="get-advice-btn" class="w-full btn-primary text-white font-bold px-8 py-4 rounded-xl text-lg">
-                    <i class="fas fa-magic mr-2"></i> Generate My Career Plan
+                    <span id="btn-icon"><i class="fas fa-magic mr-2"></i></span>
+                    <span id="btn-text">Generate My Career Plan</span>
                 </button>
             </div>
-
-            <!-- AI Results Area -->
-            <div id="ai-results" class="mt-12">
-                <!-- Loading spinner or AI content will be injected here -->
-            </div>
+            <div id="ai-results" class="mt-12"></div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-slate-900 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <div class="lg:col-span-2">
-                    <h3 class="text-3xl font-black gradient-text mb-4">JobFinder</h3>
-                    <p class="text-slate-400 max-w-md leading-relaxed">Empowering careers across India.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-6 text-white">For Job Seekers</h4>
-                    <ul class="space-y-3">
-                        <li><a href="jobs.html" class="text-slate-400 hover:text-white transition-colors">Browse Jobs</a></li>
-                        <li><a href="resources.html" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-6 text-white">For Employers</h4>
-                    <ul class="space-y-3">
-                        <li><a href="post-job.html" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a></li>
-                    </ul>
-                </div>
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="lg:col-span-2"><h3 class="text-3xl font-black gradient-text mb-4">JobFinder</h3><p class="text-slate-400 max-w-md">Empowering careers across India.</p></div>
+                <div><h4 class="text-lg font-bold mb-6">For Job Seekers</h4><ul class="space-y-3"><li><a href="#" class="text-slate-400 hover:text-white">Browse Jobs</a></li><li><a href="#" class="text-slate-400 hover:text-white">Career Advice</a></li></ul></div>
+                <div><h4 class="text-lg font-bold mb-6">For Employers</h4><ul class="space-y-3"><li><a href="#" class="text-slate-400 hover:text-white">Post Jobs</a></li><li><a href="#" class="text-slate-400 hover:text-white">Search Resumes</a></li></ul></div>
             </div>
-            <div class="border-t border-slate-800 pt-8 text-center text-slate-400 text-sm">
-                <p>&copy; 2025 JobFinder. All rights reserved.</p>
-            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-slate-400 text-sm"><p>&copy; 2025 JobFinder. All rights reserved.</p></div>
         </div>
     </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // --- DOM Elements ---
     const getAdviceBtn = document.getElementById('get-advice-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnIcon = document.getElementById('btn-icon');
     const currentRoleInput = document.getElementById('current-role-input');
     const nextRoleInput = document.getElementById('next-role-input');
     const aiResultsContainer = document.getElementById('ai-results');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    let skillChart = null; // To hold the chart instance
+    
+    // --- Chart instances ---
+    let skillChart = null;
+    let salaryChart = null;
 
-    // Mobile menu toggle
-    mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
+    // --- Load previous search from Local Storage ---
+    currentRoleInput.value = localStorage.getItem('jobFinder_currentRole') || '';
+    nextRoleInput.value = localStorage.getItem('jobFinder_nextRole') || '';
 
+    // --- Event Listeners ---
+    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
     getAdviceBtn.addEventListener('click', fetchAIAdvice);
 
+    // --- Core Functions ---
     async function fetchAIAdvice() {
         const currentRole = currentRoleInput.value.trim();
         const nextRole = nextRoleInput.value.trim();
+
         if (!currentRole || !nextRole) {
             alert("Please enter both your current and desired roles.");
             return;
         }
 
-        aiResultsContainer.innerHTML = `
-            <div class="flex flex-col items-center text-center">
-                <div class="loader"></div>
-                <p class="mt-4 text-slate-600 font-semibold">Our AI is crafting your personalized career plan...</p>
-            </div>
-        `;
-        getAdviceBtn.disabled = true;
+        localStorage.setItem('jobFinder_currentRole', currentRole);
+        localStorage.setItem('jobFinder_nextRole', nextRole);
 
-        const prompt = `I am a ${currentRole} in India aiming to become a ${nextRole}. Provide a detailed career plan. Respond ONLY with a JSON object with the following structure: {"skillScores": {"labels": ["Technical", "Leadership", "Communication", "Strategy"], "score": [9, 7, 8, 6]}, "technicalSkills": [{"name": "Skill Name", "description": "..."}], "softSkills": [{"name": "Skill Name", "description": "..."}], "actionPlan": [{"step": "Months 1-2", "action": "..."}], "resources": [{"name": "Resource Name", "url": "..."}]}`;
-        
+        getAdviceBtn.disabled = true;
+        btnText.textContent = 'Crafting your plan...';
+        btnIcon.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>`;
+        renderSkeleton();
+        aiResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // --- Live AI API Call ---
+        // ⚠️ WARNING: Do not use this in production with a public-facing API key.
+                const apiKey = "AIzaSyCvr42HndmFLcdzWo4NAHnX-2Tfhg5E-Zk"; 
+ 
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+        // **IMPROVED PROMPT FOR DYNAMIC ICONS & LABELS**
+        const prompt = `Generate a career plan for a ${currentRole} in India aiming to become a ${nextRole}. Respond ONLY with a single, clean JSON object. The JSON must have this exact structure: 
+{
+  "summary": "A brief, one-sentence summary of the career transition.",
+  "skillScores": {
+    "labels": [/* 4 short, relevant skill labels for a ${nextRole} */],
+    "score": [/* 4 numbers between 1-10 */]
+  },
+  "salaryProjection": {
+    "labels": ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"],
+    "salary": [/* 5 numbers representing salary in Lakhs Per Annum (LPA), showing growth */]
+  },
+  "technicalSkills": [
+    {"name": "Skill Name", "description": "...", "icon": "fa-solid fa-some-icon"} /* Choose a relevant Font Awesome 6 solid icon */
+  ],
+  "softSkills": [
+    {"name": "Skill Name", "description": "...", "icon": "fa-solid fa-some-icon"}
+  ],
+  "actionPlan": [
+    {"step": "Months 1-3", "action": "...", "icon": "fa-solid fa-some-icon"}
+  ]
+}`;
+
         const payload = {
             contents: [{ role: "user", parts: [{ text: prompt }] }],
+            safetySettings: [
+                { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+                { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+                { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+                { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+            ],
         };
-
-        const apiKey = "AIzaSyCvr42HndmFLcdzWo4NAHnX-2Tfhg5E-Zk"; 
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
         try {
             const response = await fetch(apiUrl, {
@@ -253,149 +201,154 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                
                 const errorBody = await response.text();
-                throw new Error(`API error: ${response.status} ${response.statusText}. Details: ${errorBody}`);
+                throw new Error(`API error: ${response.status}. Details: ${errorBody}`);
             }
 
             const result = await response.json();
             
-            if (result.candidates && result.candidates.length > 0) {
-                // Clean up the response text before parsing
+            if (result.candidates && result.candidates.length > 0 && result.candidates[0].content.parts) {
                 let jsonText = result.candidates[0].content.parts[0].text;
-                jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
-
-                const aiResponse = JSON.parse(jsonText);
+                const cleanedJsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+                const aiResponse = JSON.parse(cleanedJsonText);
                 renderAIResults(currentRole, nextRole, aiResponse);
             } else {
-                throw new Error("Invalid response structure from AI.");
+                console.error("Invalid response from AI:", result);
+                throw new Error("Received an invalid or blocked response structure from the AI.");
             }
 
         } catch (error) {
             console.error("Error fetching AI advice:", error);
-            aiResultsContainer.innerHTML = `
-                <div class="bg-white rounded-2xl p-8 text-center shadow-lg border border-red-200">
-                    <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
-                    <h3 class="text-2xl font-bold text-slate-800">Oops! Something went wrong.</h3>
-                    <p class="text-slate-600 mt-2">Our AI advisor is currently unavailable. Please try again later.</p>
-                </div>
-            `;
+            renderError(error.message);
         } finally {
             getAdviceBtn.disabled = false;
+            btnText.textContent = 'Generate My Career Plan';
+            btnIcon.innerHTML = `<i class="fas fa-magic mr-2"></i>`;
         }
+    }
+    
+    function renderSkeleton() {
+        aiResultsContainer.innerHTML = `<div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-200"><div class="skeleton-box h-8 w-3/4 mb-2"></div><div class="skeleton-box h-4 w-1/2 mb-8"></div><div class="grid lg:grid-cols-5 gap-8 items-start"><div class="lg:col-span-2 space-y-8"><div><div class="skeleton-box h-6 w-1/2 mb-4 mx-auto"></div><div class="skeleton-box h-48 rounded-xl"></div></div><div><div class="skeleton-box h-6 w-1/2 mb-4 mx-auto"></div><div class="skeleton-box h-48 rounded-xl"></div></div></div><div class="lg:col-span-3 space-y-4"><div class="skeleton-box h-12 w-full"></div><div class="skeleton-box h-20 w-full"></div><div class="skeleton-box h-20 w-full"></div><div class="skeleton-box h-20 w-full"></div></div></div></div>`;
+    }
+
+    function renderError(errorMessage) {
+        aiResultsContainer.innerHTML = `<div class="fade-in-up bg-white rounded-2xl p-8 text-center shadow-lg border border-red-200"><i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i><h3 class="text-2xl font-bold text-slate-800">Oops! Something went wrong.</h3><p class="text-slate-600 mt-2">The AI advisor couldn't generate a plan. Please try again later.</p><p class="text-xs text-slate-400 mt-4">Error: ${errorMessage || 'Unknown error'}</p></div>`;
     }
 
     function renderAIResults(currentRole, nextRole, response) {
-        aiResultsContainer.innerHTML = `
-            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-200">
-                <h3 class="text-2xl font-bold text-slate-900 mb-2 text-center sm:text-left">Your Roadmap: <span class="gradient-text">${currentRole} to ${nextRole}</span></h3>
-                <p class="text-slate-600 mb-8 text-center sm:text-left">Here is your personalized plan to help you achieve your career goal.</p>
-                
-                <div class="grid lg:grid-cols-5 gap-8 items-start">
-                    <!-- Chart Column -->
-                    <div class="lg:col-span-2">
-                        <h4 class="text-lg font-bold text-center text-slate-700 mb-4">Key Focus Areas</h4>
-                        <div class="p-4 bg-slate-50 rounded-xl">
-                            <canvas id="skillRadarChart"></canvas>
-                        </div>
-                    </div>
+        aiResultsContainer.innerHTML = '';
+        const resultsWrapper = document.createElement('div');
+        resultsWrapper.className = 'fade-in-up bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-200';
+        resultsWrapper.innerHTML = `<div id="plan-to-print"><div class="flex justify-between items-start mb-6 flex-wrap gap-4"><div><h3 class="text-2xl font-bold text-slate-900 mb-1">Your Roadmap: <span class="gradient-text">${currentRole} to ${nextRole}</span></h3><p class="text-slate-600 max-w-xl">${response.summary || 'Here is your personalized plan.'}</p></div><button id="download-btn" class="btn-primary text-white font-semibold px-4 py-2 rounded-lg text-sm flex items-center gap-2 whitespace-nowrap"><i class="fas fa-download"></i> </button></div><div class="grid lg:grid-cols-5 gap-8 items-start"><div class="lg:col-span-2 space-y-8"><div><h4 class="text-lg font-bold text-center text-slate-700 mb-4">Key Focus Areas</h4><div class="p-4 bg-slate-50 rounded-xl"><canvas id="skillBarChart"></canvas></div></div><div><h4 class="text-lg font-bold text-center text-slate-700 mb-4">Salary Projection (LPA)</h4><div class="p-4 bg-slate-50 rounded-xl"><canvas id="salaryLineChart"></canvas></div></div></div><div class="lg:col-span-3"><div class="border-b border-slate-200 mb-6"><nav class="flex flex-wrap -mb-px" id="advice-tabs"></nav></div><div id="tab-content"></div></div></div></div>`;
+        aiResultsContainer.appendChild(resultsWrapper);
 
-                    <!-- Tabs Column -->
-                    <div class="lg:col-span-3">
-                        <div class="border-b border-slate-200 mb-6">
-                            <nav class="flex flex-wrap -mb-px" id="advice-tabs">
-                                <button data-tab="tech" class="advice-tab active py-4 px-4 border-b-2 border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 text-sm sm:text-base">Technical</button>
-                                <button data-tab="soft" class="advice-tab py-4 px-4 border-b-2 border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 text-sm sm:text-base">Soft Skills</button>
-                                <button data-tab="plan" class="advice-tab py-4 px-4 border-b-2 border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 text-sm sm:text-base">Action Plan</button>
-                                <button data-tab="res" class="advice-tab py-4 px-4 border-b-2 border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 text-sm sm:text-base">Resources</button>
-                            </nav>
-                        </div>
-                        <div id="tab-content">
-                            <div id="tech-content" class="space-y-4">${response.technicalSkills.map(s => createAdviceCard(s.name, s.description, 'fa-code', 'indigo')).join('')}</div>
-                            <div id="soft-content" class="hidden space-y-4">${response.softSkills.map(s => createAdviceCard(s.name, s.description, 'fa-users', 'sky')).join('')}</div>
-                            <div id="plan-content" class="hidden space-y-4">${response.actionPlan.map(p => createAdviceCard(p.step, p.action, 'fa-calendar-check', 'emerald')).join('')}</div>
-                            <div id="res-content" class="hidden space-y-4">${response.resources.map(r => createResourceCard(r.name, r.url)).join('')}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        renderChart(response.skillScores);
+        const tabContainer = resultsWrapper.querySelector('#advice-tabs');
+        const tabContentContainer = resultsWrapper.querySelector('#tab-content');
+
+        const tabsData = [
+            { id: 'tech', label: 'Core Skills', data: response.technicalSkills, color: 'indigo' },
+            { id: 'soft', label: 'Soft Skills', data: response.softSkills, color: 'sky' },
+            { id: 'plan', label: 'Action Plan', data: response.actionPlan.map(p => ({name: p.step, description: p.action, icon: p.icon})), color: 'emerald' }
+        ];
+
+        tabsData.forEach((tabInfo, index) => {
+            const tabButton = document.createElement('button');
+            tabButton.dataset.tab = tabInfo.id;
+            tabButton.className = 'advice-tab py-4 px-4 border-b-2 border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 text-sm sm:text-base';
+            tabButton.textContent = tabInfo.label;
+            if (index === 0) tabButton.classList.add('active');
+            tabContainer.appendChild(tabButton);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.id = `${tabInfo.id}-content`;
+            contentDiv.className = `space-y-4 ${index > 0 ? 'hidden' : ''}`;
+            if(tabInfo.data && Array.isArray(tabInfo.data)){
+                tabInfo.data.forEach((item, i) => {
+                    // **FIX: Use the icon from the item itself**
+                    contentDiv.appendChild(createAdviceCard(item.name, item.description, item.icon, tabInfo.color, i));
+                });
+            }
+            tabContentContainer.appendChild(contentDiv);
+        });
+
+        if (response.skillScores) renderSkillChart(response.skillScores);
+        if (response.salaryProjection) renderSalaryChart(response.salaryProjection);
         setupTabs();
+        setupCopyButtons();
+        
+        document.getElementById('download-btn').addEventListener('click', () => {
+             const element = document.getElementById('plan-to-print');
+             html2pdf().set({filename: `Career_Plan_for_${nextRole}.pdf`}).from(element).save();
+        });
     }
 
-    function createAdviceCard(title, description, icon, color) {
-        return `
-            <div class="advice-card flex items-start gap-4 p-4">
-                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-${color}-100 text-${color}-600 flex items-center justify-center">
-                    <i class="fas ${icon}"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-slate-800">${title}</h4>
-                    <p class="text-slate-600 text-sm">${description}</p>
-                </div>
+    function createAdviceCard(title, description, icon, color, index) {
+        const card = document.createElement('div');
+        card.className = 'advice-card flex items-start gap-4 p-4 relative';
+        card.style.animationDelay = `${index * 100}ms`;
+        // Use a default icon if one isn't provided by the AI
+        const safeIcon = icon || 'fa-solid fa-star';
+        const linkedDescription = description.replace(/\((.*?)\)/g, '<a href="#" class="text-indigo-600 font-semibold hover:underline">$1</a>');
+        card.innerHTML = `
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-${color}-100 text-${color}-600 flex items-center justify-center"><i class="${safeIcon}"></i></div>
+            <div class="flex-1">
+                <h4 class="font-bold text-slate-800">${title}</h4>
+                <p class="text-slate-600 text-sm">${linkedDescription}</p>
             </div>
-        `;
+            <button class="copy-btn absolute top-3 right-3 p-2 rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition" title="Copy to clipboard">
+                <i class="fas fa-copy"></i>
+            </button>`;
+        return card;
     }
     
-    function createResourceCard(name, url) {
-        return `
-            <a href="${url}" target="_blank" class="advice-card p-4 flex items-center justify-between hover:bg-indigo-50">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center">
-                        <i class="fas fa-book-open"></i>
-                    </div>
-                    <h4 class="font-bold text-indigo-700 ml-4">${name}</h4>
-                </div>
-                <i class="fas fa-external-link-alt text-slate-400 text-xs ml-1"></i>
-            </a>
-        `;
+    function setupCopyButtons() {
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = button.closest('.advice-card');
+                const title = card.querySelector('h4').textContent;
+                const descriptionText = card.querySelector('p').innerText;
+                const textToCopy = `${title}: ${descriptionText}`;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    button.innerHTML = `<span class="text-sm text-indigo-600 font-bold">Copied!</span>`;
+                    setTimeout(() => { button.innerHTML = `<i class="fas fa-copy"></i>`; }, 1500);
+                });
+            });
+        });
     }
 
-    function renderChart(skillData) {
-        const ctx = document.getElementById('skillRadarChart').getContext('2d');
-        if (skillChart) {
-            skillChart.destroy();
-        }
+    function renderSkillChart(skillData) {
+        const ctx = document.getElementById('skillBarChart').getContext('2d');
+        if (skillChart) skillChart.destroy();
         skillChart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: skillData.labels,
-                datasets: [{
-                    label: 'Focus Area Score',
-                    data: skillData.score,
-                    backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                    borderColor: 'rgba(99, 102, 241, 1)',
-                    borderWidth: 2,
-                    pointBackgroundColor: 'rgba(99, 102, 241, 1)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgba(99, 102, 241, 1)'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    r: {
-                        angleLines: { color: '#e2e8f0' },
-                        grid: { color: '#e2e8f0' },
-                        pointLabels: {
-                            font: { size: 12, weight: 'bold' },
-                            color: '#475569'
-                        },
-                        ticks: {
-                            backdropColor: 'transparent',
-                            stepSize: 2,
-                            max: 10,
-                            min: 0
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false }
-                }
+            type: 'bar',
+            data: { labels: skillData.labels, datasets: [{
+                    label: 'Focus Score', data: skillData.score,
+                    backgroundColor: ['rgba(99, 102, 241, 0.7)', 'rgba(56, 189, 248, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(245, 158, 11, 0.7)'],
+                    borderColor: ['#6366f1', '#38bdf8', '#10b981', '#f59e0b'],
+                    borderWidth: 2, borderRadius: 4
+            }]},
+            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                scales: { x: { beginAtZero: true, max: 10, grid: { display: false }, ticks: { display: false } }, y: { grid: { display: false } } },
+                plugins: { legend: { display: false }, tooltip: { bodyFont: { size: 14 } } }
+            }
+        });
+    }
+
+    function renderSalaryChart(salaryData) {
+        const ctx = document.getElementById('salaryLineChart').getContext('2d');
+        if (salaryChart) salaryChart.destroy();
+        salaryChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: salaryData.labels, datasets: [{
+                    label: 'Projected Salary (LPA)', data: salaryData.salary, fill: true,
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)', borderColor: '#6366f1',
+                    tension: 0.4, pointBackgroundColor: '#6366f1', pointRadius: 5
+            }]},
+            options: { responsive: true, maintainAspectRatio: false,
+                scales: { y: { beginAtZero: false, ticks: { callback: value => `₹${value}L` } } },
+                plugins: { legend: { display: false }, tooltip: { bodyFont: { size: 14 } } }
             }
         });
     }
@@ -403,16 +356,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupTabs() {
         const tabs = document.querySelectorAll('.advice-tab');
         const contents = document.querySelectorAll('#tab-content > div');
-        
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-
                 const target = tab.dataset.tab;
-                contents.forEach(content => {
-                    content.classList.toggle('hidden', content.id !== `${target}-content`);
-                });
+                contents.forEach(content => content.classList.toggle('hidden', content.id !== `${target}-content`));
             });
         });
     }

@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobFinder - Your Career Journey Starts Here</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
-        
+
         .hero-gradient {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         }
-        
+
         .glass-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .floating-animation {
             animation: floating 6s ease-in-out infinite;
         }
-        
+
         .floating-delay {
             animation: floating 6s ease-in-out infinite 2s;
         }
-        
+
         @keyframes floating {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
-        
+
         .job-card {
             background: white;
             border-radius: 20px;
@@ -43,7 +52,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .job-card::before {
             content: '';
             position: absolute;
@@ -55,24 +64,24 @@
             transform: translateX(-100%);
             transition: transform 0.5s ease;
         }
-        
+
         .job-card:hover::before {
             transform: translateX(0);
         }
-        
+
         .job-card:hover {
             transform: translateY(-12px) scale(1.02);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
             border-color: #e2e8f0;
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
-        
+
         .btn-primary::before {
             content: '';
             position: absolute;
@@ -84,116 +93,122 @@
             transition: left 0.5s ease;
             z-index: -1;
         }
-        
+
         .btn-primary:hover::before {
             left: 0;
         }
-        
+
         .stats-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 0.2);
         }
-        
+
         .feature-icon {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .nav-blur {
             backdrop-filter: blur(20px);
             background: rgba(255, 255, 255, 0.9);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .search-input {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             border: 2px solid transparent;
             transition: all 0.3s ease;
         }
-        
+
         .search-input:focus {
             background: rgba(255, 255, 255, 1);
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        
+
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .pulse-animation {
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
-        
+
         .marquee {
             overflow: hidden;
             position: relative;
         }
-        
+
         .marquee-content {
-            display: flex; /* Changed to flex for seamless looping */
-            animation: marquee 10s linear infinite; /* Adjusted duration for more content */
+            display: flex;
+            animation: marquee 10s linear infinite;
         }
-        
+
         .marquee-content:hover {
             animation-play-state: paused;
         }
-        
+
         @keyframes marquee {
-            0% { transform: translateX(0); } /* Start from the beginning */
-            100% { transform: translateX(-50%); } /* Animate to half the width for duplicated content */
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
-        
+
         .company-logo {
             display: inline-flex;
             align-items: center;
             margin-right: 3rem;
             opacity: 0.6;
             transition: opacity 0.3s ease;
-            flex-shrink: 0; /* Prevent logos from shrinking */
+            flex-shrink: 0;
         }
-        
+
         .company-logo:hover {
             opacity: 1;
         }
-        
-        .marquee-gradient {
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(248, 250, 252, 0.8) 10%, 
-                rgba(248, 250, 252, 0.8) 90%, 
-                transparent 100%);
-        }
     </style>
 </head>
+
 <body class="bg-slate-50">
     <nav class="fixed top-0 left-0 right-0 z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="#" class="text-2xl font-black gradient-text">JobFinder</a>
+                    <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
                 </div>
                 <div class="hidden md:block">
-                    <div class="flex items-center space-x-8">
-                        <a href="/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
-                        <a href="" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
-                        <a href="/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
-                        <a href="/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
-                        <a href="/frontend/components/postJobs.html"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm relative z-10">
-                            Post Job
-                        </button></a>
+                    <div id="nav-links" class="flex items-center space-x-8">
+                        <a href="jobs.html"
+                            class="protected-link text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                        <a href="#"
+                            class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
+                        <a href="resources.html"
+                            class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
+                        <a href="about.html"
+                            class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
                     </div>
                 </div>
                 <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
@@ -202,26 +217,25 @@
             </div>
         </div>
     </nav>
-
     <section class="hero-gradient relative min-h-screen flex items-center overflow-hidden">
         <div class="absolute inset-0">
             <div class="floating-animation absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-            <div class="floating-delay absolute bottom-20 right-10 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl"></div>
+            <div class="floating-delay absolute bottom-20 right-10 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl">
+            </div>
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full">
                 <div class="floating-animation absolute top-40 right-1/4 w-4 h-4 bg-white/30 rounded-full"></div>
                 <div class="floating-delay absolute bottom-1/3 left-1/4 w-6 h-6 bg-yellow-300/40 rounded-full"></div>
                 <div class="floating-animation absolute top-1/4 left-1/3 w-3 h-3 bg-pink-300/50 rounded-full"></div>
             </div>
         </div>
-
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="text-white">
-                    <div class="inline-flex items-center px-4 py-2 bg-white/20 backdrop-filter backdrop-blur-sm rounded-full text-sm font-medium mb-6">
+                    <div
+                        class="inline-flex items-center px-4 py-2 bg-white/20 backdrop-filter backdrop-blur-sm rounded-full text-sm font-medium mb-6">
                         <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-animation"></span>
                         50,000+ Active Jobs Available
                     </div>
-                    
                     <h1 class="text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-6">
                         Find Your
                         <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
@@ -229,12 +243,10 @@
                         </span>
                         Today
                     </h1>
-                    
                     <p class="text-xl text-purple-100 mb-8 max-w-lg leading-relaxed">
-                        Connect with top employers across India. From startups to Fortune 500 companies, 
+                        Connect with top employers across India. From startups to Fortune 500 companies,
                         your perfect opportunity is just a click away.
                     </p>
-
                     <div class="grid grid-cols-3 gap-6 mb-10">
                         <div class="stats-card rounded-2xl p-4 text-center">
                             <div class="text-2xl font-bold mb-1">50K+</div>
@@ -249,98 +261,106 @@
                             <div class="text-sm text-purple-200">Job Seekers</div>
                         </div>
                     </div>
-
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="/frontend/jobs.html"> <button class="btn-primary px-8 py-4 rounded-full font-bold text-lg relative z-10">
-                            <i class="fas fa-search mr-2"></i>
-                            Explore Jobs
-                        </button></a>
-                        <button class="bg-white/20 backdrop-filter backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/30 transition-all duration-300">
+                        <a href="jobs.html" class="protected-link"> <button
+                                class="btn-primary px-8 py-4 rounded-full font-bold text-lg relative z-10">
+                                <i class="fas fa-search mr-2"></i>
+                                Explore Jobs
+                            </button></a>
+                        <button
+                            class="bg-white/20 backdrop-filter backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/30 transition-all duration-300">
                             <i class="fas fa-play mr-2"></i>
                             How it Works
                         </button>
                     </div>
                 </div>
-
                 <div class="glass-card rounded-3xl p-8 shadow-2xl">
                     <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">
                         Start Your Job Search
                     </h2>
-                    
                     <div class="space-y-4">
                         <div class="relative">
-                            <label class="block text-sm font-semibold text-slate-600 mb-2">What are you looking for?</label>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">What are you looking
+                                for?</label>
                             <div class="relative">
-                                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
-                                <input 
-                                    type="text" 
-                                    id="hero-keyword" 
-                                    placeholder="Job title, company, or keyword..."
-                                    class="search-input w-full pl-12 pr-4 py-4 rounded-2xl text-slate-800 placeholder-slate-500 outline-none"
-                                >
+                                <i
+                                    class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" id="hero-keyword" placeholder="Job title, company, or keyword..."
+                                    class="search-input w-full pl-12 pr-4 py-4 rounded-2xl text-slate-800 placeholder-slate-500 outline-none">
                             </div>
                         </div>
-                        
                         <div class="relative">
                             <label class="block text-sm font-semibold text-slate-600 mb-2">Where?</label>
                             <div class="relative">
-                                <i class="fas fa-map-marker-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
-                                <input 
-                                    type="text" 
-                                    id="hero-location" 
-                                    placeholder="City, state, or remote"
-                                    class="search-input w-full pl-12 pr-4 py-4 rounded-2xl text-slate-800 placeholder-slate-500 outline-none"
-                                >
+                                <i
+                                    class="fas fa-map-marker-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" id="hero-location" placeholder="City, state, or remote"
+                                    class="search-input w-full pl-12 pr-4 py-4 rounded-2xl text-slate-800 placeholder-slate-500 outline-none">
                             </div>
                         </div>
-                        
-                        <button id="hero-search-btn" class="btn-primary w-full py-4 rounded-2xl font-bold text-lg text-white relative z-10">
+                        <button id="hero-search-btn"
+                            class="btn-primary w-full py-4 rounded-2xl font-bold text-lg text-white relative z-10">
                             <i class="fas fa-rocket mr-2"></i>
                             Find My Dream Job
                         </button>
                     </div>
-
                     <div class="mt-6 text-center">
                         <p class="text-sm text-slate-600 mb-3">Popular searches:</p>
                         <div class="flex flex-wrap gap-2 justify-center">
-                            <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium cursor-pointer hover:bg-slate-200 transition-colors">Software Engineer</span>
-                            <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium cursor-pointer hover:bg-slate-200 transition-colors">Sales Manager</span>
-                            <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium cursor-pointer hover:bg-slate-200 transition-colors">Remote Work</span>
+                            <span
+                                class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium cursor-pointer hover:bg-slate-200 transition-colors">Software
+                                Engineer</span>
+                            <span
+                                class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium cursor-pointer hover:bg-slate-200 transition-colors">Sales
+                                Manager</span>
+                            <span
+                                class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium cursor-pointer hover:bg-slate-200 transition-colors">Remote
+                                Work</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="py-12 bg-white border-t border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8">
                 <h3 class="text-2xl font-bold text-slate-800">Trusted by Industry Leaders</h3>
             </div>
-            
             <div class="marquee">
                 <div class="marquee-content">
-                    <div class="company-logo"><img src="https://logo.clearbit.com/google.com" alt="Google" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Google</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/amazon.com" alt="Amazon" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Amazon</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Microsoft</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/infosys.com" alt="Infosys" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Infosys</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/tcs.com" alt="TCS" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">TCS</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/wipro.com" alt="Wipro" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Wipro</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/accenture.com" alt="Accenture" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Accenture</span></div>
-                    <!-- Duplicated for seamless loop -->
-                    <div class="company-logo"><img src="https://logo.clearbit.com/google.com" alt="Google" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Google</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/amazon.com" alt="Amazon" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Amazon</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Microsoft</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/infosys.com" alt="Infosys" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Infosys</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/tcs.com" alt="TCS" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">TCS</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/wipro.com" alt="Wipro" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Wipro</span></div>
-                    <div class="company-logo"><img src="https://logo.clearbit.com/accenture.com" alt="Accenture" class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Accenture</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/google.com" alt="Google"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Google</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/amazon.com" alt="Amazon"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Amazon</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Microsoft</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/infosys.com" alt="Infosys"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Infosys</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/tcs.com" alt="TCS" class="h-8"><span
+                            class="ml-3 text-lg font-semibold text-slate-700">TCS</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/wipro.com" alt="Wipro"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Wipro</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/accenture.com" alt="Accenture"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Accenture</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/google.com" alt="Google"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Google</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/amazon.com" alt="Amazon"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Amazon</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Microsoft</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/infosys.com" alt="Infosys"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Infosys</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/tcs.com" alt="TCS" class="h-8"><span
+                            class="ml-3 text-lg font-semibold text-slate-700">TCS</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/wipro.com" alt="Wipro"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Wipro</span></div>
+                    <div class="company-logo"><img src="https://logo.clearbit.com/accenture.com" alt="Accenture"
+                            class="h-8"><span class="ml-3 text-lg font-semibold text-slate-700">Accenture</span></div>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3">
         <div class="marquee">
             <div class="marquee-content text-sm font-medium whitespace-nowrap">
@@ -355,7 +375,6 @@
             </div>
         </div>
     </section>
-
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -366,10 +385,10 @@
                     We're not just another job board. We're your career growth partner.
                 </p>
             </div>
-
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="text-center p-8 rounded-3xl hover:bg-slate-50 transition-all duration-300 group">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <div
+                        class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-bolt text-3xl feature-icon"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-800 mb-4">Lightning Fast</h3>
@@ -377,9 +396,9 @@
                         Advanced AI matching connects you with relevant opportunities in seconds, not hours.
                     </p>
                 </div>
-
                 <div class="text-center p-8 rounded-3xl hover:bg-slate-50 transition-all duration-300 group">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <div
+                        class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-shield-alt text-3xl feature-icon"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-800 mb-4">Verified Companies</h3>
@@ -387,9 +406,9 @@
                         Every employer is thoroughly vetted. Apply with confidence to legitimate opportunities.
                     </p>
                 </div>
-
                 <div class="text-center p-8 rounded-3xl hover:bg-slate-50 transition-all duration-300 group">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <div
+                        class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-chart-line text-3xl feature-icon"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-800 mb-4">Career Growth</h3>
@@ -400,72 +419,71 @@
             </div>
         </div>
     </section>
-
-    
-        
-        <section id="latest-jobs" class="py-20 bg-slate-50">
+    <section id="latest-jobs" class="py-20 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-12">
                 <div>
                     <h2 class="text-4xl font-black text-slate-800 mb-2">Latest Opportunities</h2>
                     <p class="text-slate-600">Fresh jobs added daily from top companies.</p>
                 </div>
-                <a href="/frontend/jobs.html" class="hidden md:block btn-primary px-6 py-3 rounded-full font-semibold text-white">
+                <a href="jobs.html"
+                    class="protected-link hidden md:block btn-primary px-6 py-3 rounded-full font-semibold text-white">
                     <span>View All Jobs <i class="fas fa-arrow-right ml-2"></i></span>
                 </a>
             </div>
             <div id="job-listings-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Job cards will be dynamically inserted here -->
             </div>
         </div>
     </section>
-
     <footer class="bg-slate-900 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
                 <div class="lg:col-span-2">
                     <h3 class="text-3xl font-black gradient-text mb-4">JobFinder</h3>
                     <p class="text-slate-400 max-w-md leading-relaxed mb-6">
-                        Empowering careers across India. Connect with opportunities that match your ambitions 
+                        Empowering careers across India. Connect with opportunities that match your ambitions
                         and grow with companies that value your potential.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors">
-                            <i class="fab fa-instagram"></i>
-                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"><i
+                                class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                
                 <div>
                     <h4 class="text-lg font-bold mb-6 text-white">For Job Seekers</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Browse Jobs</a></li>
+                        <li><a href="#" class="protected-link text-slate-400 hover:text-white transition-colors">Browse
+                                Jobs</a></li>
                         <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Career Advice</a></li>
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Resume Builder</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Resume Builder</a>
+                        </li>
                         <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Salary Guide</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h4 class="text-lg font-bold mb-6 text-white">For Employers</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Post Jobs</a></li>
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a></li>
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Recruiting Solutions</a></li>
-                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Employer Branding</a></li>
+                        <li><a href="#" class="protected-link text-slate-400 hover:text-white transition-colors">Post
+                                Jobs</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Search Resumes</a>
+                        </li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Recruiting
+                                Solutions</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Employer Branding</a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            
             <div class="border-t border-slate-800 pt-8 text-center text-slate-400">
                 <p>&copy; 2024 JobFinder. All rights reserved. Made with ❤️ for India's workforce.</p>
             </div>
@@ -473,61 +491,195 @@
     </footer>
 
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const allJobs = [
-        { id: 1, title: 'Senior Frontend Developer', company: 'TechCorp', location: 'Bangalore, KA', salary: '₹18-25 LPA', type: 'Full-time', experience: 'Senior Level', posted: '1d ago', logo: 'https://placehold.co/100x100/667eea/ffffff?text=T', tags: ['React', 'TypeScript', 'Next.js'] },
-        { id: 2, title: 'Product Manager', company: 'InnovateHub', location: 'Pune, MH', salary: '₹20-30 LPA', type: 'Full-time', experience: 'Senior Level', posted: '2d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Roadmap', 'Agile', 'Analytics'] },
-        { id: 3, title: 'UI/UX Designer', company: 'CreativeMinds', location: 'Mumbai, MH', salary: '₹10-15 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '3d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Figma', 'User Research', 'Prototyping'] },
-        { id: 4, title: 'Backend Engineer (Node.js)', company: 'DataStream', location: 'Remote', salary: '₹15-22 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '4d ago', logo: 'https://placehold.co/100x100/34d399/ffffff?text=D', tags: ['Node.js', 'AWS', 'PostgreSQL'] },
-        { id: 5, title: 'Digital Marketing Specialist', company: 'GrowthLeap', location: 'Delhi, DL', salary: '₹8-12 LPA', type: 'Full-time', experience: 'Mid-Level', posted: '5d ago', logo: 'https://placehold.co/100x100/fbbf24/ffffff?text=G', tags: ['SEO', 'SEM', 'Social Media'] },
-        { id: 6, title: 'Data Scientist', company: 'AI Labs', location: 'Hyderabad, TS', salary: '₹25-35 LPA', type: 'Full-time', experience: 'Senior Level', posted: '5d ago', logo: 'https://placehold.co/100x100/60a5fa/ffffff?text=A', tags: ['Python', 'ML', 'TensorFlow'] },
-        { id: 7, title: 'Marketing Intern', company: 'InnovateHub', location: 'Pune, MH', salary: '₹25k/month', type: 'Internship', experience: 'Entry Level', posted: '6d ago', logo: 'https://placehold.co/100x100/764ba2/ffffff?text=I', tags: ['Marketing', 'Content', 'Social Media'] },
-        { id: 8, title: 'Junior Graphic Designer', company: 'CreativeMinds', location: 'Remote', salary: '₹5-8 LPA', type: 'Full-time', experience: 'Entry Level', posted: '7d ago', logo: 'https://placehold.co/100x100/f093fb/ffffff?text=C', tags: ['Illustrator', 'Photoshop'] },
-    ];
+    document.addEventListener('DOMContentLoaded', () => {
+        let isUserLoggedIn = false;
+        const navLinksContainer = document.getElementById('nav-links');
 
-    const listingsContainer = document.getElementById('job-listings-container');
-    const heroSearchBtn = document.getElementById('hero-search-btn');
+        /**
+         * Checks login status by calling the backend.
+         */
+        async function updateAuthState() {
+            try {
+                const response = await fetch('../backend/check_auth.php');
+                const authData = await response.json();
+                isUserLoggedIn = authData.loggedin;
 
-    function renderLatestJobs() {
-        listingsContainer.innerHTML = '';
-        const jobsToDisplay = allJobs.slice(0, 8); // Show only the first 8 jobs
+                if (isUserLoggedIn) {
+                    const userIsEmployer = authData.roles && authData.roles.includes('employer');
+                    let postJobButton = userIsEmployer
+                        ? `<a href="/JOBSEEKER/frontend/components/post-job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>`
+                        : '';
 
-        jobsToDisplay.forEach(job => {
-            const jobCard = `
-                <div class="job-card p-6">
-                    <div class="flex items-start space-x-4 mb-4">
-                        <img src="${job.logo}" alt="${job.company}" class="w-12 h-12 rounded-xl object-cover shadow-md">
-                        <div class="flex-1 min-w-0">
-                            <h3 class="font-bold text-slate-800 text-lg mb-1 truncate">${job.title}</h3>
-                            <p class="text-slate-600 text-sm truncate">${job.company}</p>
+                    const profileDropdownHTML = `
+                        ${postJobButton}
+                        <div class="relative" id="profile-menu-container">
+                            <button id="profile-menu-button" class="flex items-center focus:outline-none">
+                                <img src="https://img.icons8.com/?size=100&id=7819&format=png&color=000000" alt="User Avatar" class="w-8 h-8 rounded-full border-2 border-transparent hover:border-indigo-400 transition-colors">
+                            </button>
+                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50 ring-1 ring-black ring-opacity-5">
+                                <div class="py-1">
+                                    <a href="profile.html" class="protected-link block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">My Profile</a>
+                                    <a href="/JOBSEEKER/backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Logout</a>
+                                </div>
+                            </div>
+                        </div>`;
+
+                    navLinksContainer.insertAdjacentHTML('beforeend', profileDropdownHTML);
+                    addDropdownListeners();
+
+                } else {
+                    navLinksContainer.innerHTML += `
+                        <a href="/JOBSEEKER/frontend/components/post-job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>
+                        <a href="/JOBSEEKER/frontend/components/signUp.html" class="font-semibold text-slate-600 hover:text-slate-900">Login</a>`;
+                }
+            } catch (error) {
+                console.error("Auth check failed:", error);
+                isUserLoggedIn = false;
+                navLinksContainer.innerHTML += `<a href="/JOBSEEKER/frontend/components/signUp.html" class="font-semibold text-slate-600 hover:text-slate-900">Login</a>`;
+            }
+            protectLinks();
+        }
+
+        /**
+         * Adds event listeners to toggle the profile dropdown.
+         */
+        function addDropdownListeners() {
+            const menuButton = document.getElementById('profile-menu-button');
+            const dropdown = document.getElementById('profile-dropdown');
+            const container = document.getElementById('profile-menu-container');
+
+            if (!menuButton || !dropdown || !container) return;
+
+            // --- UPDATED LOGIC WITH DELAY ---
+            let hideTimeout; // Variable to hold the timer
+
+            // Show dropdown on mouse enter
+            container.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout); // Cancel any pending hide action
+                dropdown.classList.remove('hidden');
+            });
+
+            // Set a timer to hide the dropdown on mouse leave
+            container.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    dropdown.classList.add('hidden');
+                }, 300); // 300ms delay
+            });
+            // --- END OF UPDATED LOGIC ---
+
+            // Toggle dropdown on button click (for mobile/accessibility)
+            menuButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const isHidden = dropdown.classList.contains('hidden');
+                if (isHidden) {
+                     clearTimeout(hideTimeout); // If we click to open, cancel any pending hide
+                }
+                dropdown.classList.toggle('hidden');
+            });
+
+            // Hide dropdown if clicked outside
+            window.addEventListener('click', (event) => {
+                if (!container.contains(event.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        /**
+         * Adds click handlers to redirect logged-out users.
+         */
+        function protectLinks() {
+            document.querySelectorAll('.protected-link').forEach(link => {
+                link.replaceWith(link.cloneNode(true));
+            });
+            
+            document.querySelectorAll('.protected-link').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    if (!isUserLoggedIn) {
+                        event.preventDefault();
+                        window.location.href = '/JOBSEEKER/frontend/components/signUp.html';
+                    }
+                });
+            });
+        }
+
+
+        /**
+         * Fetches latest jobs from the backend and renders them on the homepage.
+         */
+        async function renderLatestJobs() {
+            const listingsContainer = document.getElementById('job-listings-container');
+            if (!listingsContainer) return;
+
+            listingsContainer.innerHTML = '<p class="text-slate-500 col-span-4 text-center">Loading latest jobs...</p>';
+
+            try {
+                const response = await fetch('../backend/get_jobs.php');
+                const jobs = await response.json();
+                listingsContainer.innerHTML = '';
+
+                if (!jobs || jobs.length === 0) {
+                    listingsContainer.innerHTML = '<p class="text-slate-500 col-span-4 text-center">No jobs found at the moment.</p>';
+                    return;
+                }
+
+                jobs.forEach(job => {
+                    const companyInitial = job.company ? job.company.charAt(0).toUpperCase() : 'J';
+                    const placeholderColors = ['667eea', '764ba2', '34d399', 'fbbf24', 'f87171', '60a5fa'];
+                    const randomColor = placeholderColors[job.id % placeholderColors.length];
+
+                    const logoSrc = (job.logo && !job.logo.endsWith('/'))
+                        ? job.logo
+                        : `https://placehold.co/100x100/${randomColor}/ffffff?text=${companyInitial}&font=inter`;
+
+                    const salary = job.salary || 'Not Disclosed';
+
+                    const jobCard = `
+                    <div class="job-card p-6">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <img src="${logoSrc}" alt="${job.company}" class="w-12 h-12 rounded-xl object-contain shadow-md">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-bold text-slate-800 text-lg mb-1 truncate">${job.title}</h3>
+                                <p class="text-slate-600 text-sm truncate">${job.company}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="space-y-2 text-sm text-slate-600">
-                        <div class="flex items-center"><i class="fas fa-map-marker-alt w-4 mr-2 text-slate-400"></i><span>${job.location}</span></div>
-                        <div class="flex items-center"><i class="fas fa-wallet w-4 mr-2 text-slate-400"></i><span class="font-semibold text-slate-700">${job.salary}</span></div>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100">
-                         <a href="/frontend/components/job-detail.html?id=${job.id}" class="text-indigo-600 hover:text-indigo-800 font-semibold text-sm transition-colors">
-                            View Details <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
-                    </div>
-                </div>
-            `;
-            listingsContainer.insertAdjacentHTML('beforeend', jobCard);
-        });
-    }
+                        <div class="space-y-2 text-sm text-slate-600">
+                            <div class="flex items-center"><i class="fas fa-map-marker-alt w-4 mr-2 text-slate-400"></i><span>${job.location}</span></div>
+                            <div class="flex items-center"><i class="fas fa-wallet w-4 mr-2 text-slate-400"></i><span class="font-semibold text-slate-700">${salary}</span></div>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-100">
+                            <a href="/JOBSEEKER/frontend/components/job-detail.html?id=${job.id}" class="protected-link text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
+                                View Details <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>`;
+                    listingsContainer.insertAdjacentHTML('beforeend', jobCard);
+                });
 
-    function handleHeroSearch() {
-        const keyword = document.getElementById('hero-keyword').value;
-        const location = document.getElementById('hero-location').value;
-        window.location.href = `jobs.html?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
-    }
+                protectLinks();
 
-    heroSearchBtn.addEventListener('click', handleHeroSearch);
-    
-    renderLatestJobs();
-});
+            } catch (error) {
+                console.error('Failed to fetch jobs:', error);
+                listingsContainer.innerHTML = '<p class="text-red-500 col-span-4 text-center">Could not load jobs. Please try again.</p>';
+            }
+        }
+
+        function handleHeroSearch() {
+            const keyword = document.getElementById('hero-keyword').value;
+            const location = document.getElementById('hero-location').value;
+            if (!isUserLoggedIn) {
+                window.location.href = '/JOBSEEKER/frontend/components/signUp.html';
+            } else {
+                window.location.href = `/JOBSEEKER/frontend/jobs.html?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
+            }
+        }
+
+        // --- INITIALIZATION ---
+        updateAuthState();
+        renderLatestJobs();
+        document.getElementById('hero-search-btn').addEventListener('click', handleHeroSearch);
+    });
 </script>
-
 </body>
+
 </html>
