@@ -8,305 +8,191 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9; /* bg-slate-100 */
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-blur {
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.3s ease;
-        }
-        
-        .chat-container {
-            height: calc(100vh - 128px); /* Full height minus nav and some padding */
-        }
-
-        .contact-item.active {
-            background-color: #eef2ff; /* indigo-50 */
-            border-right: 4px solid #6366f1; /* indigo-600 */
-        }
-        .contact-item:hover {
-            background-color: #f8fafc; /* slate-50 */
-        }
-
-        .message-sent {
-            background-color: #6366f1; /* indigo-600 */
-            color: white;
-        }
-
-        .message-received {
-            background-color: #e2e8f0; /* slate-200 */
-            color: #1e293b; /* slate-800 */
-        }
-        
-        /* Custom scrollbar for chat lists */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-blur { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid #e2e8f0; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease; }
+        .chat-container { height: calc(100vh - 128px); }
+        .contact-item.active { background-color: #eef2ff; border-right: 4px solid #6366f1; }
+        .contact-item:hover { background-color: #f8fafc; }
+        .message-sent { background-color: #6366f1; color: white; }
+        .message-received { background-color: #e2e8f0; color: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="text-slate-800">
 
-    <!-- Navigation -->
     <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
-                </div>
-                <div class="hidden md:block">
-                    <div id="desktop-menu" class="flex items-center space-x-8">
-                        <a href="/JOBSEEKER/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
-                        <a href="/JOBSEEKER/frontend/messages.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Messages</a>
-                        <a href="/JOBSEEKER/frontend/resources.html" class="gradient-text font-bold transition-colors">Resources</a>
-                        <a href="/JOBSEEKER/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
-                        <a href="/JOBSEEKER/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
-                            Post Job
-                        </a>
-                    </div>
-                </div>
-                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
+                <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
             </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-1">
-            <a href="jobs.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Jobs</a>
-            <a href="messages.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Messages</a>
-            <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 bg-indigo-50">Resources</a>
-            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">About</a>
-            <a href="/JOBSEEKER/frontend/components/post-job.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Post Job</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="bg-white rounded-2xl shadow-lg border border-slate-200 chat-container flex overflow-hidden">
             
-            <!-- Sidebar: Contact List -->
             <aside class="w-1/3 border-r border-slate-200 flex flex-col">
                 <div class="p-4 border-b border-slate-200">
                     <h2 class="text-xl font-bold text-slate-800">Conversations</h2>
-                    <div class="relative mt-4">
-                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" placeholder="Search contacts..." class="w-full pl-10 pr-4 py-2 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition">
-                    </div>
                 </div>
                 <div id="contact-list" class="flex-1 overflow-y-auto custom-scrollbar">
-                    <!-- Contact items will be dynamically inserted here -->
+                    <p class="p-4 text-slate-500">Loading conversations...</p>
                 </div>
             </aside>
 
-            <!-- Main Chat Window -->
-            <section id="chat-window" class="w-2/3 flex flex-col">
-                <!-- Chat Header, Messages Area, and Input will be dynamically inserted here -->
+            <section id="chat-window" class="w-2/3 flex flex-col items-center justify-center text-center">
+                <i class="fas fa-comments text-6xl text-slate-300 mb-4"></i>
+                <h2 class="text-2xl font-bold text-slate-600">Select a conversation</h2>
+                <p class="text-slate-400">Choose a contact from the left to start chatting.</p>
             </section>
         </div>
     </main>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DATA ---
-    // In a real application, this data would come from a server.
-    const conversations = [
-        {
-            id: 1,
-            name: 'Priya from InnovateHub',
-            avatar: 'https://placehold.co/100x100/764ba2/ffffff?text=I',
-            lastMessage: "Great! We'd love to schedule an interview...",
-            timestamp: '10:30 AM',
-            online: true,
-            messages: [
-                { sender: 'other', text: "Hi there! Thanks for your interest in the Product Manager role at InnovateHub. Your profile looks very promising.", time: "10:28 AM" },
-                { sender: 'me', text: "Thank you, Priya! I'm very excited about the opportunity. I've been following InnovateHub for a while and admire your work.", time: "10:29 AM" },
-                { sender: 'other', text: "Great! We'd love to schedule an interview. Are you available for a 30-minute call tomorrow afternoon?", time: "10:30 AM" }
-            ]
-        },
-        {
-            id: 2,
-            name: 'Rohan from TechCorp',
-            avatar: 'https://placehold.co/100x100/667eea/ffffff?text=T',
-            lastMessage: "Thanks for your application. We are reviewing it.",
-            timestamp: 'Yesterday',
-            online: false,
-            messages: [
-                 { sender: 'other', text: "Thanks for your application. We are reviewing it.", time: "Yesterday" }
-            ]
-        },
-        {
-            id: 3,
-            name: 'Anjali from DataStream',
-            avatar: 'https://placehold.co/100x100/34d399/ffffff?text=D',
-            lastMessage: "Can you please share your portfolio?",
-            timestamp: '2d ago',
-            online: true,
-            messages: [
-                { sender: 'other', text: "Can you please share your portfolio?", time: "2d ago" }
-            ]
-        }
-    ];
+    let activeContactId = null;
 
-    let activeConversationId = 1;
-
-    // --- DOM ELEMENTS ---
     const contactListEl = document.getElementById('contact-list');
     const chatWindowEl = document.getElementById('chat-window');
 
-    // --- FUNCTIONS ---
-
-    // Renders the entire list of contacts in the sidebar
-    function renderContactList() {
+    function renderContactList(conversations) {
         contactListEl.innerHTML = '';
+        if (conversations.length === 0) {
+            contactListEl.innerHTML = '<p class="p-4 text-slate-500">No conversations yet.</p>';
+            return;
+        }
+
         conversations.forEach(convo => {
-            const isActive = convo.id === activeConversationId;
+            const isActive = convo.contact_id == activeContactId;
             const contactHtml = `
-                <div class="contact-item ${isActive ? 'active' : ''} p-4 flex items-center cursor-pointer transition-colors border-t border-slate-100" data-id="${convo.id}">
-                    <img src="${convo.avatar}" alt="${convo.name}" class="w-12 h-12 rounded-full mr-4">
+                <div class="contact-item ${isActive ? 'active' : ''} p-4 flex items-center cursor-pointer transition-colors border-t border-slate-100" data-id="${convo.contact_id}">
+                    <img src="${convo.avatar}" alt="${convo.contact_name}" class="w-12 h-12 rounded-full mr-4">
                     <div class="flex-1 overflow-hidden">
                         <div class="flex justify-between">
-                            <h3 class="font-bold text-slate-800 truncate">${convo.name}</h3>
-                            <span class="text-xs text-slate-500 flex-shrink-0 ml-2">${convo.timestamp}</span>
+                            <h3 class="font-bold text-slate-800 truncate">${convo.contact_name}</h3>
+                            <span class="text-xs text-slate-500 flex-shrink-0 ml-2">${convo.timestamp_formatted}</span>
                         </div>
-                        <p class="text-sm text-slate-500 truncate">${convo.lastMessage}</p>
+                        <p class="text-sm text-slate-500 truncate">${convo.last_message}</p>
                     </div>
                 </div>
             `;
             contactListEl.insertAdjacentHTML('beforeend', contactHtml);
         });
 
-        // Add click listeners to each contact item
         document.querySelectorAll('.contact-item').forEach(item => {
             item.addEventListener('click', () => {
-                activeConversationId = parseInt(item.dataset.id);
-                renderAll();
+                const contactId = item.dataset.id;
+                if (activeContactId != contactId) {
+                    activeContactId = contactId;
+                    loadChat(activeContactId);
+                }
             });
         });
     }
 
-    // Renders the main chat window for the active conversation
-    function renderChatWindow() {
-        const convo = conversations.find(c => c.id === activeConversationId);
-        if (!convo) return;
-
-        const messagesHtml = convo.messages.map(msg => {
-            if (msg.sender === 'me') {
-                return `
-                    <div class="flex items-start justify-end">
-                        <div class="message-sent max-w-lg p-3 rounded-lg rounded-br-none">
-                            <p>${msg.text}</p>
-                            <span class="text-xs text-indigo-200 block text-left mt-1">${msg.time}</span>
-                        </div>
-                    </div>
-                `;
-            } else {
-                return `
-                    <div class="flex items-start">
-                        <div class="message-received max-w-lg p-3 rounded-lg rounded-bl-none">
-                            <p>${msg.text}</p>
-                            <span class="text-xs text-slate-500 block text-right mt-1">${msg.time}</span>
-                        </div>
-                    </div>
-                `;
-            }
+    function renderChatWindow(data) {
+        const messagesHtml = data.messages.map(msg => {
+            return msg.sender === 'me'
+                ? `<div class="flex items-start justify-end"><div class="message-sent max-w-lg p-3 rounded-lg rounded-br-none"><p>${msg.text}</p><span class="text-xs text-indigo-200 block text-left mt-1">${msg.time}</span></div></div>`
+                : `<div class="flex items-start"><div class="message-received max-w-lg p-3 rounded-lg rounded-bl-none"><p>${msg.text}</p><span class="text-xs text-slate-500 block text-right mt-1">${msg.time}</span></div></div>`;
         }).join('');
 
         const chatWindowHtml = `
-            <!-- Chat Header -->
             <div class="p-4 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
                 <div class="flex items-center">
-                    <img src="${convo.avatar}" alt="${convo.name}" class="w-10 h-10 rounded-full mr-4">
-                    <div>
-                        <h3 class="font-bold text-lg text-slate-800">${convo.name}</h3>
-                        ${convo.online ? `<p class="text-sm text-green-500 flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-1.5"></span>Online</p>` : `<p class="text-sm text-slate-400">Offline</p>`}
-                    </div>
+                    <img src="${data.contact_info.avatar}" alt="${data.contact_info.full_name}" class="w-10 h-10 rounded-full mr-4">
+                    <div><h3 class="font-bold text-lg text-slate-800">${data.contact_info.full_name}</h3></div>
                 </div>
-                <button class="text-slate-500 hover:text-slate-800">
-                    <i class="fas fa-ellipsis-v"></i>
-                </button>
             </div>
-            
-            <!-- Messages Area -->
-            <div class="flex-1 p-6 overflow-y-auto custom-scrollbar">
-                <div class="space-y-4">${messagesHtml}</div>
-            </div>
-
-            <!-- Message Input -->
+            <div id="messages-area" class="flex-1 p-6 overflow-y-auto custom-scrollbar"><div class="space-y-4">${messagesHtml}</div></div>
             <div class="p-4 border-t border-slate-200 bg-slate-50 flex-shrink-0">
-                <div class="relative flex items-center">
-                    <input id="message-input" type="text" placeholder="Type your message here..." class="w-full pr-20 py-3 px-4 rounded-full border-2 border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition">
-                    <button class="absolute right-2 btn-primary h-10 w-10 rounded-full text-white flex items-center justify-center">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
+                <form id="message-form" class="relative flex items-center">
+                    <input id="message-input" type="text" placeholder="Type your message here..." class="w-full pr-20 py-3 px-4 rounded-full border-2 border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition" autocomplete="off">
+                    <button type="submit" class="absolute right-2 btn-primary h-10 w-10 rounded-full text-white flex items-center justify-center"><i class="fas fa-paper-plane"></i></button>
+                </form>
             </div>
         `;
         chatWindowEl.innerHTML = chatWindowHtml;
+
+        const messagesArea = document.getElementById('messages-area');
+        if(messagesArea) messagesArea.scrollTop = messagesArea.scrollHeight;
+
+        document.getElementById('message-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('message-input');
+            const messageText = input.value.trim();
+            if (messageText && activeContactId) {
+                await sendMessage(activeContactId, messageText);
+                input.value = '';
+                // UPDATED LINE: Changed 'false' to 'true' to refresh the conversation list
+                await loadChat(activeContactId, true); 
+            }
+        });
+    }
+
+    async function loadConversations() {
+        try {
+            const response = await fetch('/JOBSEEKER/backend/get_conversations.php');
+            const data = await response.json();
+            if (data.success) {
+                renderContactList(data.conversations);
+            } else {
+                contactListEl.innerHTML = '<p class="p-4 text-red-500">' + data.message + '</p>';
+            }
+        } catch (error) {
+            contactListEl.innerHTML = '<p class="p-4 text-red-500">Error loading conversations.</p>';
+        }
+    }
+
+    async function loadChat(contactId, refreshContacts = true) {
+        if (refreshContacts) {
+            await loadConversations();
+        }
+        chatWindowEl.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-slate-500">Loading chat...</p></div>';
+        try {
+            const response = await fetch(`/JOBSEEKER/backend/get_chat_messages.php?contact_id=${contactId}`);
+            const data = await response.json();
+            if (data.success) {
+                renderChatWindow(data);
+            } else {
+                chatWindowEl.innerHTML = '<div class="flex items-center justify-center h-full"><p class="p-4 text-red-500">' + data.message + '</p></div>';
+            }
+        } catch (error) {
+            chatWindowEl.innerHTML = '<div class="flex items-center justify-center h-full"><p class="p-4 text-red-500">Error loading chat.</p></div>';
+        }
     }
     
-    // Renders both the contact list and the chat window
-    function renderAll() {
-        renderContactList();
-        renderChatWindow();
+    async function sendMessage(recipientId, messageText) {
+        try {
+            await fetch('/JOBSEEKER/backend/send_message.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipient_id: recipientId, message_text: messageText })
+            });
+        } catch (error) {
+            console.error("Failed to send message:", error);
+        }
     }
 
-    // --- INITIALIZATION LOGIC ---
-
-    // Check URL for parameters to link from job-detail page
-    function handleUrlParams() {
+    async function initialize() {
+        await loadConversations();
         const urlParams = new URLSearchParams(window.location.search);
-        const contactId = urlParams.get('contactId');
-        const jobTitle = urlParams.get('jobTitle');
-
-        if (contactId) {
-            const id = parseInt(contactId);
-            // Find if conversation exists
-            const existingConvo = conversations.find(c => c.id === id);
-            if (existingConvo) {
-                activeConversationId = id;
-            }
-        }
-        
-        renderAll();
-
-        // If a job title is passed, pre-fill the message input
-        if (jobTitle) {
-            const messageInput = document.getElementById('message-input');
-            if(messageInput) {
-                messageInput.value = `Hello, I'm interested in the "${jobTitle}" position.`;
-                messageInput.focus();
-            }
+        const contactIdFromUrl = urlParams.get('contactId');
+        if (contactIdFromUrl) {
+            activeContactId = contactIdFromUrl;
+            await loadChat(activeContactId, false);
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.id == activeContactId);
+            });
         }
     }
 
-    handleUrlParams();
+    initialize();
 });
 </script>
 </body>

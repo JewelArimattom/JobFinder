@@ -11,11 +11,26 @@
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .nav-blur { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
-        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease; }
-        .status-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-        .status-applied { background-color: #eff6ff; color: #3b82f6; }
-        .status-viewed { background-color: #fefce8; color: #ca8a04; }
-        .status-rejected { background-color: #fee2e2; color: #ef4444; }
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -5px;
+            width: 10px;
+            height: 10px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-applied { background-color: #e0e7ff; color: #3730a3; }
+        .status-viewed { background-color: #dbeafe; color: #1d4ed8; }
+        .status-rejected { background-color: #fee2e2; color: #991b1b; }
     </style>
 </head>
 <body>
@@ -25,7 +40,7 @@
                 <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
                 <div class="hidden md:block">
                     <div id="nav-links" class="flex items-center space-x-8">
-                        <a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                         <!-- Nav links will be dynamically added here -->
                     </div>
                 </div>
             </div>
@@ -36,19 +51,20 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <header class="bg-white rounded-2xl shadow-sm p-8 mb-8">
                 <div class="flex items-center space-x-6">
-                    <div id="profile-avatar" class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
-                        </div>
+                    <div id="user-avatar" class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
+                    </div>
                     <div>
-                        <h1 id="profile-name" class="text-4xl font-black text-slate-900">Loading...</h1>
-                        <p id="profile-email" class="text-lg text-slate-500 mt-1">Please wait</p>
+                        <h1 id="user-name" class="text-4xl font-black text-slate-900">Loading...</h1>
+                        <p id="user-email" class="text-lg text-slate-500 mt-1">Please wait</p>
                     </div>
                 </div>
             </header>
 
-            <div>
-                <h2 class="text-3xl font-bold text-slate-800 mb-6">My Job Applications</h2>
-                <div id="applied-jobs-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 border-b pb-3 mb-4">My Applied Jobs</h3>
+                <div id="applied-jobs-container" class="space-y-4">
+                    <p class="text-slate-500">Loading your applied jobs...</p>
+                </div>
             </div>
         </div>
     </main>
@@ -58,29 +74,44 @@
         const navLinksContainer = document.getElementById('nav-links');
 
         async function updateAuthState() {
-            // This is the same auth script from your index page to show Login/Logout
-            // It ensures the navbar is consistent
             try {
-                const response = await fetch('../backend/check_auth.php');
-                const authData = await response.json();
+                const authResponse = await fetch('../backend/check_auth.php');
+                const authData = await authResponse.json();
+                
+                let navHtml = '<a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>';
 
                 if (authData.loggedin) {
-                    navLinksContainer.innerHTML += `
+                    const isEmployer = authData.roles.includes('employer');
+                    const profileLink = isEmployer ? 'employer_profile.html' : 'profile.html';
+
+                    const messagesResponse = await fetch('../backend/check_new_messages.php');
+                    const messagesData = await messagesResponse.json();
+                    
+                    if (messagesData.success && messagesData.has_new_messages) {
+                        navHtml += `<a href="/JOBSEEKER/frontend/components/message.html" class="relative text-slate-600 hover:text-slate-900 font-medium transition-colors">Messages<span class="notification-dot"></span></a>`;
+                    } else if (!isEmployer) {
+                         navHtml += '<a href="/JOBSEEKER/frontend/components/message.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Messages</a>';
+                    }
+
+                    navHtml += `
                         <div class="relative" id="profile-menu-container">
                             <button id="profile-menu-button" class="flex items-center focus:outline-none">
                                 <img src="https://img.icons8.com/?size=100&id=7819&format=png&color=000000" alt="User Avatar" class="w-10 h-10 rounded-full">
                             </button>
                             <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50">
-                                <a href="profile.html" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">My Profile</a>
+                                <a href="${profileLink}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">My Profile</a>
                                 <a href="../backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Logout</a>
                             </div>
                         </div>`;
+                    
+                    navLinksContainer.innerHTML = navHtml;
                     addDropdownListeners();
+                    fetchProfileData(); 
                 } else {
-                    window.location.href = '/JOBSEEKER/frontend/components/signUp.html'; // Redirect if not logged in
+                    window.location.href = 'login.html';
                 }
             } catch (error) {
-                 window.location.href = '/JOBSEEKER/frontend/components/signUp.html';
+                 window.location.href = 'login.html';
             }
         }
 
@@ -96,65 +127,72 @@
         }
 
         async function fetchProfileData() {
-            const container = document.getElementById('applied-jobs-container');
-            const nameEl = document.getElementById('profile-name');
-            const emailEl = document.getElementById('profile-email');
-            const avatarEl = document.getElementById('profile-avatar');
+            const nameEl = document.getElementById('user-name');
+            const emailEl = document.getElementById('user-email');
+            const avatarEl = document.getElementById('user-avatar');
+            const jobsContainer = document.getElementById('applied-jobs-container');
 
             try {
-                const response = await fetch('../backend/get_profile_data.php');
+                // Single fetch call to the consolidated PHP script
+                const response = await fetch('../backend/get_profile_data.php'); 
                 const data = await response.json();
 
-                if (!data.success || !data.user) {
+                if (!data.success) {
                     throw new Error(data.message || 'Could not load profile data.');
                 }
-                
-                // --- Populate Profile Header ---
-                nameEl.textContent = data.user.full_name;
-                emailEl.textContent = data.user.email;
-                avatarEl.textContent = data.user.full_name.charAt(0).toUpperCase();
 
-                // --- Populate Applied Jobs ---
+                // Populate User Profile Header
+                if (data.user) {
+                    nameEl.textContent = data.user.full_name;
+                    emailEl.textContent = data.user.email;
+                    avatarEl.textContent = data.user.full_name.charAt(0).toUpperCase();
+                } else {
+                     throw new Error('User data not found in response.');
+                }
+
+                // Populate Applied Jobs
                 if (data.applications.length === 0) {
-                    container.innerHTML = `<p class="text-slate-500 col-span-full text-center py-8">You haven't applied for any jobs yet.</p>`;
+                    jobsContainer.innerHTML = '<p class="text-slate-500">You have not applied to any jobs yet.</p>';
                     return;
                 }
 
-                container.innerHTML = ''; // Clear loading state
-                data.applications.forEach(app => {
-                    const statusClass = `status-${app.status.toLowerCase()}`;
-                    const logoSrc = (app.logo && !app.logo.endsWith('/')) ? app.logo : `https://placehold.co/100x100/e2e8f0/64748b?text=${app.company.charAt(0)}&font=inter`;
+                jobsContainer.innerHTML = ''; // Clear the loading text
+                data.applications.forEach(job => {
+                    let statusClass = '';
+                    switch (job.status.toLowerCase()) {
+                        case 'viewed':
+                            statusClass = 'status-viewed';
+                            break;
+                        case 'rejected':
+                            statusClass = 'status-rejected';
+                            break;
+                        default:
+                            statusClass = 'status-applied';
+                    }
 
-                    const card = `
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/50 flex flex-col">
-                        <div class="flex items-start space-x-4 mb-4">
-                            <img src="${logoSrc}" alt="${app.company}" class="w-12 h-12 rounded-xl object-contain">
+                    const jobHtml = `
+                        <div class="border border-slate-200 p-4 rounded-lg flex items-center justify-between">
                             <div>
-                                <h3 class="font-bold text-slate-800 text-lg">${app.title}</h3>
-                                <p class="text-slate-600">${app.company}</p>
+                                <h4 class="font-bold text-slate-800">${job.title}</h4>
+                                <p class="text-sm text-slate-600">${job.company} - ${job.location}</p>
+                                <p class="text-xs text-slate-400 mt-1">Applied on: ${job.application_date_formatted}</p>
+                            </div>
+                            <div>
+                                <span class="status-badge ${statusClass}">${job.status}</span>
                             </div>
                         </div>
-                        <div class="flex-grow space-y-3 text-sm text-slate-600 mb-6">
-                           <p><i class="fas fa-map-marker-alt w-4 mr-2 text-slate-400"></i>${app.location}</p>
-                           <p><i class="fas fa-calendar-alt w-4 mr-2 text-slate-400"></i>Applied on ${app.application_date_formatted}</p>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center">
-                            <span class="status-badge ${statusClass}">${app.status}</span>
-                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-semibold text-sm">View Job</a>
-                        </div>
-                    </div>
                     `;
-                    container.insertAdjacentHTML('beforeend', card);
+                    jobsContainer.insertAdjacentHTML('beforeend', jobHtml);
                 });
 
-
-            } catch (error) {
-                container.innerHTML = `<p class="text-red-500 col-span-full text-center py-8">Error: ${error.message}</p>`;
+            } catch(error) {
+                nameEl.textContent = 'Error';
+                emailEl.textContent = error.message;
+                jobsContainer.innerHTML = `<p class="text-red-500">Could not load applied jobs.</p>`;
             }
         }
 
         updateAuthState();
-        fetchProfileData();
     });
     </script>
 </body>

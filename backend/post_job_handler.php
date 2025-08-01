@@ -1,22 +1,25 @@
 <?php
+// --- ADDED: Start session to access logged-in user data ---
+session_start();
+
 // --- DATABASE CONFIGURATION ---
 $servername = "127.0.0.1";
 $username = "root";
 $password = "";
-$dbname = "jobfinder"; // Corrected database name
+$dbname = "jobfinder";
 
 // --- FILE UPLOAD CONFIGURATION ---
-// Corrected path relative to this script's location (backend/)
-$upload_dir = "../frontend/uploads/"; 
+$upload_dir = "../frontend/uploads/";
 
 // --- SCRIPT LOGIC ---
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 function show_message($title, $message, $is_success = true) {
     $icon = $is_success ? 'fa-check-circle text-green-500' : 'fa-exclamation-triangle text-red-500';
-    $button_text = $is_success ? 'View All Jobs' : 'Try Again';
-    // Corrected links to match file structure
-    $button_link = $is_success ? '/JOBSEEKER/frontend/jobs.html' : '/JOBSEEKER/frontend/post-job.html';
+    $button_text = $is_success ? 'View Dashboard' : 'Try Again';
+    // --- UPDATED: Links point to more relevant employer pages ---
+    $button_link = $is_success ? '/JOBSEEKER/frontend/employer_profile.html' : 'javascript:history.back()';
+    $post_another_link = '/JOBSEEKER/frontend/components/postJobs.html';
 
     echo <<<HTML
 <!DOCTYPE html>
@@ -50,7 +53,7 @@ function show_message($title, $message, $is_success = true) {
             <p class="text-slate-600 mt-4 text-lg">$message</p>
             <div class="mt-8 flex justify-center gap-4">
                 <a href="$button_link" class="btn-primary text-white font-bold px-8 py-3 rounded-xl">$button_text</a>
-                <a href="/JOBSEEKER/frontend/post-job.html" class="bg-slate-200 text-slate-700 font-bold px-8 py-3 rounded-xl hover:bg-slate-300 transition-colors">Post Another Job</a>
+                <a href="$post_another_link" class="bg-slate-200 text-slate-700 font-bold px-8 py-3 rounded-xl hover:bg-slate-300 transition-colors">Post Another Job</a>
             </div>
         </div>
     </main>
@@ -60,28 +63,33 @@ HTML;
 }
 
 try {
+    // --- ADDED: Authentication and Role Check ---
+    if (!isset($_SESSION['user_id']) || !in_array('employer', $_SESSION['roles'] ?? [])) {
+        throw new Exception("Access Denied. You must be logged in as an employer to post a job.");
+    }
+    // Get the employer's ID from the session
+    $employer_id = (int)$_SESSION['user_id'];
+
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-        // Handle custom job category
+
+        // ... (form handling for category and deadline remains the same)
         $job_category = $_POST['job_category'];
         if ($job_category === 'other' && !empty($_POST['other_category'])) {
             $job_category = $_POST['other_category'];
         }
-
         $application_deadline = !empty($_POST['application_deadline']) ? $_POST['application_deadline'] : null;
-        
+
+        // ... (file upload logic remains the same)
         $company_logo_path = '';
         if (isset($_FILES['company_logo']) && $_FILES['company_logo']['error'] == 0) {
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
-            
             $file_extension = pathinfo($_FILES['company_logo']['name'], PATHINFO_EXTENSION);
             $unique_filename = uniqid('logo_', true) . '.' . $file_extension;
             $target_file = $upload_dir . $unique_filename;
-
             if (move_uploaded_file($_FILES['company_logo']['tmp_name'], $target_file)) {
                 $company_logo_path = $target_file;
             } else {
@@ -89,17 +97,21 @@ try {
             }
         }
 
+        // --- UPDATED: Added employer_id to the INSERT statement ---
         $stmt = $conn->prepare(
-            "INSERT INTO jobs (job_title, job_category, location, job_type, experience_level, openings, application_deadline, salary_min, salary_max, salary_unit, description, skills, company_name, company_website, company_logo_path, recruiter_name, recruiter_email) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            "INSERT INTO jobs (employer_id, job_title, job_category, location, job_type, experience_level, openings, application_deadline, salary_min, salary_max, salary_unit, description, skills, company_name, company_website, company_logo_path, recruiter_name, recruiter_email)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
-        
+
+        // --- UPDATED: Added employer_id to the bind_param call ---
+        // The type string now starts with 'i' for the integer employer_id
         $stmt->bind_param(
-            "sssssisssssssssss", 
-            $_POST['job_title'], $job_category, $_POST['location'], $_POST['job_type'], 
-            $_POST['experience_level'], $_POST['openings'], $application_deadline, 
-            $_POST['salary_min'], $_POST['salary_max'], $_POST['salary_unit'], 
-            $_POST['description'], $_POST['skills'], $_POST['company_name'], 
+            "isssssisssssssssss",
+            $employer_id, // Binding the employer's ID
+            $_POST['job_title'], $job_category, $_POST['location'], $_POST['job_type'],
+            $_POST['experience_level'], $_POST['openings'], $application_deadline,
+            $_POST['salary_min'], $_POST['salary_max'], $_POST['salary_unit'],
+            $_POST['description'], $_POST['skills'], $_POST['company_name'],
             $_POST['company_website'], $company_logo_path, $_POST['recruiter_name'], $_POST['recruiter_email']
         );
 

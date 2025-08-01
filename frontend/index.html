@@ -496,29 +496,41 @@
         const navLinksContainer = document.getElementById('nav-links');
 
         /**
-         * Checks login status by calling the backend.
+         * Checks login status and updates the navigation bar based on user role.
          */
         async function updateAuthState() {
             try {
+                // --- Rebuild base navigation links ---
+                navLinksContainer.innerHTML = `
+                    <a href="jobs.html" class="protected-link text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
+                    <a href="#" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
+                    <a href="resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
+                    <a href="about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                `;
+
                 const response = await fetch('../backend/check_auth.php');
                 const authData = await response.json();
                 isUserLoggedIn = authData.loggedin;
 
                 if (isUserLoggedIn) {
-                    const userIsEmployer = authData.roles && authData.roles.includes('employer');
-                    let postJobButton = userIsEmployer
-                        ? `<a href="/JOBSEEKER/frontend/components/post-job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>`
-                        : '';
+                    const isEmployer = authData.roles && authData.roles.includes('employer');
+                    // --- UPDATED: Dynamic link to the correct profile page ---
+                    const profileLink = isEmployer ? 'employer_profile.html' : 'profile.html';
 
+                    // Conditionally add "Post Job" link for employers
+                    if (isEmployer) {
+                        navLinksContainer.innerHTML += `<a href="/JOBSEEKER/frontend/components/post-Job.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Post Job</a>`;
+                    }
+                    
+                    // --- UPDATED: Profile dropdown with dynamic avatar and profile link ---
                     const profileDropdownHTML = `
-                        ${postJobButton}
                         <div class="relative" id="profile-menu-container">
                             <button id="profile-menu-button" class="flex items-center focus:outline-none">
-                                <img src="https://img.icons8.com/?size=100&id=7819&format=png&color=000000" alt="User Avatar" class="w-8 h-8 rounded-full border-2 border-transparent hover:border-indigo-400 transition-colors">
+                                <img src="https://img.icons8.com/?size=100&id=7819&format=png&color=000000" alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-transparent hover:border-indigo-400 transition-colors">
                             </button>
                             <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50 ring-1 ring-black ring-opacity-5">
                                 <div class="py-1">
-                                    <a href="profile.html" class="protected-link block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">My Profile</a>
+                                    <a href="${profileLink}" class="protected-link block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">My Profile</a>
                                     <a href="/JOBSEEKER/backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Logout</a>
                                 </div>
                             </div>
@@ -528,14 +540,16 @@
                     addDropdownListeners();
 
                 } else {
-                    navLinksContainer.innerHTML += `
-                        <a href="/JOBSEEKER/frontend/components/post-job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>
-                        <a href="/JOBSEEKER/frontend/components/signUp.html" class="font-semibold text-slate-600 hover:text-slate-900">Login</a>`;
+                    // Not logged in: Show Post Job button and Login link
+                    navLinksContainer.insertAdjacentHTML('beforeend', `
+                        <a href="/JOBSEEKER/frontend/components/post-Job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>
+                        <a href="/JOBSEEKER/frontend/components/signUp.html" class="font-semibold text-slate-600 hover:text-slate-900">Login</a>`);
                 }
             } catch (error) {
                 console.error("Auth check failed:", error);
                 isUserLoggedIn = false;
-                navLinksContainer.innerHTML += `<a href="/JOBSEEKER/frontend/components/signUp.html" class="font-semibold text-slate-600 hover:text-slate-900">Login</a>`;
+                // Fallback for logged-out state
+                navLinksContainer.insertAdjacentHTML('beforeend', `<a href="/JOBSEEKER/frontend/components/signUp.html" class="font-semibold text-slate-600 hover:text-slate-900">Login</a>`);
             }
             protectLinks();
         }
@@ -550,34 +564,28 @@
 
             if (!menuButton || !dropdown || !container) return;
 
-            // --- UPDATED LOGIC WITH DELAY ---
-            let hideTimeout; // Variable to hold the timer
+            let hideTimeout; 
 
-            // Show dropdown on mouse enter
             container.addEventListener('mouseenter', () => {
-                clearTimeout(hideTimeout); // Cancel any pending hide action
+                clearTimeout(hideTimeout);
                 dropdown.classList.remove('hidden');
             });
 
-            // Set a timer to hide the dropdown on mouse leave
             container.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => {
                     dropdown.classList.add('hidden');
-                }, 300); // 300ms delay
+                }, 300);
             });
-            // --- END OF UPDATED LOGIC ---
 
-            // Toggle dropdown on button click (for mobile/accessibility)
             menuButton.addEventListener('click', (event) => {
                 event.stopPropagation();
                 const isHidden = dropdown.classList.contains('hidden');
                 if (isHidden) {
-                     clearTimeout(hideTimeout); // If we click to open, cancel any pending hide
+                     clearTimeout(hideTimeout);
                 }
                 dropdown.classList.toggle('hidden');
             });
 
-            // Hide dropdown if clicked outside
             window.addEventListener('click', (event) => {
                 if (!container.contains(event.target)) {
                     dropdown.classList.add('hidden');
@@ -590,11 +598,10 @@
          */
         function protectLinks() {
             document.querySelectorAll('.protected-link').forEach(link => {
-                link.replaceWith(link.cloneNode(true));
-            });
-            
-            document.querySelectorAll('.protected-link').forEach(link => {
-                link.addEventListener('click', (event) => {
+                const newLink = link.cloneNode(true);
+                link.parentNode.replaceChild(newLink, link);
+                
+                newLink.addEventListener('click', (event) => {
                     if (!isUserLoggedIn) {
                         event.preventDefault();
                         window.location.href = '/JOBSEEKER/frontend/components/signUp.html';

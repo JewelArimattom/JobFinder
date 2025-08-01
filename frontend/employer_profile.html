@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Dashboard - JobFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-blur { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease; }
+    </style>
+</head>
+<body>
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                <div class="hidden md:block">
+                    <div id="nav-links" class="flex items-center space-x-8">
+                         </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <header class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                <div class="flex items-center space-x-6">
+                    <div id="employer-avatar" class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
+                        </div>
+                    <div>
+                        <h1 id="employer-name" class="text-4xl font-black text-slate-900">Loading...</h1>
+                        <p id="employer-email" class="text-lg text-slate-500 mt-1">Please wait</p>
+                    </div>
+                </div>
+            </header>
+
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-slate-800">Your Posted Jobs</h2>
+                    <a href="components/postJobs.html" class="btn-primary text-white font-bold px-6 py-2 rounded-lg">Post New Job</a>
+                </div>
+                <div id="posted-jobs-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinksContainer = document.getElementById('nav-links');
+
+        // This is a generic auth script you can reuse on all pages
+        async function updateAuthState() {
+            try {
+                const response = await fetch('../backend/check_auth.php');
+                const authData = await response.json();
+                
+                navLinksContainer.innerHTML = `<a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>`;
+
+                if (authData.loggedin) {
+                    const isEmployer = authData.roles.includes('employer');
+                    const profileLink = isEmployer ? 'employer_profile.html' : 'profile.html';
+
+                    if (isEmployer) {
+                        navLinksContainer.innerHTML += `<a href="components/postJobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Post Job</a>`;
+                    }
+
+                    navLinksContainer.innerHTML += `
+                        <div class="relative" id="profile-menu-container">
+                            <button id="profile-menu-button" class="flex items-center focus:outline-none">
+                                <img src="https://img.icons8.com/?size=100&id=7819&format=png&color=000000" alt="User Avatar" class="w-10 h-10 rounded-full">
+                            </button>
+                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50">
+                                <a href="${profileLink}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">My Profile</a>
+                                <a href="../backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Logout</a>
+                            </div>
+                        </div>`;
+                    addDropdownListeners();
+                } else {
+                    // Corrected the redirection path here
+                    window.location.href = 'signUp.html'; 
+                }
+            } catch (error) {
+                 // Corrected the redirection path here as well
+                 window.location.href = 'signUp.html';
+            }
+        }
+
+        function addDropdownListeners() {
+            const menuButton = document.getElementById('profile-menu-button');
+            const dropdown = document.getElementById('profile-dropdown');
+            if (menuButton && dropdown) {
+                 menuButton.addEventListener('click', () => dropdown.classList.toggle('hidden'));
+                 window.addEventListener('click', e => {
+                    if (!menuButton.contains(e.target)) dropdown.classList.add('hidden');
+                });
+            }
+        }
+
+        async function fetchEmployerData() {
+            const container = document.getElementById('posted-jobs-container');
+            const nameEl = document.getElementById('employer-name');
+            const emailEl = document.getElementById('employer-email');
+            const avatarEl = document.getElementById('employer-avatar');
+
+            try {
+                const response = await fetch('../backend/get_employer_profile.php');
+                if (!response.ok) {
+                    throw new Error('You are not authorized to view this page.');
+                }
+                const data = await response.json();
+
+                if (!data.success || !data.employer) {
+                    throw new Error(data.message || 'Could not load profile data.');
+                }
+                
+                nameEl.textContent = data.employer.full_name;
+                emailEl.textContent = data.employer.email;
+                avatarEl.textContent = data.employer.full_name.charAt(0).toUpperCase();
+
+                if (data.posted_jobs.length === 0) {
+                    container.innerHTML = `<p class="text-slate-500 col-span-full text-center py-8">You haven't posted any jobs yet.</p>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                data.posted_jobs.forEach(job => {
+                    const card = `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/50">
+                        <h3 class="font-bold text-slate-800 text-lg">${job.job_title}</h3>
+                        <p class="text-slate-500 text-sm mb-4"><i class="fas fa-map-marker-alt mr-1"></i> ${job.location}</p>
+                        <div class="space-y-2 text-sm text-slate-600">
+                            <p><strong>Posted:</strong> ${job.posted_date_formatted}</p>
+                            <p><strong>Applications:</strong> <span class="font-bold text-indigo-600">${job.application_count}</span></p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-100">
+                            <a href="components/view_applications.html?job_id=${job.id}" class="text-indigo-600 hover:text-indigo-800 font-semibold text-sm">View Applications <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>`;
+                    container.insertAdjacentHTML('beforeend', card);
+                });
+            } catch (error) {
+                container.innerHTML = `<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 col-span-full" role="alert"><p class="font-bold">Access Denied</p><p>${error.message}</p></div>`;
+            }
+        }
+
+        updateAuthState();
+        fetchEmployerData();
+    });
+    </script>
+</body>
+</html>
