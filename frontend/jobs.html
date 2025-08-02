@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Jobs - JobFinder</title>
+    <title>Find Jobs - CareerBridge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9; /* bg-slate-100 */
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #cbd5e1; /* slate-300 */
         }
         
         .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a7b2f5 0%, #cda3f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -22,14 +23,13 @@
 
         .nav-blur {
             backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid #e2e8f0;
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
@@ -37,225 +37,221 @@
         }
 
         .job-card {
-            background: white;
-            border: 1px solid #e2e8f0; /* slate-200 */
-            border-radius: 1.5rem; /* rounded-3xl */
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background: #1e293b; /* bg-slate-800 */
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
             opacity: 0;
             transform: translateY(20px);
             animation: card-fade-in 0.5s ease forwards;
         }
-
-        @keyframes card-fade-in {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        
+        .job-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
         }
 
+        .job-card:hover::before { transform: translateX(0); }
         .job-card:hover {
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-            border-color: #818cf8; /* indigo-400 */
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.2);
         }
+
+        @keyframes card-fade-in { to { opacity: 1; transform: translateY(0); } }
 
         .filter-section {
-            background: white;
+            background: #1e293b;
             border-radius: 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .search-input {
-            border: 2px solid #e2e8f0;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid #334155; /* slate-700 */
             transition: all 0.3s ease;
+            color: white;
         }
+        .search-input::placeholder { color: #64748b; }
         .search-input:focus {
-            border-color: #6366f1; /* indigo-600 */
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            background: #0f172a;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
             outline: none;
         }
 
+        .custom-checkbox {
+            appearance: none;
+            background-color: #334155;
+            border: 2px solid #475569;
+            border-radius: 0.375rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
         .custom-checkbox:checked {
             background-color: #6366f1;
             border-color: #6366f1;
         }
+        .custom-checkbox:checked::after {
+            content: '\\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: white;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.75rem;
+        }
+        .custom-checkbox + label {
+            cursor: pointer;
+            color: #94a3b8; /* slate-400 */
+            transition: color 0.2s ease;
+        }
         .custom-checkbox:checked + label {
             font-weight: 600;
-            color: #1e293b; /* slate-800 */
+            color: #f1f5f9; /* slate-100 */
         }
         
         .pagination-btn {
             transition: all 0.2s ease;
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            color: #94a3b8;
+        }
+        .pagination-btn:hover:not(:disabled) {
+            border-color: #6366f1;
+            color: white;
         }
         .pagination-btn.active {
-            background-color: #6366f1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             font-weight: 700;
+            border-color: transparent;
+        }
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         .skeleton {
-            background-color: #e2e8f0;
+            background-color: #334155; /* slate-700 */
             border-radius: 0.5rem;
             animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
-        @keyframes pulse {
-            50% {
-                opacity: .5;
-            }
-        }
+        @keyframes pulse { 50% { opacity: .6; } }
 
     </style>
 </head>
-<body class="text-slate-800">
+<body class="text-slate-300">
 
-    <!-- Navigation -->
     <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                    <a href="index.html" class="text-2xl font-black gradient-text">CareerBridge</a>
                 </div>
                 <div class="hidden md:block">
                     <div class="flex items-center space-x-8">
-                        <a href="/JOBSEEKER/frontend/jobs.html" class="gradient-text font-bold transition-colors">Jobs</a>
-                        <a href="#" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Companies</a>
-                        <a href="/JOBSEEKER/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
-                        <a href="/JOBSEEKER/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
+                        <a href="jobs.html" class="gradient-text font-bold">Jobs</a>
+                        <a href="#" class="text-slate-400 hover:text-white font-medium">Companies</a>
+                        <a href="resources.html" class="text-slate-400 hover:text-white font-medium">Resources</a>
+                        <a href="about.html" class="text-slate-400 hover:text-white font-medium">About</a>
                         <a href="/JOBSEEKER/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
                             Post Job
                         </a>
                     </div>
                 </div>
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-400 hover:bg-slate-700">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-1">
-            <a href="/JOBSEEKER/frontend/jobs.html" class="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 bg-indigo-50">Jobs</a>
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Companies</a>
-            <a href="/JOBSEEKER/frontend/resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Resources</a>
-            <a href="/JOBSEEKER/frontend/about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">About</a>
-            <a href="/JOBSEEKER/frontend/post-job.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50">Post Job</a>
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-1 border-t border-slate-700">
+            <a href="jobs.html" class="block px-3 py-2 rounded-md font-medium text-indigo-400 bg-slate-800">Jobs</a>
+            <a href="#" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">Companies</a>
+            <a href="resources.html" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">Resources</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">About</a>
+            <a href="/JOBSEEKER/frontend/components/post-job.html" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">Post Job</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid lg:grid-cols-4 gap-8">
             
-            <!-- Filters Sidebar -->
             <aside class="lg:col-span-1 h-fit lg:sticky top-24">
                 <div class="filter-section p-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-bold text-slate-900">Search & Filters</h3>
-                        <button id="clear-filters-btn" class="text-sm font-semibold text-indigo-600 hover:underline">Clear All</button>
+                        <h3 class="text-xl font-bold text-slate-100">Search & Filters</h3>
+                        <button id="clear-filters-btn" class="text-sm font-semibold text-indigo-400 hover:underline">Clear All</button>
                     </div>
                     
                     <div class="mb-6">
-                        <label for="keyword-search" class="block text-sm font-semibold text-slate-700 mb-2">Keyword</label>
+                        <label for="keyword-search" class="block text-sm font-semibold text-slate-300 mb-2">Keyword</label>
                         <div class="relative">
-                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="keyword-search" placeholder="Job title or skill" class="search-input w-full pl-10 pr-4 py-2.5 rounded-xl">
+                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
+                            <input type="text" id="keyword-search" placeholder="Job title or skill" class="search-input w-full pl-12 pr-4 py-3 rounded-xl">
                         </div>
                     </div>
                     
                     <div class="mb-6">
-                        <label for="location-search" class="block text-sm font-semibold text-slate-700 mb-2">Location</label>
+                        <label for="location-search" class="block text-sm font-semibold text-slate-300 mb-2">Location</label>
                         <div class="relative">
-                            <i class="fas fa-map-marker-alt absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="location-search" placeholder="City or state" class="search-input w-full pl-10 pr-4 py-2.5 rounded-xl">
+                            <i class="fas fa-map-marker-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
+                            <input type="text" id="location-search" placeholder="City or state" class="search-input w-full pl-12 pr-4 py-3 rounded-xl">
                         </div>
                     </div>
 
-                    <div class="mb-6 border-t border-slate-200 pt-6">
-                        <h4 class="font-bold text-slate-800 mb-3">Job Type</h4>
-                        <div class="space-y-2">
-                            <div class="flex items-center">
-                                <input type="checkbox" id="type-full-time" value="Full-time" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                                <label for="type-full-time" class="ml-3 text-slate-600">Full-time</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="type-contract" value="Contract" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                                <label for="type-contract" class="ml-3 text-slate-600">Contract</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="type-internship" value="Internship" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                                <label for="type-internship" class="ml-3 text-slate-600">Internship</label>
-                            </div>
+                    <div class="mb-6 border-t border-slate-700 pt-6">
+                        <h4 class="font-bold text-slate-100 mb-3">Job Type</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center"><input type="checkbox" id="type-full-time" value="Full-time" class="custom-checkbox"><label for="type-full-time" class="ml-3">Full-time</label></div>
+                            <div class="flex items-center"><input type="checkbox" id="type-contract" value="Contract" class="custom-checkbox"><label for="type-contract" class="ml-3">Contract</label></div>
+                            <div class="flex items-center"><input type="checkbox" id="type-internship" value="Internship" class="custom-checkbox"><label for="type-internship" class="ml-3">Internship</label></div>
                         </div>
                     </div>
 
-                    <div class="mb-6 border-t border-slate-200 pt-6">
-                        <h4 class="font-bold text-slate-800 mb-3">Experience Level</h4>
-                         <div class="space-y-2">
-                            <div class="flex items-center">
-                                <input type="checkbox" id="exp-entry" value="Entry Level" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                                <label for="exp-entry" class="ml-3 text-slate-600">Entry Level</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="exp-mid" value="Mid-Level" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                                <label for="exp-mid" class="ml-3 text-slate-600">Mid-Level</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="exp-senior" value="Senior Level" class="custom-checkbox h-5 w-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                                <label for="exp-senior" class="ml-3 text-slate-600">Senior Level</label>
-                            </div>
+                    <div class="border-t border-slate-700 pt-6">
+                        <h4 class="font-bold text-slate-100 mb-3">Experience Level</h4>
+                         <div class="space-y-3">
+                            <div class="flex items-center"><input type="checkbox" id="exp-entry" value="Entry Level" class="custom-checkbox"><label for="exp-entry" class="ml-3">Entry Level</label></div>
+                            <div class="flex items-center"><input type="checkbox" id="exp-mid" value="Mid-Level" class="custom-checkbox"><label for="exp-mid" class="ml-3">Mid-Level</label></div>
+                            <div class="flex items-center"><input type="checkbox" id="exp-senior" value="Senior Level" class="custom-checkbox"><label for="exp-senior" class="ml-3">Senior Level</label></div>
                         </div>
                     </div>
                 </div>
             </aside>
 
-            <!-- Job Listings -->
             <div class="lg:col-span-3">
                 <div class="mb-6 flex justify-between items-center">
-                    <h2 class="text-2xl font-bold text-slate-900">Showing <span id="job-count">0</span> results</h2>
+                    <h2 class="text-2xl font-bold text-slate-100">Showing <span id="job-count">0</span> results</h2>
                 </div>
 
                 <div id="job-listings-container" class="grid md:grid-cols-2 gap-6">
-                    <!-- Loading Skeleton -->
-                    <div class="job-card p-6 flex flex-col">
-                        <div class="flex items-start mb-4">
-                            <div class="skeleton w-14 h-14 rounded-xl mr-4"></div>
-                            <div class="flex-1 space-y-2">
-                                <div class="skeleton h-4 w-1/2"></div>
-                                <div class="skeleton h-5 w-3/4"></div>
-                            </div>
-                        </div>
-                        <div class="space-y-2 mb-4">
-                            <div class="skeleton h-4 w-full"></div>
-                            <div class="skeleton h-4 w-2/3"></div>
-                        </div>
-                    </div>
-                     <div class="job-card p-6 flex flex-col">
-                        <div class="flex items-start mb-4">
-                            <div class="skeleton w-14 h-14 rounded-xl mr-4"></div>
-                            <div class="flex-1 space-y-2">
-                                <div class="skeleton h-4 w-1/2"></div>
-                                <div class="skeleton h-5 w-3/4"></div>
-                            </div>
-                        </div>
-                        <div class="space-y-2 mb-4">
-                            <div class="skeleton h-4 w-full"></div>
-                            <div class="skeleton h-4 w-2/3"></div>
-                        </div>
-                    </div>
+                    <div class="job-card p-6 flex flex-col"><div class="flex items-start mb-4"><div class="skeleton w-14 h-14 rounded-xl mr-4"></div><div class="flex-1 space-y-3"><div class="skeleton h-5 w-3/4"></div><div class="skeleton h-4 w-1/2"></div></div></div><div class="space-y-3 mb-4"><div class="skeleton h-4 w-full"></div><div class="skeleton h-4 w-2/3"></div></div><div class="flex-grow"></div><div class="skeleton h-6 w-full rounded-lg"></div></div>
+                    <div class="job-card p-6 flex flex-col"><div class="flex items-start mb-4"><div class="skeleton w-14 h-14 rounded-xl mr-4"></div><div class="flex-1 space-y-3"><div class="skeleton h-5 w-3/4"></div><div class="skeleton h-4 w-1/2"></div></div></div><div class="space-y-3 mb-4"><div class="skeleton h-4 w-full"></div><div class="skeleton h-4 w-2/3"></div></div><div class="flex-grow"></div><div class="skeleton h-6 w-full rounded-lg"></div></div>
                 </div>
 
-                <!-- Pagination -->
-                <div id="pagination-container" class="mt-12 flex justify-center items-center space-x-2">
-                    <!-- Pagination buttons will be injected here -->
-                </div>
+                <div id="pagination-container" class="mt-12 flex justify-center items-center space-x-2"></div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-white mt-16">
+    <footer class="bg-slate-950 text-white mt-16 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <!-- Footer content remains the same -->
+            <div class="text-center text-slate-500">
+                <p>&copy; 2025 CareerBridge. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
@@ -276,21 +272,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
-    // Mobile menu toggle
     mobileMenuBtn.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
     });
 
     async function fetchJobs() {
         try {
+            // NOTE: Update this path if your backend location is different
             const response = await fetch('/JOBSEEKER/backend/get_jobs.php');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             allJobs = await response.json();
-            handleUrlParams(); // Apply URL params after fetching
+            handleUrlParams();
             filterAndRender();
         } catch (error) {
             console.error("Could not fetch jobs:", error);
-            listingsContainer.innerHTML = `<div class="md:col-span-2 text-center py-16 text-red-500">Failed to load job listings. Please try again later.</div>`;
+            listingsContainer.innerHTML = `<div class="md:col-span-2 text-center py-16 text-red-400">Failed to load job listings. Please try again later.</div>`;
         }
     }
 
@@ -299,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const paginatedJobs = jobs.slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage);
 
         if (paginatedJobs.length === 0) {
-            listingsContainer.innerHTML = `<div class="md:col-span-2 text-center py-16"><i class="fas fa-search fa-4x text-slate-300 mb-6"></i><h3 class="text-2xl font-bold text-slate-700 mb-2">No Jobs Found</h3><p class="text-slate-500">Try adjusting your search filters.</p></div>`;
+            listingsContainer.innerHTML = `<div class="md:col-span-2 text-center py-16"><i class="fas fa-search fa-4x text-slate-600 mb-6"></i><h3 class="text-2xl font-bold text-slate-100 mb-2">No Jobs Found</h3><p class="text-slate-400">Try adjusting your search filters.</p></div>`;
             return;
         }
 
@@ -307,24 +303,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const companyInitial = job.company ? job.company.charAt(0).toUpperCase() : 'J';
             const placeholderColors = ['667eea', '764ba2', '34d399', 'fbbf24', 'f87171', '60a5fa'];
             const randomColor = placeholderColors[job.id % placeholderColors.length];
-            const logoSrc = job.logo && !job.logo.endsWith('/') ? job.logo : `https://placehold.co/100x100/${randomColor}/ffffff?text=${companyInitial}&font=inter`;
-            const tagsHtml = Array.isArray(job.tags) ? job.tags.map(tag => `<span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-full">${tag}</span>`).join('') : '';
+            const logoSrc = (job.logo && !job.logo.endsWith('/')) ? job.logo : `https://placehold.co/100x100/${randomColor}/ffffff?text=${companyInitial}&font=inter`;
+            const tagsHtml = Array.isArray(job.tags) ? job.tags.map(tag => `<span class="bg-slate-700 text-indigo-300 text-xs font-semibold px-2.5 py-1 rounded-full">${tag}</span>`).join('') : '';
             
             const card = `
-                <div class="job-card p-6 flex flex-col" style="animation-delay: ${index * 100}ms">
+                <a href="components/job-detail.html?id=${job.id}" class="job-card p-6 flex flex-col" style="animation-delay: ${index * 100}ms">
                     <div class="flex items-start mb-4">
-                        <img src="${logoSrc}" alt="${job.company} logo" class="w-14 h-14 rounded-xl mr-4">
-                        <div class="flex-1"><p class="text-sm text-slate-500">${job.company}</p><h3 class="text-lg font-bold text-slate-900">${job.title}</h3></div>
+                        <img src="${logoSrc}" alt="${job.company} logo" class="w-14 h-14 rounded-xl mr-4 bg-white p-1 object-contain">
+                        <div class="flex-1">
+                            <p class="text-sm text-slate-400">${job.company}</p>
+                            <h3 class="text-lg font-bold text-slate-100 leading-tight">${job.title}</h3>
+                        </div>
                         <span class="text-xs text-slate-500 whitespace-nowrap">${job.posted}</span>
                     </div>
-                    <div class="text-sm text-slate-600 space-y-2 mb-4">
-                        <div class="flex items-center"><i class="fas fa-map-marker-alt w-4 mr-2 text-slate-400"></i>${job.location}</div>
-                        <div class="flex items-center"><i class="fas fa-wallet w-4 mr-2 text-slate-400"></i>${job.salary}</div>
+                    <div class="text-sm text-slate-400 space-y-2 mb-4">
+                        <div class="flex items-center"><i class="fas fa-map-marker-alt w-4 mr-2 text-slate-500"></i>${job.location}</div>
+                        <div class="flex items-center"><i class="fas fa-wallet w-4 mr-2 text-slate-500"></i>${job.salary}</div>
                     </div>
                     <div class="flex-grow"></div>
-                    <div class="flex flex-wrap gap-2 mb-6">${tagsHtml}</div>
-                    <a href="/JOBSEEKER/frontend/components/job-detail.html?id=${job.id}" class="w-full text-center font-bold bg-slate-100 hover:bg-indigo-100 text-indigo-700 py-3 rounded-lg transition-all duration-300">View Details</a>
-                </div>`;
+                    <div class="pt-4 mt-auto border-t border-slate-700 font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
+                       View Details <i class="fas fa-arrow-right ml-1"></i>
+                    </div>
+                </a>`;
             listingsContainer.insertAdjacentHTML('beforeend', card);
         });
     }
@@ -336,64 +336,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const prevBtn = document.createElement('button');
         prevBtn.innerHTML = `<i class="fas fa-chevron-left"></i>`;
-        prevBtn.className = 'pagination-btn h-10 w-10 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50';
+        prevBtn.className = 'pagination-btn h-10 w-10 rounded-lg';
         prevBtn.disabled = currentPage === 1;
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                filterAndRender();
-            }
-        });
+        prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; filterAndRender(); } });
         paginationContainer.appendChild(prevBtn);
 
-        for (let i = 1; i <= totalPages; i++) {
+        // Simplified pagination logic for many pages (can be expanded)
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+
+        if (startPage > 1) {
+            const firstBtn = document.createElement('button');
+            firstBtn.textContent = 1;
+            firstBtn.className = 'pagination-btn h-10 w-10 rounded-lg';
+            firstBtn.addEventListener('click', () => { currentPage = 1; filterAndRender(); });
+            paginationContainer.appendChild(firstBtn);
+            if (startPage > 2) paginationContainer.insertAdjacentHTML('beforeend', `<span class="h-10 w-10 flex items-center justify-center text-slate-500">...</span>`);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
             const pageBtn = document.createElement('button');
             pageBtn.textContent = i;
-            pageBtn.className = `pagination-btn h-10 w-10 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 ${currentPage === i ? 'active' : ''}`;
-            pageBtn.addEventListener('click', () => {
-                currentPage = i;
-                filterAndRender();
-            });
+            pageBtn.className = `pagination-btn h-10 w-10 rounded-lg ${currentPage === i ? 'active' : ''}`;
+            pageBtn.addEventListener('click', () => { currentPage = i; filterAndRender(); });
             paginationContainer.appendChild(pageBtn);
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) paginationContainer.insertAdjacentHTML('beforeend', `<span class="h-10 w-10 flex items-center justify-center text-slate-500">...</span>`);
+            const lastBtn = document.createElement('button');
+            lastBtn.textContent = totalPages;
+            lastBtn.className = 'pagination-btn h-10 w-10 rounded-lg';
+            lastBtn.addEventListener('click', () => { currentPage = totalPages; filterAndRender(); });
+            paginationContainer.appendChild(lastBtn);
         }
 
         const nextBtn = document.createElement('button');
         nextBtn.innerHTML = `<i class="fas fa-chevron-right"></i>`;
-        nextBtn.className = 'pagination-btn h-10 w-10 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50';
+        nextBtn.className = 'pagination-btn h-10 w-10 rounded-lg';
         nextBtn.disabled = currentPage === totalPages;
-        nextBtn.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                filterAndRender();
-            }
-        });
+        nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; filterAndRender(); } });
         paginationContainer.appendChild(nextBtn);
     }
 
     function filterAndRender() {
-        const keyword = keywordInput.value.toLowerCase();
-        const location = locationInput.value.toLowerCase();
-        const jobTypes = Array.from(document.querySelectorAll('input[id^="type-"]:checked')).map(cb => cb.value);
-        const expLevels = Array.from(document.querySelectorAll('input[id^="exp-"]:checked')).map(cb => cb.value);
+        // Debounce rendering to avoid flashing on fast typing
+        clearTimeout(window.filterTimer);
+        window.filterTimer = setTimeout(() => {
+            const keyword = keywordInput.value.toLowerCase();
+            const location = locationInput.value.toLowerCase();
+            const jobTypes = Array.from(document.querySelectorAll('input[id^="type-"]:checked')).map(cb => cb.value);
+            const expLevels = Array.from(document.querySelectorAll('input[id^="exp-"]:checked')).map(cb => cb.value);
 
-        const filteredJobs = allJobs.filter(job => {
-            const matchesKeyword = !keyword || job.title.toLowerCase().includes(keyword) || (job.tags && job.tags.some(tag => tag.toLowerCase().includes(keyword)));
-            const matchesLocation = !location || job.location.toLowerCase().includes(location);
-            const matchesType = jobTypes.length === 0 || jobTypes.includes(job.type);
-            const matchesExp = expLevels.length === 0 || expLevels.includes(job.experience);
-            return matchesKeyword && matchesLocation && matchesType && matchesExp;
-        });
-        
-        jobCountEl.textContent = filteredJobs.length;
-        renderJobs(filteredJobs);
-        renderPagination(filteredJobs.length);
+            const filteredJobs = allJobs.filter(job => {
+                const matchesKeyword = !keyword || job.title.toLowerCase().includes(keyword) || (job.tags && job.tags.some(tag => tag.toLowerCase().includes(keyword)));
+                const matchesLocation = !location || job.location.toLowerCase().includes(location);
+                const matchesType = jobTypes.length === 0 || jobTypes.includes(job.type);
+                const matchesExp = expLevels.length === 0 || expLevels.includes(job.experience);
+                return matchesKeyword && matchesLocation && matchesType && matchesExp;
+            });
+            
+            jobCountEl.textContent = filteredJobs.length;
+            renderJobs(filteredJobs);
+            renderPagination(filteredJobs.length);
+        }, 200); // 200ms debounce
     }
     
     function handleUrlParams() {
         const urlParams = new URLSearchParams(window.location.search);
         const keyword = urlParams.get('keyword');
         const location = urlParams.get('location');
-
         if (keyword) keywordInput.value = keyword;
         if (location) locationInput.value = location;
     }
@@ -406,13 +418,11 @@ document.addEventListener('DOMContentLoaded', () => {
         filterAndRender();
     }
 
-    // Event Listeners
     keywordInput.addEventListener('input', () => { currentPage = 1; filterAndRender(); });
     locationInput.addEventListener('input', () => { currentPage = 1; filterAndRender(); });
     filterCheckboxes.forEach(checkbox => checkbox.addEventListener('change', () => { currentPage = 1; filterAndRender(); }));
     clearFiltersBtn.addEventListener('click', clearFilters);
     
-    // Initial fetch of jobs
     fetchJobs();
 });
 </script>

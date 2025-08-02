@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Details - JobFinder</title>
+    <title>Job Details - CareerBridge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* bg-slate-50 */
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #cbd5e1; /* slate-300 */
         }
         
         .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a7b2f5 0%, #cda3f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -22,196 +26,275 @@
 
         .nav-blur {
             backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid #e2e8f0;
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.3);
         }
         
-        .job-detail-card {
-            background-color: white;
+        .content-card {
+            background-color: #1e293b; /* bg-slate-800 */
             border-radius: 1.5rem;
-            box-shadow: 0 10px 30px -15px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: card-fade-in 0.6s ease-out forwards;
         }
+
+        @keyframes card-fade-in { to { opacity: 1; transform: translateY(0); } }
 
         /* Styles for the job description content */
-        .job-description h3 {
-            font-size: 1.25rem; /* text-xl */
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-            color: #1e293b; /* slate-800 */
-        }
-        .job-description ul {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
-            color: #475569; /* slate-600 */
-        }
-        .job-description li {
-            margin-bottom: 0.5rem;
+        .job-description h3 { font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #f1f5f9; }
+        .job-description ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #94a3b8; }
+        .job-description li { margin-bottom: 0.5rem; }
+        .job-description p, .job-description br { margin-bottom: 1rem; line-height: 1.7; }
+        
+        /* Header background pattern */
+        .header-bg {
+             background-color: #020617;
+             background-image: radial-gradient(rgba(100, 116, 139, 0.2) 1px, transparent 1px);
+             background-size: 20px 20px;
         }
 
+        /* 3D Button Effect */
+        .btn-3d-effect { transform-style: preserve-3d; transform: perspective(800px); }
+        .btn-3d-effect > span {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateZ(0);
+        }
+        .btn-3d-effect:hover > span {
+            transform: rotateX(-15deg) translateZ(15px);
+        }
+        
+        /* Application Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 1.5rem;
+        }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item::before { /* The line */
+            content: '';
+            position: absolute;
+            left: 0.75rem;
+            top: 0.25rem;
+            width: 2px;
+            height: 100%;
+            background-color: #334155; /* slate-700 */
+        }
+        .timeline-item:last-child::before { display: none; }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 0.125rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1e293b;
+            border: 2px solid #4f46e5;
+            color: #a7b2f5;
+        }
     </style>
 </head>
-<body class="text-slate-800">
+<body class="text-slate-300">
 
-    <!-- Navigation -->
     <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                    <a href="../index.html" class="text-2xl font-black gradient-text">CareerBridge</a>
                 </div>
                 <div class="hidden md:block">
                     <div class="flex items-center space-x-8">
-                        <a href="/JOBSEEKER/frontend/jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
-                        <a href="/JOBSEEKER/frontend/components/message.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Messages</a>
-                        <a href="/JOBSEEKER/frontend/resources.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
-                        <a href="/JOBSEEKER/frontend/about.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">About</a>
-                        <a href="/JOBSEEKER/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
-                            Post Job
-                        </a>
+                        <a href="../jobs.html" class="text-slate-400 hover:text-white font-medium">Jobs</a>
+                        <a href="message.html" class="text-slate-400 hover:text-white font-medium">Messages</a>
+                        <a href="../resources.html" class="text-slate-400 hover:text-white font-medium">Resources</a>
+                        <a href="../about.html" class="text-slate-400 hover:text-white font-medium">About</a>
+                        <a href="post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
+    
+    <header id="job-header" class="header-bg py-16">
+        </header>
 
-    <!-- Main Content -->
     <main class="py-12 md:py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-3 gap-8">
+            <div class="grid lg:grid-cols-3 gap-8 items-start">
                 
-                <!-- Left Column: Job Description -->
-                <div class="lg:col-span-2">
-                    <div id="job-detail-content" class="job-detail-card p-8">
-                        <!-- Content will be dynamically loaded here -->
-                        <div class="text-center py-20">
-                            <p>Loading job details...</p>
+                <div class="lg:col-span-2 space-y-8">
+                    <div id="job-detail-content" class="content-card p-8 md:p-10">
                         </div>
-                    </div>
+                    <div id="company-details" class="content-card p-8 md:p-10">
+                        </div>
+                    <div id="more-information">
+                        </div>
+                    <div id="similar-jobs">
+                        </div>
                 </div>
 
-                <!-- Right Column: Summary & Apply -->
                 <aside class="lg:col-span-1 h-fit lg:sticky top-24">
-                    <div id="job-summary-card" class="job-detail-card p-6">
-                         <!-- Summary will be dynamically loaded here -->
-                    </div>
+                    <div id="job-summary-card" class="content-card p-6">
+                         </div>
                 </aside>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-white mt-16">
+    <footer class="bg-slate-950 text-white mt-16 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <!-- Footer content remains the same -->
+            <div class="text-center text-slate-500">
+                <p>&copy; 2025 CareerBridge. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
+    const jobHeaderContainer = document.getElementById('job-header');
     const jobDetailContainer = document.getElementById('job-detail-content');
     const jobSummaryContainer = document.getElementById('job-summary-card');
+    const companyDetailsContainer = document.getElementById('company-details');
+    const moreInfoContainer = document.getElementById('more-information');
+    const similarJobsContainer = document.getElementById('similar-jobs');
+    
+    jobDetailContainer.innerHTML = `<div class="text-center py-20 text-slate-500">Loading job details...</div>`;
 
     async function fetchAndRenderJobDetails() {
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = parseInt(urlParams.get('id'));
 
         if (!jobId) {
-            jobDetailContainer.innerHTML = `<p class="text-center text-red-500">Job ID not found.</p>`;
+            jobDetailContainer.innerHTML = `<p class="text-center text-red-400">Job ID not found.</p>`;
             return;
         }
 
         try {
-            const response = await fetch(`/JOBSEEKER/backend/get_job_detail.php?id=${jobId}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const job = await response.json();
-
-            if (job.error) {
-                throw new Error(job.error);
-            }
+            const [jobResponse, allJobsResponse] = await Promise.all([
+                fetch(`/JOBSEEKER/backend/get_job_detail.php?id=${jobId}`),
+                fetch(`/JOBSEEKER/backend/get_jobs.php`)
+            ]);
             
-            document.title = `${job.job_title} - JobFinder`;
+            if (!jobResponse.ok) throw new Error(`HTTP error! status: ${jobResponse.status}`);
+            if (!allJobsResponse.ok) throw new Error(`HTTP error! status: ${allJobsResponse.status}`);
+            
+            const job = await jobResponse.json();
+            const allJobs = await allJobsResponse.json();
+            
+            if (job.error) throw new Error(job.error);
+            
+            document.title = `${job.job_title} - CareerBridge`;
 
-            const companyInitial = job.company_name ? job.company_name.charAt(0).toUpperCase() : 'J';
+            const companyInitial = job.company_name ? job.company_name.charAt(0).toUpperCase() : 'C';
             const placeholderColors = ['667eea', '764ba2', '34d399', 'fbbf24', 'f87171', '60a5fa'];
             const randomColor = placeholderColors[job.id % placeholderColors.length];
             const logoSrc = job.company_logo_path && !job.company_logo_path.endsWith('/') ? `/JOBSEEKER/backend/${job.company_logo_path}` : `https://placehold.co/100x100/${randomColor}/ffffff?text=${companyInitial}&font=inter`;
-
-            const detailHtml = `
-                <div class="flex items-start mb-6">
-                    <img src="${logoSrc}" alt="${job.company_name} Logo" class="w-20 h-20 rounded-2xl mr-6 flex-shrink-0">
-                    <div>
-                        <h1 class="text-3xl font-black text-slate-900">${job.job_title}</h1>
-                        <p class="text-lg text-slate-600 mt-1">
-                            at <a href="#" class="font-bold text-indigo-600 hover:underline">${job.company_name}</a>
-                        </p>
-                        <p class="text-slate-500 text-sm mt-2">Posted ${job.posted}</p>
+            
+            const headerHtml = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-6">
+                        <img src="${logoSrc}" alt="${job.company_name} Logo" class="w-24 h-24 rounded-2xl flex-shrink-0 bg-white p-2 object-contain hidden md:block">
+                        <div class="flex-grow">
+                            <h1 class="text-3xl md:text-4xl font-black text-slate-100">${job.job_title}</h1>
+                            <p class="text-lg text-slate-300 mt-1">
+                                at <a href="#" class="font-bold text-indigo-400 hover:underline">${job.company_name}</a>
+                                <span class="text-slate-500 mx-2">•</span>
+                                <span class="text-slate-400">${job.location}</span>
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 transition" title="Save Job"><i class="fas fa-bookmark text-slate-300"></i></button>
+                            <button class="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 transition" title="Share"><i class="fas fa-share-alt text-slate-300"></i></button>
+                        </div>
                     </div>
                 </div>
-                <div class="flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-700 border-t border-b border-slate-200 py-4 mb-6">
-                    <div class="flex items-center"><i class="fas fa-map-marker-alt w-4 mr-2 text-slate-400"></i> ${job.location}</div>
-                    <div class="flex items-center"><i class="fas fa-briefcase w-4 mr-2 text-slate-400"></i> ${job.job_type}</div>
-                    <div class="flex items-center"><i class="fas fa-chart-line w-4 mr-2 text-slate-400"></i> ${job.experience_level}</div>
+            `;
+            jobHeaderContainer.innerHTML = headerHtml;
+
+            const detailHtml = `
+                <div class="flex flex-wrap gap-x-8 gap-y-4 text-slate-300 border-b border-slate-700 pb-6 mb-6">
+                    <div class="flex items-center gap-2"><i class="fas fa-briefcase text-xl text-indigo-400"></i><div><p class="text-sm text-slate-500">Job Type</p><p class="font-bold text-slate-100">${job.job_type}</p></div></div>
+                    <div class="flex items-center gap-2"><i class="fas fa-chart-line text-xl text-indigo-400"></i><div><p class="text-sm text-slate-500">Experience</p><p class="font-bold text-slate-100">${job.experience_level}</p></div></div>
+                    <div class="flex items-center gap-2"><i class="fas fa-wallet text-xl text-indigo-400"></i><div><p class="text-sm text-slate-500">Salary</p><p class="font-bold text-slate-100">${job.salary}</p></div></div>
                 </div>
-                <div class="prose max-w-none text-slate-600 leading-relaxed job-description">
-                    ${job.description.replace(/\n/g, '<br>')}
+                <div class="prose max-w-none text-slate-400 leading-relaxed job-description">
+                     <h3 id="job-desc-title">Full Job Description</h3>
+                    ${job.description.replace(/\n/g, '<p></p>')}
                 </div>
             `;
             jobDetailContainer.innerHTML = detailHtml;
 
             const summaryHtml = `
-                <h3 class="text-xl font-bold text-slate-800 mb-4">Job Summary</h3>
-                <div class="space-y-3 text-slate-600">
-                    <div class="flex justify-between">
-                        <span class="font-semibold text-slate-500">Salary:</span>
-                        <span class="font-bold text-slate-800">${job.salary}</span>
+                <div class="space-y-6">
+                    <div>
+                        <a href="apply.html?id=${job.id}" class="btn-3d-effect w-full text-center block btn-primary text-white font-bold py-4 rounded-xl text-lg"><span class="block">Apply Now</span></a>
                     </div>
-                     <div class="flex justify-between">
-                        <span class="font-semibold text-slate-500">Category:</span>
-                        <span class="font-medium">${job.job_category}</span>
+                    <div class="border-t border-slate-700 pt-6">
+                        <h4 class="text-lg font-bold text-slate-100 mb-4">Application Process</h4>
+                        <div class="relative">
+                            <div class="timeline-item"><div class="timeline-dot"><i class="fas fa-file-alt"></i></div><p class="font-semibold text-slate-200">Apply</p><p class="text-sm text-slate-400">Submit your resume and details.</p></div>
+                            <div class="timeline-item"><div class="timeline-dot"><i class="fas fa-users"></i></div><p class="font-semibold text-slate-200">Interview</p><p class="text-sm text-slate-400">Get selected for an interview.</p></div>
+                            <div class="timeline-item"><div class="timeline-dot"><i class="fas fa-check"></i></div><p class="font-semibold text-slate-200">Get Hired</p><p class="text-sm text-slate-400">Receive your offer and start your new career.</p></div>
+                        </div>
                     </div>
-                    <div class="flex justify-between">
-                        <span class="font-semibold text-slate-500">Openings:</span>
-                        <span class="font-medium">${job.openings}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="font-semibold text-slate-500">Apply Before:</span>
-                        <span class="font-medium">${job.application_deadline ? new Date(job.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric'}) : 'N/A'}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="font-semibold text-slate-500">Skills:</span>
-                        <span class="text-right font-medium">${job.tags.join(', ')}</span>
-                    </div>
-                </div>
-                <div class="mt-6 border-t border-slate-200 pt-6">
-                    <a href="/JOBSEEKER/frontend/components/apply.html?id=${job.id}" class="w-full text-center block btn-primary text-white font-bold py-3.5 rounded-xl text-lg">
-                        <i class="fas fa-paper-plane mr-2"></i> Apply Now
-                    </a>
-                    <a href="/JOBSEEKER/frontend/messages.html?contactId=${job.id}&jobTitle=${encodeURIComponent(job.job_title)}" class="mt-3 w-full flex items-center justify-center py-3 border-2 border-slate-300 rounded-xl bg-white hover:bg-slate-50 font-bold text-slate-700 transition-colors">
-                        <i class="fas fa-comment-dots mr-2"></i> Message Recruiter
-                    </a>
                 </div>
             `;
             jobSummaryContainer.innerHTML = summaryHtml;
+            
+            const companyHtml = `
+                <h3 class="text-2xl font-bold text-slate-100 mb-4">About ${job.company_name}</h3>
+                <p class="text-slate-400 mb-6">${job.company_description || 'More information about the company will be available soon.'}</p>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div class="bg-slate-700/50 p-4 rounded-lg"><p class="text-slate-500">Industry</p><p class="font-bold text-slate-200">${job.company_industry || 'N/A'}</p></div>
+                    <div class="bg-slate-700/50 p-4 rounded-lg"><p class="text-slate-500">Company Size</p><p class="font-bold text-slate-200">${job.company_size || 'N/A'}</p></div>
+                </div>
+            `;
+            companyDetailsContainer.innerHTML = companyHtml;
+
+           
+            
+            const similar = allJobs.filter(j => j.job_category === job.job_category && j.id !== job.id).slice(0, 2);
+            if (similar.length > 0) {
+                let similarJobsHtml = `<h3 class="text-2xl font-bold text-slate-100 mb-4">Similar Jobs</h3><div class="grid md:grid-cols-2 gap-6">`;
+                similar.forEach(simJob => {
+                     const simLogoSrc = simJob.logo && !simJob.logo.endsWith('/') ? simJob.logo : `https://placehold.co/100x100/${placeholderColors[simJob.id % placeholderColors.length]}/ffffff?text=${simJob.company.charAt(0)}&font=inter`;
+                     similarJobsHtml += `
+                        <a href="job-detail.html?id=${simJob.id}" class="content-card p-6 block hover:-translate-y-1 transition-transform">
+                            <div class="flex items-center mb-3">
+                                <img src="${simLogoSrc}" class="w-10 h-10 rounded-lg mr-3 bg-white p-1 object-contain" />
+                                <div>
+                                    <p class="font-bold text-slate-100 leading-tight">${simJob.title}</p>
+                                    <p class="text-sm text-slate-400">${simJob.company}</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-slate-500">${simJob.location}</p>
+                        </a>`;
+                });
+                similarJobsHtml += `</div>`;
+                similarJobsContainer.innerHTML = similarJobsHtml;
+            }
+
 
         } catch (error) {
             console.error("Could not fetch job details:", error);
-            jobDetailContainer.innerHTML = `<div class="text-center py-20"><p class="text-red-500 font-semibold">Error: Could not load job details.</p><p class="text-slate-500 mt-2">${error.message}</p></div>`;
+            jobHeaderContainer.innerHTML = '';
+            jobDetailContainer.innerHTML = `<div class="text-center content-card p-10"><p class="text-red-400 font-semibold">Error: Could not load job details.</p><p class="text-slate-500 mt-2">${error.message}</p></div>`;
             jobSummaryContainer.innerHTML = '';
+            companyDetailsContainer.innerHTML = '';
+            moreInfoContainer.innerHTML = '';
+            similarJobsContainer.innerHTML = '';
         }
     }
 
