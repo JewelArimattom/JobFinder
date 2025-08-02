@@ -60,7 +60,7 @@
             position: relative;
             overflow: hidden;
         }
-        #matrix-canvas {
+        #grid-canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -106,7 +106,7 @@
     </nav>
     
     <header id="job-header" class="py-16">
-        <canvas id="matrix-canvas"></canvas>
+        <canvas id="grid-canvas"></canvas>
         <div id="header-content">
             </div>
     </header>
@@ -138,55 +138,107 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Digital Rain Canvas Effect ---
-    const canvas = document.getElementById('matrix-canvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let animationFrameId;
+    // --- Interactive Grid Distortion Effect ---
+    const gridCanvas = document.getElementById('grid-canvas');
+    if (gridCanvas) {
+        const ctx = gridCanvas.getContext('2d');
+        const config = {
+            rows: 0, cols: 0, spacing: 40, points: [],
+            mouse: { x: undefined, y: undefined, radius: 150 },
+            lineColor: 'rgba(139, 92, 246, 0.25)',
+            dotColor: 'rgba(167, 139, 250, 0.6)'
+        };
+        let animationFrameId = null;
+        let isMouseOver = false;
 
-        const setup = () => {
-            const header = canvas.parentElement;
-            canvas.width = header.clientWidth;
-            canvas.height = header.clientHeight;
-
-            const characters = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789';
-            const fontSize = 16;
-            const columns = Math.floor(canvas.width / fontSize);
-            const drops = Array(columns).fill(1);
-
-            const draw = () => {
-                ctx.fillStyle = 'rgba(2, 6, 23, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#a7b2f5';
-                ctx.font = `${fontSize}px monospace`;
-
-                for (let i = 0; i < drops.length; i++) {
-                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
+        class Point {
+            constructor(x, y) { this.x = x; this.y = y; this.originX = x; this.originY = y; this.vx = 0; this.vy = 0; }
+            update() {
+                const dx = config.mouse.x - this.x; const dy = config.mouse.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (isMouseOver && dist < config.mouse.radius) {
+                    const angle = Math.atan2(dy, dx);
+                    const force = (config.mouse.radius - dist) / config.mouse.radius;
+                    this.vx -= Math.cos(angle) * force * 0.5; this.vy -= Math.sin(angle) * force * 0.5;
                 }
-            };
-            const animate = () => {
-                draw();
-                animationFrameId = window.requestAnimationFrame(animate);
-            };
-            animate();
-        };
+                this.vx += (this.originX - this.x) * 0.01; this.vy += (this.originY - this.y) * 0.01;
+                this.vx *= 0.95; this.vy *= 0.95; this.x += this.vx; this.y += this.vy;
+            }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); ctx.fillStyle = config.dotColor; ctx.fill(); }
+        }
 
-        let resizeTimeout;
-        const handleResize = () => {
-            cancelAnimationFrame(animationFrameId);
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(setup, 100);
-        };
-        window.addEventListener('resize', handleResize);
-        // A small delay to ensure parent element has its final dimensions
-        setTimeout(setup, 100);
+        function init() {
+            const header = document.getElementById('job-header');
+            gridCanvas.width = header.clientWidth; gridCanvas.height = header.clientHeight;
+            config.points = [];
+            config.cols = Math.floor(gridCanvas.width / config.spacing) + 1;
+            config.rows = Math.floor(gridCanvas.height / config.spacing) + 1;
+            for (let y = 0; y < config.rows; y++) {
+                for (let x = 0; x < config.cols; x++) {
+                    config.points.push(new Point(x * config.spacing, y * config.spacing));
+                }
+            }
+            // Draw initial static grid
+            drawGrid();
+        }
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+            for (let i = 0; i < config.points.length; i++) { config.points[i].draw(); }
+            drawLines();
+        }
+
+        function animate() {
+            let isSettled = true;
+            ctx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+            for (let i = 0; i < config.points.length; i++) {
+                config.points[i].update();
+                config.points[i].draw();
+                if (Math.abs(config.points[i].vx) > 0.01 || Math.abs(config.points[i].vy) > 0.01) {
+                    isSettled = false;
+                }
+            }
+            drawLines();
+            
+            if (!isMouseOver && isSettled) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            } else {
+                animationFrameId = requestAnimationFrame(animate);
+            }
+        }
+
+        function drawLines() {
+            ctx.beginPath(); ctx.strokeStyle = config.lineColor; ctx.lineWidth = 1;
+            for (let y = 0; y < config.rows; y++) {
+                for (let x = 0; x < config.cols - 1; x++) {
+                    const p1 = config.points[y * config.cols + x]; const p2 = config.points[y * config.cols + x + 1];
+                    ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                }
+            }
+            for (let x = 0; x < config.cols; x++) {
+                for (let y = 0; y < config.rows - 1; y++) {
+                    const p1 = config.points[y * config.cols + x]; const p2 = config.points[(y + 1) * config.cols + x];
+                    ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                }
+            }
+            ctx.stroke();
+        }
+
+        const header = document.getElementById('job-header');
+        header.addEventListener('mousemove', e => { const rect = header.getBoundingClientRect(); config.mouse.x = e.clientX - rect.left; config.mouse.y = e.clientY - rect.top; });
+        header.addEventListener('mouseenter', () => { 
+            isMouseOver = true;
+            if (!animationFrameId) {
+                animate();
+            }
+        });
+        header.addEventListener('mouseleave', () => { isMouseOver = false; });
+        window.addEventListener('resize', init);
+        
+        setTimeout(init, 100);
     }
-    
+
     // --- Fetch and Render Job Details ---
     const headerContentContainer = document.getElementById('header-content');
     const jobDetailContainer = document.getElementById('job-detail-content');
@@ -197,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchAndRenderJobDetails() {
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = parseInt(urlParams.get('id'));
-        if (!jobId) { /* ... error handling ... */ return; }
+        if (!jobId) { return; }
 
         jobDetailContainer.innerHTML = `<div class="text-center py-20 text-slate-500">Loading job details...</div>`;
         headerContentContainer.innerHTML = ``;
