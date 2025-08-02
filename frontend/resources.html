@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Career Resources - JobFinder</title>
+    <title>AI Career Resources - CareerBridge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -31,8 +31,8 @@
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4); }
         .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: translateY(0); box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2); }
         .hero-bg-pattern { background-color: #ffffff; background-image: radial-gradient(#e0e7ff 1px, transparent 1px); background-size: 24px 24px; }
-        .form-input { border: 2px solid var(--slate-200); border-radius: 0.75rem; padding: 1rem 1.25rem; transition: all 0.3s ease; }
-        .form-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); outline: none; }
+        .form-input, .resume-input { border: 2px solid var(--slate-200); border-radius: 0.75rem; padding: 1rem 1.25rem; transition: all 0.3s ease; width: 100%; }
+        .form-input:focus, .resume-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); outline: none; }
         .advice-card { background-color: white; border: 1px solid var(--slate-200); border-radius: 1rem; transition: all 0.3s ease; animation: popIn 0.5s ease-out forwards; opacity: 0; }
         .advice-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1); }
         .advice-tab { transition: all 0.3s ease; }
@@ -42,6 +42,76 @@
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         .skeleton-box { background-color: var(--slate-100); border-radius: 0.5rem; animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes pulse { 50% { opacity: .5; } }
+        
+        /* --- Improved Resume Builder UI --- */
+        .form-section-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px -5px rgba(0,0,0,0.05);
+            border: 1px solid var(--slate-200);
+        }
+        .btn-secondary { background-color: #eef2ff; color: #4338ca; font-weight:600; transition: all 0.3s ease; }
+        .btn-secondary:hover { background-color: #e0e7ff; }
+        .btn-danger { background-color: #fee2e2; color: #b91c1c; font-weight:600; transition: all 0.3s ease; }
+        .btn-danger:hover { background-color: #fecaca; }
+        .dynamic-entry { position: relative; padding-top: 1.5rem; }
+        .remove-btn { position: absolute; top: -0.5rem; right: -0.5rem; }
+
+        /* --- Modern Resume Preview Styles --- */
+        #resume-preview-wrapper {
+            background-color: #f3f4f6;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+        #resume-preview {
+            background-color: white;
+            color: #1f2937; /* gray-800 */
+            font-family: 'Inter', sans-serif;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+            min-height: 100%;
+        }
+        #resume-preview a { color: var(--primary-color); }
+        #resume-preview .resume-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--slate-100);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        #resume-preview .resume-name {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            line-height: 1.1;
+        }
+        #resume-preview .resume-contact {
+            text-align: right;
+            font-size: 0.875rem;
+            color: var(--slate-600);
+        }
+        #resume-preview .contact-item { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; margin-bottom: 0.25rem; }
+        #resume-preview .resume-section-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--slate-200);
+            padding-bottom: 0.25rem;
+        }
+        #resume-preview ul {
+            list-style-type: disc;
+            padding-left: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        #resume-preview .experience-item h3 { font-weight: 700; font-size: 1.05rem; }
+        #resume-preview .experience-item p { color: var(--slate-600); font-size: 0.9rem; margin-bottom: 0.25rem; }
     </style>
 </head>
 <body class="text-slate-800">
@@ -49,7 +119,7 @@
     <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0"><a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a></div>
+                <div class="flex-shrink-0"><a href="index.html" class="text-2xl font-black gradient-text">CareerBridge</a></div>
                 <div class="hidden md:block">
                     <div class="flex items-center space-x-8">
                         <a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium">Jobs</a>
@@ -77,28 +147,88 @@
         </div>
     </header>
 
-    <section id="advisor-section" class="py-20">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
-                <h2 class="text-2xl font-bold text-center text-slate-800 mb-6">Chart Your Career Path</h2>
-                <div class="grid md:grid-cols-2 gap-6 mb-4">
-                    <div>
-                        <label for="current-role-input" class="font-semibold text-slate-600 mb-2 block">Your Current Role</label>
-                        <input type="text" id="current-role-input" class="form-input" placeholder="e.g., Teacher">
+    <main>
+        <section id="advisor-section" class="py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
+                    <h2 class="text-2xl font-bold text-center text-slate-800 mb-6">Chart Your Career Path</h2>
+                    <div class="grid md:grid-cols-2 gap-6 mb-4">
+                        <div>
+                            <label for="current-role-input" class="font-semibold text-slate-600 mb-2 block">Your Current Role</label>
+                            <input type="text" id="current-role-input" class="form-input w-full" placeholder="e.g., Teacher">
+                        </div>
+                        <div>
+                            <label for="next-role-input" class="font-semibold text-slate-600 mb-2 block">Your Desired Role</label>
+                            <input type="text" id="next-role-input" class="form-input w-full" placeholder="e.g., Head Teacher">
+                        </div>
                     </div>
-                    <div>
-                        <label for="next-role-input" class="font-semibold text-slate-600 mb-2 block">Your Desired Role</label>
-                        <input type="text" id="next-role-input" class="form-input" placeholder="e.g., Head Teacher">
+                    <button id="get-advice-btn" class="w-full btn-primary text-white font-bold px-8 py-4 rounded-xl text-lg">
+                        <span id="btn-icon"><i class="fas fa-magic mr-2"></i></span>
+                        <span id="btn-text">Generate My Career Plan</span>
+                    </button>
+                </div>
+                <div id="ai-results" class="mt-12"></div>
+            </div>
+        </section>
+
+        <section id="resume-builder" class="py-20 bg-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <span class="text-sm font-bold uppercase text-indigo-600">Build & Impress</span>
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-900 mt-2">Create Your Professional <span class="gradient-text">Resume</span></h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">Fill in your details and see your resume come to life instantly. Download a professional-grade PDF ready for your job applications.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <div class="form-section-card">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Personal Information</h3>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-medium text-slate-600 mb-1">Full Name</label><input onkeyup="updatePreview()" id="resume-name" type="text" placeholder="John Doe" class="resume-input"></div>
+                                <div><label class="block text-sm font-medium text-slate-600 mb-1">Email</label><input onkeyup="updatePreview()" id="resume-email" type="email" placeholder="john.doe@example.com" class="resume-input"></div>
+                                <div><label class="block text-sm font-medium text-slate-600 mb-1">Phone Number</label><input onkeyup="updatePreview()" id="resume-phone" type="tel" placeholder="9123456789" class="resume-input"></div>
+                                <div><label class="block text-sm font-medium text-slate-600 mb-1">LinkedIn Profile</label><input onkeyup="updatePreview()" id="resume-linkedin" type="text" placeholder="linkedin.com/in/johndoe" class="resume-input"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-section-card">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Professional Summary</h3>
+                            <textarea onkeyup="updatePreview()" id="resume-summary" rows="4" class="resume-input" placeholder="A brief, impactful summary of your career..."></textarea>
+                        </div>
+
+                        <div class="form-section-card" id="work-experience-section">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Work Experience</h3>
+                            <div id="work-experience-forms" class="space-y-6"></div>
+                            <button id="add-experience-btn" class="mt-4 btn-secondary px-4 py-2 rounded-lg text-sm"><i class="fas fa-plus mr-2"></i>Add Experience</button>
+                        </div>
+
+                        <div class="form-section-card" id="education-section">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Education</h3>
+                            <div id="education-forms" class="space-y-6"></div>
+                            <button id="add-education-btn" class="mt-4 btn-secondary px-4 py-2 rounded-lg text-sm"><i class="fas fa-plus mr-2"></i>Add Education</button>
+                        </div>
+                        
+                        <div class="form-section-card">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Skills</h3>
+                            <textarea onkeyup="updatePreview()" id="resume-skills" class="resume-input" placeholder="List your key skills, separated by commas..."></textarea>
+                        </div>
+                        
+                         <button id="download-resume-btn" class="w-full btn-primary text-white font-bold px-8 py-4 rounded-xl text-lg">
+                             <span class="btn-text-resume">
+                                <i class="fas fa-download mr-2"></i>Download as PDF
+                            </span>
+                         </button>
+
+                    </div>
+                    <div class="sticky top-24 h-[80vh] overflow-y-auto" id="resume-preview-wrapper">
+                        <div id="resume-preview">
+                            </div>
                     </div>
                 </div>
-                <button id="get-advice-btn" class="w-full btn-primary text-white font-bold px-8 py-4 rounded-xl text-lg">
-                    <span id="btn-icon"><i class="fas fa-magic mr-2"></i></span>
-                    <span id="btn-text">Generate My Career Plan</span>
-                </button>
             </div>
-            <div id="ai-results" class="mt-12"></div>
-        </div>
-    </section>
+        </section>
+    </main>
+
 
     <footer class="bg-slate-900 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -113,7 +243,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM Elements ---
+    // --- SKILL ADVISOR SCRIPT (No Changes) ---
     const getAdviceBtn = document.getElementById('get-advice-btn');
     const btnText = document.getElementById('btn-text');
     const btnIcon = document.getElementById('btn-icon');
@@ -122,249 +252,157 @@ document.addEventListener('DOMContentLoaded', () => {
     const aiResultsContainer = document.getElementById('ai-results');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    
-    // --- Chart instances ---
     let skillChart = null;
     let salaryChart = null;
-
-    // --- Load previous search from Local Storage ---
-    currentRoleInput.value = localStorage.getItem('jobFinder_currentRole') || '';
-    nextRoleInput.value = localStorage.getItem('jobFinder_nextRole') || '';
-
-    // --- Event Listeners ---
-    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-    getAdviceBtn.addEventListener('click', fetchAIAdvice);
-
-    // --- Core Functions ---
+    if(currentRoleInput) currentRoleInput.value = localStorage.getItem('jobFinder_currentRole') || '';
+    if(nextRoleInput) nextRoleInput.value = localStorage.getItem('jobFinder_nextRole') || '';
+    if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    if(getAdviceBtn) getAdviceBtn.addEventListener('click', fetchAIAdvice);
     async function fetchAIAdvice() {
         const currentRole = currentRoleInput.value.trim();
         const nextRole = nextRoleInput.value.trim();
-
-        if (!currentRole || !nextRole) {
-            alert("Please enter both your current and desired roles.");
-            return;
-        }
-
+        if (!currentRole || !nextRole) { alert("Please enter both your current and desired roles."); return; }
         localStorage.setItem('jobFinder_currentRole', currentRole);
         localStorage.setItem('jobFinder_nextRole', nextRole);
-
         getAdviceBtn.disabled = true;
         btnText.textContent = 'Crafting your plan...';
         btnIcon.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>`;
         renderSkeleton();
         aiResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        // --- Live AI API Call ---
-        // ⚠️ WARNING: Do not use this in production with a public-facing API key.
-                const apiKey = "AIzaSyCvr42HndmFLcdzWo4NAHnX-2Tfhg5E-Zk"; 
- 
+        const apiKey = "AIzaSyCvr42HndmFLcdzWo4NAHnX-2Tfhg5E-Zk"; 
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-        // **IMPROVED PROMPT FOR DYNAMIC ICONS & LABELS**
-        const prompt = `Generate a career plan for a ${currentRole} in India aiming to become a ${nextRole}. Respond ONLY with a single, clean JSON object. The JSON must have this exact structure: 
-{
-  "summary": "A brief, one-sentence summary of the career transition.",
-  "skillScores": {
-    "labels": [/* 4 short, relevant skill labels for a ${nextRole} */],
-    "score": [/* 4 numbers between 1-10 */]
-  },
-  "salaryProjection": {
-    "labels": ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"],
-    "salary": [/* 5 numbers representing salary in Lakhs Per Annum (LPA), showing growth */]
-  },
-  "technicalSkills": [
-    {"name": "Skill Name", "description": "...", "icon": "fa-solid fa-some-icon"} /* Choose a relevant Font Awesome 6 solid icon */
-  ],
-  "softSkills": [
-    {"name": "Skill Name", "description": "...", "icon": "fa-solid fa-some-icon"}
-  ],
-  "actionPlan": [
-    {"step": "Months 1-3", "action": "...", "icon": "fa-solid fa-some-icon"}
-  ]
-}`;
-
-        const payload = {
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-            safetySettings: [
-                { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
-                { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
-                { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
-                { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
-            ],
-        };
-
+        const prompt = `Generate a career plan for a ${currentRole} in India aiming to become a ${nextRole}. Respond ONLY with a single, clean JSON object. The JSON must have this exact structure: {"summary": "...", "skillScores": {"labels": ["Skill 1", "Skill 2", "Skill 3", "Skill 4"], "score": [/* 4 numbers */]},"salaryProjection": {"labels": ["Yr 1", "Yr 2", "Yr 3", "Yr 4", "Yr 5"], "salary": [/* 5 numbers */]},"technicalSkills": [{"name": "...", "description": "...", "icon": "fa-solid fa-..."}],"softSkills": [{"name": "...", "description": "...", "icon": "fa-solid fa-..."}],"actionPlan": [{"step": "...", "action": "...", "icon": "fa-solid fa-..."}]}`;
+        const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }], safetySettings: [{ category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },{ category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },{ category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },{ category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' }]};
         try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                const errorBody = await response.text();
-                throw new Error(`API error: ${response.status}. Details: ${errorBody}`);
-            }
-
+            const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (!response.ok) { throw new Error(`API error: ${response.status}`); }
             const result = await response.json();
-            
-            if (result.candidates && result.candidates.length > 0 && result.candidates[0].content.parts) {
-                let jsonText = result.candidates[0].content.parts[0].text;
-                const cleanedJsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
-                const aiResponse = JSON.parse(cleanedJsonText);
-                renderAIResults(currentRole, nextRole, aiResponse);
-            } else {
-                console.error("Invalid response from AI:", result);
-                throw new Error("Received an invalid or blocked response structure from the AI.");
-            }
-
-        } catch (error) {
-            console.error("Error fetching AI advice:", error);
-            renderError(error.message);
+            if (result.candidates && result.candidates[0].content.parts) {
+                const cleanedJsonText = result.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
+                renderAIResults(currentRole, nextRole, JSON.parse(cleanedJsonText));
+            } else { throw new Error("Invalid AI response structure."); }
+        } catch (error) { console.error("Error fetching AI advice:", error); renderError(error.message);
         } finally {
             getAdviceBtn.disabled = false;
             btnText.textContent = 'Generate My Career Plan';
             btnIcon.innerHTML = `<i class="fas fa-magic mr-2"></i>`;
         }
     }
+    function renderSkeleton() { aiResultsContainer.innerHTML = `<div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-200"><div class="skeleton-box h-8 w-3/4 mb-2"></div><div class="skeleton-box h-4 w-1/2 mb-8"></div><div class="grid lg:grid-cols-5 gap-8 items-start"><div class="lg:col-span-2 space-y-8"><div><div class="skeleton-box h-6 w-1/2 mb-4 mx-auto"></div><div class="skeleton-box h-48 rounded-xl"></div></div><div><div class="skeleton-box h-6 w-1/2 mb-4 mx-auto"></div><div class="skeleton-box h-48 rounded-xl"></div></div></div><div class="lg:col-span-3 space-y-4"><div class="skeleton-box h-12 w-full"></div><div class="skeleton-box h-20 w-full"></div><div class="skeleton-box h-20 w-full"></div><div class="skeleton-box h-20 w-full"></div></div></div></div>`; }
+    function renderError(errorMessage) { aiResultsContainer.innerHTML = `<div class="fade-in-up bg-white rounded-2xl p-8 text-center shadow-lg border border-red-200"><i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i><h3 class="text-2xl font-bold text-slate-800">Oops!</h3><p class="text-slate-600 mt-2">The AI advisor couldn't generate a plan. Please try again later.</p><p class="text-xs text-slate-400 mt-4">Error: ${errorMessage || 'Unknown'}</p></div>`; }
+    function renderAIResults(currentRole, nextRole, response) { aiResultsContainer.innerHTML = ''; const resultsWrapper = document.createElement('div'); resultsWrapper.className = 'fade-in-up bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-200'; resultsWrapper.innerHTML = `<div id="plan-to-print"><div class="flex justify-between items-start mb-6 flex-wrap gap-4"><div><h3 class="text-2xl font-bold text-slate-900 mb-1">Your Roadmap: <span class="gradient-text">${currentRole} to ${nextRole}</span></h3><p class="text-slate-600 max-w-xl">${response.summary || ''}</p></div><button id="download-plan-btn" class="btn-primary text-white font-semibold px-4 py-2 rounded-lg text-sm flex items-center gap-2 whitespace-nowrap"><span class="btn-text-plan"><i class="fas fa-download"></i> Download Plan</span></button></div><div class="grid lg:grid-cols-5 gap-8 items-start"><div class="lg:col-span-2 space-y-8"><div><h4 class="text-lg font-bold text-center text-slate-700 mb-4">Key Focus Areas</h4><div class="p-4 bg-slate-50 rounded-xl"><canvas id="skillBarChart"></canvas></div></div><div><h4 class="text-lg font-bold text-center text-slate-700 mb-4">Salary Projection (LPA)</h4><div class="p-4 bg-slate-50 rounded-xl"><canvas id="salaryLineChart"></canvas></div></div></div><div class="lg:col-span-3"><div class="border-b border-slate-200 mb-6"><nav class="flex flex-wrap -mb-px" id="advice-tabs"></nav></div><div id="tab-content"></div></div></div></div>`; aiResultsContainer.appendChild(resultsWrapper); const tabsData = [{ id: 'tech', label: 'Core Skills', data: response.technicalSkills, color: 'indigo' }, { id: 'soft', label: 'Soft Skills', data: response.softSkills, color: 'sky' }, { id: 'plan', label: 'Action Plan', data: response.actionPlan.map(p => ({ name: p.step, description: p.action, icon: p.icon })), color: 'emerald' }]; tabsData.forEach((tabInfo, index) => createTab(tabInfo, index, resultsWrapper)); if (response.skillScores) renderSkillChart(response.skillScores); if (response.salaryProjection) renderSalaryChart(response.salaryProjection); setupTabs(); setupCopyButtons(); document.getElementById('download-plan-btn').addEventListener('click', handlePlanDownload); }
+    function createTab(tabInfo, index, wrapper) { const tabContainer = wrapper.querySelector('#advice-tabs'); const tabContentContainer = wrapper.querySelector('#tab-content'); const tabButton = document.createElement('button'); tabButton.dataset.tab = tabInfo.id; tabButton.className = 'advice-tab py-4 px-4 border-b-2 border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 text-sm sm:text-base'; tabButton.textContent = tabInfo.label; if (index === 0) tabButton.classList.add('active'); tabContainer.appendChild(tabButton); const contentDiv = document.createElement('div'); contentDiv.id = `${tabInfo.id}-content`; contentDiv.className = `space-y-4 ${index > 0 ? 'hidden' : ''}`; if (tabInfo.data && Array.isArray(tabInfo.data)) { tabInfo.data.forEach((item, i) => { contentDiv.appendChild(createAdviceCard(item.name, item.description, item.icon, tabInfo.color, i)); }); } tabContentContainer.appendChild(contentDiv); }
+    function createAdviceCard(title, description, icon, color, index) { const card = document.createElement('div'); card.className = 'advice-card flex items-start gap-4 p-4 relative'; card.style.animationDelay = `${index * 100}ms`; const safeIcon = icon || 'fa-solid fa-star'; const linkedDescription = description.replace(/\((.*?)\)/g, '<a href="#" class="text-indigo-600 font-semibold hover:underline">$1</a>'); card.innerHTML = `<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-${color}-100 text-${color}-600 flex items-center justify-center"><i class="${safeIcon}"></i></div><div class="flex-1"><h4 class="font-bold text-slate-800">${title}</h4><p class="text-slate-600 text-sm">${linkedDescription}</p></div><button class="copy-btn absolute top-3 right-3 p-2 rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition" title="Copy to clipboard"><i class="fas fa-copy"></i></button>`; return card; }
+    function setupCopyButtons() { document.querySelectorAll('.copy-btn').forEach(button => { button.addEventListener('click', (e) => { e.stopPropagation(); const card = button.closest('.advice-card'); const textToCopy = `${card.querySelector('h4').textContent}: ${card.querySelector('p').innerText}`; navigator.clipboard.writeText(textToCopy).then(() => { button.innerHTML = `<span class="text-sm text-indigo-600 font-bold">Copied!</span>`; setTimeout(() => { button.innerHTML = `<i class="fas fa-copy"></i>`; }, 1500); }); }); }); }
+    function renderSkillChart(skillData) { const ctx = document.getElementById('skillBarChart').getContext('2d'); if (skillChart) skillChart.destroy(); skillChart = new Chart(ctx, { type: 'bar', data: { labels: skillData.labels, datasets: [{ label: 'Focus Score', data: skillData.score, backgroundColor: ['rgba(99, 102, 241, 0.7)', 'rgba(56, 189, 248, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(245, 158, 11, 0.7)'], borderColor: ['#6366f1', '#38bdf8', '#10b981', '#f59e0b'], borderWidth: 2, borderRadius: 4 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { beginAtZero: true, max: 10, grid: { display: false }, ticks: { display: false } }, y: { grid: { display: false } } }, plugins: { legend: { display: false }, tooltip: { bodyFont: { size: 14 } } } } }); }
+    function renderSalaryChart(salaryData) { const ctx = document.getElementById('salaryLineChart').getContext('2d'); if (salaryChart) salaryChart.destroy(); salaryChart = new Chart(ctx, { type: 'line', data: { labels: salaryData.labels, datasets: [{ label: 'Projected Salary (LPA)', data: salaryData.salary, fill: true, backgroundColor: 'rgba(99, 102, 241, 0.1)', borderColor: '#6366f1', tension: 0.4, pointBackgroundColor: '#6366f1', pointRadius: 5 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: false, ticks: { callback: value => `₹${value}L` } } }, plugins: { legend: { display: false }, tooltip: { bodyFont: { size: 14 } } } } }); }
+    function setupTabs() { const tabs = document.querySelectorAll('.advice-tab'); const contents = document.querySelectorAll('#tab-content > div'); tabs.forEach(tab => { tab.addEventListener('click', () => { tabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); const target = tab.dataset.tab; contents.forEach(content => content.classList.toggle('hidden', content.id !== `${target}-content`)); }); }); }
     
-    function renderSkeleton() {
-        aiResultsContainer.innerHTML = `<div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-200"><div class="skeleton-box h-8 w-3/4 mb-2"></div><div class="skeleton-box h-4 w-1/2 mb-8"></div><div class="grid lg:grid-cols-5 gap-8 items-start"><div class="lg:col-span-2 space-y-8"><div><div class="skeleton-box h-6 w-1/2 mb-4 mx-auto"></div><div class="skeleton-box h-48 rounded-xl"></div></div><div><div class="skeleton-box h-6 w-1/2 mb-4 mx-auto"></div><div class="skeleton-box h-48 rounded-xl"></div></div></div><div class="lg:col-span-3 space-y-4"><div class="skeleton-box h-12 w-full"></div><div class="skeleton-box h-20 w-full"></div><div class="skeleton-box h-20 w-full"></div><div class="skeleton-box h-20 w-full"></div></div></div></div>`;
+    // --- RESUME BUILDER SCRIPT (FIXED & IMPROVED) ---
+    const addExperienceBtn = document.getElementById('add-experience-btn');
+    const addEducationBtn = document.getElementById('add-education-btn');
+    const workExperienceForms = document.getElementById('work-experience-forms');
+    const educationForms = document.getElementById('education-forms');
+    const downloadResumeBtn = document.getElementById('download-resume-btn');
+    const resumePreview = document.getElementById('resume-preview');
+    
+    function addExperienceForm() {
+        const div = document.createElement('div');
+        div.className = 'p-4 border border-slate-200 rounded-lg space-y-3 dynamic-entry experience-entry';
+        div.innerHTML = `<button class="remove-btn btn-danger p-1 rounded-full w-6 h-6 flex items-center justify-center text-xs" title="Remove"><i class="fas fa-times"></i></button><input onkeyup="updatePreview()" type="text" placeholder="Job Title" class="resume-input text-sm"><input onkeyup="updatePreview()" type="text" placeholder="Company" class="resume-input text-sm"><input onkeyup="updatePreview()" type="text" placeholder="Dates (e.g., Jan 2020 - Present)" class="resume-input text-sm"><textarea onkeyup="updatePreview()" placeholder="Key responsibilities (one per line)..." rows="3" class="resume-input text-sm"></textarea>`;
+        workExperienceForms.appendChild(div);
     }
-
-    function renderError(errorMessage) {
-        aiResultsContainer.innerHTML = `<div class="fade-in-up bg-white rounded-2xl p-8 text-center shadow-lg border border-red-200"><i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i><h3 class="text-2xl font-bold text-slate-800">Oops! Something went wrong.</h3><p class="text-slate-600 mt-2">The AI advisor couldn't generate a plan. Please try again later.</p><p class="text-xs text-slate-400 mt-4">Error: ${errorMessage || 'Unknown error'}</p></div>`;
+    function addEducationForm() {
+        const div = document.createElement('div');
+        div.className = 'p-4 border border-slate-200 rounded-lg space-y-3 dynamic-entry education-entry';
+        div.innerHTML = `<button class="remove-btn btn-danger p-1 rounded-full w-6 h-6 flex items-center justify-center text-xs" title="Remove"><i class="fas fa-times"></i></button><input onkeyup="updatePreview()" type="text" placeholder="Degree or Certificate" class="resume-input text-sm"><input onkeyup="updatePreview()" type="text" placeholder="School or University" class="resume-input text-sm"><input onkeyup="updatePreview()" type="text" placeholder="Dates (e.g., Aug 2016 - May 2020)" class="resume-input text-sm">`;
+        educationForms.appendChild(div);
     }
+    
+    document.getElementById('resume-builder').addEventListener('click', function(e) {
+        if (e.target.closest('.remove-btn')) { e.target.closest('.dynamic-entry').remove(); updatePreview(); }
+    });
 
-    function renderAIResults(currentRole, nextRole, response) {
-        aiResultsContainer.innerHTML = '';
-        const resultsWrapper = document.createElement('div');
-        resultsWrapper.className = 'fade-in-up bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-200';
-        resultsWrapper.innerHTML = `<div id="plan-to-print"><div class="flex justify-between items-start mb-6 flex-wrap gap-4"><div><h3 class="text-2xl font-bold text-slate-900 mb-1">Your Roadmap: <span class="gradient-text">${currentRole} to ${nextRole}</span></h3><p class="text-slate-600 max-w-xl">${response.summary || 'Here is your personalized plan.'}</p></div><button id="download-btn" class="btn-primary text-white font-semibold px-4 py-2 rounded-lg text-sm flex items-center gap-2 whitespace-nowrap"><i class="fas fa-download"></i> </button></div><div class="grid lg:grid-cols-5 gap-8 items-start"><div class="lg:col-span-2 space-y-8"><div><h4 class="text-lg font-bold text-center text-slate-700 mb-4">Key Focus Areas</h4><div class="p-4 bg-slate-50 rounded-xl"><canvas id="skillBarChart"></canvas></div></div><div><h4 class="text-lg font-bold text-center text-slate-700 mb-4">Salary Projection (LPA)</h4><div class="p-4 bg-slate-50 rounded-xl"><canvas id="salaryLineChart"></canvas></div></div></div><div class="lg:col-span-3"><div class="border-b border-slate-200 mb-6"><nav class="flex flex-wrap -mb-px" id="advice-tabs"></nav></div><div id="tab-content"></div></div></div></div>`;
-        aiResultsContainer.appendChild(resultsWrapper);
-
-        const tabContainer = resultsWrapper.querySelector('#advice-tabs');
-        const tabContentContainer = resultsWrapper.querySelector('#tab-content');
-
-        const tabsData = [
-            { id: 'tech', label: 'Core Skills', data: response.technicalSkills, color: 'indigo' },
-            { id: 'soft', label: 'Soft Skills', data: response.softSkills, color: 'sky' },
-            { id: 'plan', label: 'Action Plan', data: response.actionPlan.map(p => ({name: p.step, description: p.action, icon: p.icon})), color: 'emerald' }
-        ];
-
-        tabsData.forEach((tabInfo, index) => {
-            const tabButton = document.createElement('button');
-            tabButton.dataset.tab = tabInfo.id;
-            tabButton.className = 'advice-tab py-4 px-4 border-b-2 border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 text-sm sm:text-base';
-            tabButton.textContent = tabInfo.label;
-            if (index === 0) tabButton.classList.add('active');
-            tabContainer.appendChild(tabButton);
-
-            const contentDiv = document.createElement('div');
-            contentDiv.id = `${tabInfo.id}-content`;
-            contentDiv.className = `space-y-4 ${index > 0 ? 'hidden' : ''}`;
-            if(tabInfo.data && Array.isArray(tabInfo.data)){
-                tabInfo.data.forEach((item, i) => {
-                    // **FIX: Use the icon from the item itself**
-                    contentDiv.appendChild(createAdviceCard(item.name, item.description, item.icon, tabInfo.color, i));
-                });
-            }
-            tabContentContainer.appendChild(contentDiv);
+    window.updatePreview = function() {
+        const name = document.getElementById('resume-name').value;
+        const email = document.getElementById('resume-email').value;
+        const phone = document.getElementById('resume-phone').value;
+        let linkedin = document.getElementById('resume-linkedin').value;
+        if (linkedin && !linkedin.startsWith('http')) { linkedin = `https://${linkedin}`; }
+        const summary = document.getElementById('resume-summary').value;
+        const skills = document.getElementById('resume-skills').value;
+        let contactHtml = '';
+        if (email) contactHtml += `<div class="contact-item"><span>${email}</span><i class="fas fa-envelope"></i></div>`;
+        if (phone) contactHtml += `<div class="contact-item"><span>${phone}</span><i class="fas fa-phone-alt"></i></div>`;
+        if (linkedin) contactHtml += `<div class="contact-item"><a href="${linkedin}" target="_blank">${document.getElementById('resume-linkedin').value}</a><i class="fab fa-linkedin"></i></div>`;
+        let experienceHtml = '';
+        document.querySelectorAll('.experience-entry').forEach(entry => {
+            const [title, company, dates, desc] = Array.from(entry.querySelectorAll('input, textarea')).map(i => i.value);
+            if (title || company) { const descItems = desc.split('\n').filter(line => line.trim() !== '').map(item => `<li>${item}</li>`).join(''); experienceHtml += `<div class="mb-4 experience-item"><h3>${title}</h3><p><span>${company}</span><span class="float-right font-normal">${dates}</span></p><ul>${descItems}</ul></div>`; }
         });
-
-        if (response.skillScores) renderSkillChart(response.skillScores);
-        if (response.salaryProjection) renderSalaryChart(response.salaryProjection);
-        setupTabs();
-        setupCopyButtons();
+        let educationHtml = '';
+        document.querySelectorAll('.education-entry').forEach(entry => {
+            const [degree, school, dates] = Array.from(entry.querySelectorAll('input')).map(i => i.value);
+            if (degree || school) { educationHtml += `<div class="mb-2 experience-item"><h3>${degree}</h3><p><span>${school}</span><span class="float-right font-normal">${dates}</span></p></div>`; }
+        });
+        let skillsHtml = skills.split(',').map(skill => skill.trim()).filter(s => s).map(s => `<span class="inline-block bg-slate-100 text-slate-700 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">${s}</span>`).join('');
+        resumePreview.innerHTML = `<header class="resume-header"><div><h1 class="resume-name">${name || 'Your Name'}</h1></div><div class="resume-contact">${contactHtml}</div></header><section>${summary ? `<h2 class="resume-section-title">Summary</h2><p class="text-sm leading-relaxed">${summary}</p>` : ''}</section><section class="mt-4">${experienceHtml ? `<h2 class="resume-section-title">Experience</h2>${experienceHtml}` : ''}</section><section class="mt-4">${educationHtml ? `<h2 class="resume-section-title">Education</h2>${educationHtml}` : ''}</section><section class="mt-4">${skillsHtml ? `<h2 class="resume-section-title">Skills</h2><div class="pt-2">${skillsHtml}</div>` : ''}</section>`;
+    }
+    
+    // --- PDF DOWNLOAD FIX & IMPROVEMENT ---
+    function handlePlanDownload(e) {
+        const btn = e.currentTarget;
+        const btnTextEl = btn.querySelector('.btn-text-plan');
+        const originalText = btnTextEl.innerHTML;
+        btn.disabled = true;
+        btnTextEl.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Downloading...`;
         
-        document.getElementById('download-btn').addEventListener('click', () => {
-             const element = document.getElementById('plan-to-print');
-             html2pdf().set({filename: `Career_Plan_for_${nextRole}.pdf`}).from(element).save();
+        const element = document.getElementById('plan-to-print');
+        const nextRole = nextRoleInput.value || 'Role';
+        html2pdf().set({filename: `Career_Plan_for_${nextRole}.pdf`}).from(element).save().then(() => {
+            btn.disabled = false;
+            btnTextEl.innerHTML = originalText;
         });
     }
 
-    function createAdviceCard(title, description, icon, color, index) {
-        const card = document.createElement('div');
-        card.className = 'advice-card flex items-start gap-4 p-4 relative';
-        card.style.animationDelay = `${index * 100}ms`;
-        // Use a default icon if one isn't provided by the AI
-        const safeIcon = icon || 'fa-solid fa-star';
-        const linkedDescription = description.replace(/\((.*?)\)/g, '<a href="#" class="text-indigo-600 font-semibold hover:underline">$1</a>');
-        card.innerHTML = `
-            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-${color}-100 text-${color}-600 flex items-center justify-center"><i class="${safeIcon}"></i></div>
-            <div class="flex-1">
-                <h4 class="font-bold text-slate-800">${title}</h4>
-                <p class="text-slate-600 text-sm">${linkedDescription}</p>
-            </div>
-            <button class="copy-btn absolute top-3 right-3 p-2 rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition" title="Copy to clipboard">
-                <i class="fas fa-copy"></i>
-            </button>`;
-        return card;
-    }
-    
-    function setupCopyButtons() {
-        document.querySelectorAll('.copy-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const card = button.closest('.advice-card');
-                const title = card.querySelector('h4').textContent;
-                const descriptionText = card.querySelector('p').innerText;
-                const textToCopy = `${title}: ${descriptionText}`;
-                
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    button.innerHTML = `<span class="text-sm text-indigo-600 font-bold">Copied!</span>`;
-                    setTimeout(() => { button.innerHTML = `<i class="fas fa-copy"></i>`; }, 1500);
-                });
-            });
+    function handleResumeDownload(e) {
+        const btn = e.currentTarget;
+        const btnTextEl = btn.querySelector('.btn-text-resume');
+        const originalText = btnTextEl.innerHTML;
+        btn.disabled = true;
+        btnTextEl.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Downloading...`;
+        
+        const resumeWrapper = document.getElementById('resume-preview-wrapper');
+        const resumeElement = document.getElementById('resume-preview');
+        const name = document.getElementById('resume-name').value || 'resume';
+        
+        // Temporarily remove sticky positioning for accurate rendering
+        const originalWrapperClasses = resumeWrapper.className;
+        resumeWrapper.className = 'bg-slate-100 p-8'; // Remove sticky and overflow
+        
+        const opt = { margin: 0.3, filename: `${name.replace(' ', '_')}_Resume.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas:  { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } };
+        
+        html2pdf().from(resumeElement).set(opt).save().then(() => {
+            // Restore original classes after download
+            resumeWrapper.className = originalWrapperClasses;
+            btn.disabled = false;
+            btnTextEl.innerHTML = originalText;
         });
     }
 
-    function renderSkillChart(skillData) {
-        const ctx = document.getElementById('skillBarChart').getContext('2d');
-        if (skillChart) skillChart.destroy();
-        skillChart = new Chart(ctx, {
-            type: 'bar',
-            data: { labels: skillData.labels, datasets: [{
-                    label: 'Focus Score', data: skillData.score,
-                    backgroundColor: ['rgba(99, 102, 241, 0.7)', 'rgba(56, 189, 248, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(245, 158, 11, 0.7)'],
-                    borderColor: ['#6366f1', '#38bdf8', '#10b981', '#f59e0b'],
-                    borderWidth: 2, borderRadius: 4
-            }]},
-            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                scales: { x: { beginAtZero: true, max: 10, grid: { display: false }, ticks: { display: false } }, y: { grid: { display: false } } },
-                plugins: { legend: { display: false }, tooltip: { bodyFont: { size: 14 } } }
-            }
-        });
-    }
+    if(addExperienceBtn) addExperienceBtn.addEventListener('click', addExperienceForm);
+    if(addEducationBtn) addEducationBtn.addEventListener('click', addEducationForm);
+    if(downloadResumeBtn) downloadResumeBtn.addEventListener('click', handleResumeDownload);
+    document.body.addEventListener('click', function(e) {
+        if (e.target.id === 'download-plan-btn' || e.target.closest('#download-plan-btn')) {
+            handlePlanDownload(e.target.closest('#download-plan-btn'));
+        }
+    });
 
-    function renderSalaryChart(salaryData) {
-        const ctx = document.getElementById('salaryLineChart').getContext('2d');
-        if (salaryChart) salaryChart.destroy();
-        salaryChart = new Chart(ctx, {
-            type: 'line',
-            data: { labels: salaryData.labels, datasets: [{
-                    label: 'Projected Salary (LPA)', data: salaryData.salary, fill: true,
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)', borderColor: '#6366f1',
-                    tension: 0.4, pointBackgroundColor: '#6366f1', pointRadius: 5
-            }]},
-            options: { responsive: true, maintainAspectRatio: false,
-                scales: { y: { beginAtZero: false, ticks: { callback: value => `₹${value}L` } } },
-                plugins: { legend: { display: false }, tooltip: { bodyFont: { size: 14 } } }
-            }
-        });
-    }
-
-    function setupTabs() {
-        const tabs = document.querySelectorAll('.advice-tab');
-        const contents = document.querySelectorAll('#tab-content > div');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                const target = tab.dataset.tab;
-                contents.forEach(content => content.classList.toggle('hidden', content.id !== `${target}-content`));
-            });
-        });
-    }
+    // Initial state
+    addExperienceForm();
+    addEducationForm();
+    updatePreview();
 });
 </script>
 </body>
