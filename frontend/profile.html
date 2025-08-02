@@ -3,126 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - JobFinder</title>
+    <title>My Profile - CareerBridge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .nav-blur { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f172a; /* bg-slate-900 */
+        }
+        #dot-grid-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: #020617; /* bg-slate-950 for canvas background */
+        }
+        .main-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex-grow: 1;
+        }
+        .gradient-text { background: linear-gradient(135deg, #a7b2f5 0%, #cda3f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-blur { 
+            backdrop-filter: blur(20px); 
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.8); /* bg-slate-800 with alpha */
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
         .notification-dot {
-            position: absolute;
-            top: -2px;
-            right: -5px;
-            width: 10px;
-            height: 10px;
-            background-color: #ef4444;
-            border-radius: 50%;
-            border: 2px solid white;
+            position: absolute; top: -2px; right: -5px; width: 10px; height: 10px;
+            background-color: #ef4444; border-radius: 50%; border: 2px solid #1e293b;
         }
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .status-applied { background-color: #e0e7ff; color: #3730a3; }
-        .status-viewed { background-color: #dbeafe; color: #1d4ed8; }
-        .status-rejected { background-color: #fee2e2; color: #991b1b; }
+        .status-badge { padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .status-applied { background-color: rgba(99, 102, 241, 0.15); color: #a7b2f5; }
+        .status-viewed { background-color: rgba(59, 130, 246, 0.15); color: #93c5fd; }
+        .status-rejected { background-color: rgba(239, 68, 68, 0.15); color: #fca5a5; }
     </style>
 </head>
 <body>
-    <nav class="fixed top-0 left-0 right-0 z-50 nav-blur">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
-                <div class="hidden md:block">
-                    <div id="nav-links" class="flex items-center space-x-8">
-                         <!-- Nav links will be dynamically added here -->
+    <canvas id="dot-grid-canvas"></canvas>
+
+    <div class="main-content">
+        <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <a href="../index.html" class="text-2xl font-black gradient-text">CareerBridge</a>
+                    <div class="hidden md:block">
+                        <div id="nav-links" class="flex items-center space-x-8">
+                             </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <main class="pt-24 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <header class="bg-white rounded-2xl shadow-sm p-8 mb-8">
-                <div class="flex items-center space-x-6">
-                    <div id="user-avatar" class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
+        <main class="pt-12 pb-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <header class="glass-card rounded-2xl p-8 mb-8">
+                    <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                        <div id="user-avatar" class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold flex-shrink-0">
+                        </div>
+                        <div class="text-center sm:text-left">
+                            <h1 id="user-name" class="text-4xl font-black text-slate-100">Loading...</h1>
+                            <p id="user-email" class="text-lg text-slate-400 mt-1">Please wait</p>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-slate-100 border-b border-slate-700 pb-3 mb-4">My Applied Jobs</h3>
+                    <div id="applied-jobs-container" class="space-y-4">
+                        <p class="text-slate-400">Loading your applied jobs...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="bg-slate-950/50 text-white border-t border-slate-800 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-10">
+                    <div class="lg:col-span-1">
+                        <a href="../index.html" class="text-2xl font-black gradient-text mb-4 inline-block">CareerBridge</a>
+                        <p class="text-slate-400 text-sm">Your career growth partner, connecting talent with opportunity across India.</p>
                     </div>
                     <div>
-                        <h1 id="user-name" class="text-4xl font-black text-slate-900">Loading...</h1>
-                        <p id="user-email" class="text-lg text-slate-500 mt-1">Please wait</p>
+                        <h4 class="font-bold text-slate-100 mb-4 tracking-wider">Quick Links</h4>
+                        <ul class="space-y-3">
+                            <li><a href="../about.html" class="text-slate-400 hover:text-white transition-colors">About Us</a></li>
+                            <li><a href="../jobs.html" class="text-slate-400 hover:text-white transition-colors">Jobs</a></li>
+                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Companies</a></li>
+                            <li><a href="../resources.html" class="text-slate-400 hover:text-white transition-colors">Resources</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-100 mb-4 tracking-wider">Legal</h4>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a></li>
+                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-100 mb-4 tracking-wider">Connect With Us</h4>
+                        <div class="flex space-x-5">
+                            <a href="#" aria-label="Twitter" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="GitHub" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fab fa-github"></i></a>
+                            <a href="#" aria-label="Instagram" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
                 </div>
-            </header>
-
-            <div class="bg-white p-6 rounded-2xl shadow-sm">
-                <h3 class="text-xl font-bold text-slate-800 border-b pb-3 mb-4">My Applied Jobs</h3>
-                <div id="applied-jobs-container" class="space-y-4">
-                    <p class="text-slate-500">Loading your applied jobs...</p>
+                <div class="border-t border-slate-800 pt-8 text-center text-slate-500">
+                    <p>&copy; 2025 CareerBridge. All rights reserved. Made with ❤️ for India's workforce.</p>
                 </div>
             </div>
-        </div>
-    </main>
+        </footer>
+    </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const navLinksContainer = document.getElementById('nav-links');
+        // --- Interactive Dot Grid Effect ---
+        const canvas = document.getElementById('dot-grid-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            const config = {
+                dotColor: 'rgba(100, 116, 139, 0.5)',
+                lineColor: 'rgba(100, 116, 139, 0.5)',
+                dotRadius: 1, // Made dots smaller
+                spacing: 55, // Increased spacing between dots
+                mouseRadius: 120, // Made interaction radius smaller
+                friction: 0.95,
+                repelStrength: 1,
+                glowColor: 'rgba(59, 130, 246, 0.15)',
+                highlightDotColor: '#93c5fd',
+                highlightLineColor: 'rgba(93, 197, 253, 0.5)',
+            };
+            
+            let dots = [];
+            let mouse = { x: null, y: null };
+            
+            class Dot {
+                constructor(x, y) { this.x = x; this.y = y; this.originX = x; this.originY = y; this.vx = 0; this.vy = 0; }
+                draw() {
+                    const distToMouse = Math.sqrt(Math.pow(this.x - mouse.x, 2) + Math.pow(this.y - mouse.y, 2));
+                    ctx.fillStyle = distToMouse < config.mouseRadius ? config.highlightDotColor : config.dotColor;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, config.dotRadius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                update() {
+                    const dx = this.x - mouse.x;
+                    const dy = this.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < config.mouseRadius) {
+                        const angle = Math.atan2(dy, dx);
+                        const force = (config.mouseRadius - dist) / config.mouseRadius;
+                        this.vx += Math.cos(angle) * force * config.repelStrength;
+                        this.vy += Math.sin(angle) * force * config.repelStrength;
+                    }
+                    this.vx += (this.originX - this.x) * 0.05;
+                    this.vy += (this.originY - this.y) * 0.05;
+                    this.vx *= config.friction;
+                    this.vy *= config.friction;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                }
+            }
 
+            function init() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width * dpr; canvas.height = rect.height * dpr;
+                canvas.style.width = `${rect.width}px`; canvas.style.height = `${rect.height}px`;
+                ctx.scale(dpr, dpr);
+                dots = [];
+                for (let x = config.spacing / 2; x < rect.width; x += config.spacing) {
+                    for (let y = config.spacing / 2; y < rect.height; y += config.spacing) {
+                        dots.push(new Dot(x, y));
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (mouse.x !== null) {
+                    const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, config.mouseRadius * 1.5);
+                    gradient.addColorStop(0, config.glowColor);
+                    gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+                dots.forEach(dot => dot.update());
+                dots.forEach(dot => dot.draw());
+                drawLines();
+                requestAnimationFrame(animate);
+            }
+
+            function drawLines() {
+                for (let i = 0; i < dots.length; i++) {
+                    for (let j = i + 1; j < dots.length; j++) {
+                        const dx = dots[i].x - dots[j].x;
+                        const dy = dots[i].y - dots[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < config.spacing * 1.5) {
+                            const distToMouse = Math.min(
+                                Math.sqrt(Math.pow(dots[i].x - mouse.x, 2) + Math.pow(dots[i].y - mouse.y, 2)),
+                                Math.sqrt(Math.pow(dots[j].x - mouse.x, 2) + Math.pow(dots[j].y - mouse.y, 2))
+                            );
+                            const opacity = 1 - (dist / (config.spacing * 1.5));
+                            ctx.strokeStyle = distToMouse < config.mouseRadius ? config.highlightLineColor : `rgba(100, 116, 139, ${opacity * 0.3})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(dots[i].x, dots[i].y);
+                            ctx.lineTo(dots[j].x, dots[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            
+            window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+            window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+            let resizeTimeout;
+            window.addEventListener('resize', () => { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(init, 100); });
+            init();
+            animate();
+        }
+
+        // --- Profile Data and Auth Logic ---
+        const navLinksContainer = document.getElementById('nav-links');
         async function updateAuthState() {
             try {
                 const authResponse = await fetch('../backend/check_auth.php');
                 const authData = await authResponse.json();
                 
-                let navHtml = '<a href="jobs.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>';
+                let navHtml = '<a href="../jobs.html" class="text-slate-400 hover:text-white font-medium">Jobs</a><a href="../resources.html" class="text-slate-400 hover:text-white font-medium">Resources</a><a href="../about.html" class="text-slate-400 hover:text-white font-medium">About</a>';
 
                 if (authData.loggedin) {
-                    const isEmployer = authData.roles.includes('employer');
+                    const isEmployer = authData.roles && authData.roles.includes('employer');
                     const profileLink = isEmployer ? 'employer_profile.html' : 'profile.html';
 
                     const messagesResponse = await fetch('../backend/check_new_messages.php');
                     const messagesData = await messagesResponse.json();
                     
                     if (messagesData.success && messagesData.has_new_messages) {
-                        navHtml += `<a href="/JOBSEEKER/frontend/components/message.html" class="relative text-slate-600 hover:text-slate-900 font-medium transition-colors">Messages<span class="notification-dot"></span></a>`;
+                        navHtml += `<a href="message.html" class="relative text-slate-400 hover:text-white font-medium">Messages<span class="notification-dot"></span></a>`;
                     } else if (!isEmployer) {
-                         navHtml += '<a href="/JOBSEEKER/frontend/components/message.html" class="text-slate-600 hover:text-slate-900 font-medium transition-colors">Messages</a>';
+                         navHtml += '<a href="message.html" class="text-slate-400 hover:text-white font-medium">Messages</a>';
                     }
 
                     navHtml += `
                         <div class="relative" id="profile-menu-container">
-                            <button id="profile-menu-button" class="flex items-center focus:outline-none">
-                                <img src="https://img.icons8.com/?size=100&id=7819&format=png&color=000000" alt="User Avatar" class="w-10 h-10 rounded-full">
-                            </button>
-                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50">
-                                <a href="${profileLink}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">My Profile</a>
-                                <a href="../backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Logout</a>
+                            <button id="profile-menu-button" class="flex items-center focus:outline-none"><img src="https://img.icons8.com/?size=100&id=7819&format=png&color=ffffff" alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-slate-700 hover:border-indigo-400 transition"></button>
+                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-50 ring-1 ring-black ring-opacity-5">
+                                <a href="${profileLink}" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">My Profile</a>
+                                <a href="../backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">Logout</a>
                             </div>
                         </div>`;
                     
                     navLinksContainer.innerHTML = navHtml;
                     addDropdownListeners();
                     fetchProfileData(); 
-                } else {
-                    window.location.href = 'login.html';
-                }
-            } catch (error) {
-                 window.location.href = 'login.html';
-            }
+                } else { window.location.href = 'signUp.html'; }
+            } catch (error) { window.location.href = 'signUp.html'; }
         }
 
         function addDropdownListeners() {
             const menuButton = document.getElementById('profile-menu-button');
             const dropdown = document.getElementById('profile-dropdown');
             if (menuButton && dropdown) {
-                 menuButton.addEventListener('click', () => dropdown.classList.toggle('hidden'));
-                 window.addEventListener('click', e => {
-                    if (!menuButton.contains(e.target)) dropdown.classList.add('hidden');
-                });
+                 menuButton.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('hidden'); });
+                 document.addEventListener('click', () => dropdown.classList.add('hidden'));
             }
         }
 
@@ -133,62 +295,40 @@
             const jobsContainer = document.getElementById('applied-jobs-container');
 
             try {
-                // Single fetch call to the consolidated PHP script
                 const response = await fetch('../backend/get_profile_data.php'); 
                 const data = await response.json();
+                if (!data.success) throw new Error(data.message || 'Could not load profile data.');
 
-                if (!data.success) {
-                    throw new Error(data.message || 'Could not load profile data.');
-                }
-
-                // Populate User Profile Header
                 if (data.user) {
                     nameEl.textContent = data.user.full_name;
                     emailEl.textContent = data.user.email;
                     avatarEl.textContent = data.user.full_name.charAt(0).toUpperCase();
-                } else {
-                     throw new Error('User data not found in response.');
-                }
+                } else { throw new Error('User data not found.'); }
 
-                // Populate Applied Jobs
                 if (data.applications.length === 0) {
-                    jobsContainer.innerHTML = '<p class="text-slate-500">You have not applied to any jobs yet.</p>';
+                    jobsContainer.innerHTML = '<p class="text-slate-400 text-center py-4">You have not applied to any jobs yet.</p>';
                     return;
                 }
 
-                jobsContainer.innerHTML = ''; // Clear the loading text
+                jobsContainer.innerHTML = ''; 
                 data.applications.forEach(job => {
-                    let statusClass = '';
-                    switch (job.status.toLowerCase()) {
-                        case 'viewed':
-                            statusClass = 'status-viewed';
-                            break;
-                        case 'rejected':
-                            statusClass = 'status-rejected';
-                            break;
-                        default:
-                            statusClass = 'status-applied';
-                    }
-
+                    const statusClass = { viewed: 'status-viewed', rejected: 'status-rejected' }[job.status.toLowerCase()] || 'status-applied';
                     const jobHtml = `
-                        <div class="border border-slate-200 p-4 rounded-lg flex items-center justify-between">
+                        <div class="bg-slate-700/50 p-4 rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                             <div>
-                                <h4 class="font-bold text-slate-800">${job.title}</h4>
-                                <p class="text-sm text-slate-600">${job.company} - ${job.location}</p>
-                                <p class="text-xs text-slate-400 mt-1">Applied on: ${job.application_date_formatted}</p>
+                                <h4 class="font-bold text-slate-100">${job.title}</h4>
+                                <p class="text-sm text-slate-300">${job.company} - ${job.location}</p>
+                                <p class="text-xs text-slate-500 mt-1">Applied on: ${job.application_date_formatted}</p>
                             </div>
-                            <div>
-                                <span class="status-badge ${statusClass}">${job.status}</span>
-                            </div>
-                        </div>
-                    `;
+                            <div class="flex-shrink-0"><span class="status-badge ${statusClass}">${job.status}</span></div>
+                        </div>`;
                     jobsContainer.insertAdjacentHTML('beforeend', jobHtml);
                 });
 
             } catch(error) {
                 nameEl.textContent = 'Error';
                 emailEl.textContent = error.message;
-                jobsContainer.innerHTML = `<p class="text-red-500">Could not load applied jobs.</p>`;
+                jobsContainer.innerHTML = `<p class="text-red-400 text-center py-4">Could not load applied jobs.</p>`;
             }
         }
 
