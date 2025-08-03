@@ -446,7 +446,7 @@
         async function updateAuthState() {
             try {
                 navLinksContainer.innerHTML = `<a href="jobs.html" class="protected-link text-slate-400 hover:text-white font-medium transition-colors">Jobs</a><a href="resources.html" class="text-slate-400 hover:text-white font-medium transition-colors">Resources</a><a href="about.html" class="text-slate-400 hover:text-white font-medium transition-colors">About</a>`;
-                const response = await fetch('/JOBSEEKER/backend/check_auth.php');
+                const response = await fetch('/backend/check_auth.php');
                 const authData = await response.json();
                 isUserLoggedIn = authData.loggedin;
 
@@ -455,7 +455,7 @@
                     const profileLink = isEmployer ? 'components/employer_profile.html' : 'components/profile.html';
 
                     if (isEmployer) {
-                        navLinksContainer.innerHTML += `<a href="/JOBSEEKER/frontend/components/post-Job.html" class="text-slate-400 hover:text-white font-medium transition-colors">Post Job</a>`;
+                        navLinksContainer.innerHTML += `<a href="/frontend/components/post-Job.html" class="text-slate-400 hover:text-white font-medium transition-colors">Post Job</a>`;
                     }
                     
                     const profileDropdownHTML = `
@@ -466,7 +466,7 @@
                             <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-50 ring-1 ring-black ring-opacity-5">
                                 <div class="py-1">
                                     <a href="${profileLink}" class="protected-link block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">My Profile</a>
-                                    <a href="/JOBSEEKER/backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">Logout</a>
+                                    <a href="/backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">Logout</a>
                                  </div>
                             </div>
                         </div>`;
@@ -475,13 +475,13 @@
                     addDropdownListeners();
                 } else {
                     navLinksContainer.insertAdjacentHTML('beforeend', `
-                        <a href="/JOBSEEKER/frontend/components/post-Job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>
-                        <a href="/JOBSEEKER/frontend/components/signUp.html" class="font-semibold text-slate-300 hover:text-white">Login</a>`);
+                        <a href="/frontend/components/post-Job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>
+                        <a href="/frontend/components/signUp.html" class="font-semibold text-slate-300 hover:text-white">Login</a>`);
                 }
             } catch (error) {
                 console.error("Auth check failed:", error);
                 isUserLoggedIn = false;
-                navLinksContainer.insertAdjacentHTML('beforeend', `<a href="/JOBSEEKER/frontend/components/signUp.html" class="font-semibold text-slate-300 hover:text-white">Login</a>`);
+                navLinksContainer.insertAdjacentHTML('beforeend', `<a href="/frontend/components/signUp.html" class="font-semibold text-slate-300 hover:text-white">Login</a>`);
             }
             protectLinks();
         }
@@ -506,7 +506,7 @@
                 newLink.addEventListener('click', (event) => {
                     if (!isUserLoggedIn) {
                         event.preventDefault();
-                        window.location.href = '/JOBSEEKER/frontend/components/signUp.html';
+                        window.location.href = '/frontend/components/signUp.html';
                     }
                 });
             });
@@ -517,7 +517,7 @@
             if (!listingsContainer) return;
             listingsContainer.innerHTML = '<p class="text-slate-400 col-span-4 text-center">Loading latest jobs...</p>';
             try {
-                const response = await fetch('/JOBSEEKER/backend/get_jobs.php?limit=4');
+                const response = await fetch('/backend/get_jobs.php?limit=4');
                 const jobs = await response.json();
                 listingsContainer.innerHTML = '';
                 if (!jobs || jobs.length === 0) {
@@ -544,7 +544,7 @@
                             <div class="flex items-center"><i class="fas fa-wallet w-4 mr-2 text-slate-500"></i><span class="font-semibold text-slate-300">${salary}</span></div>
                         </div>
                         <div class="mt-6 pt-4 border-t border-slate-700">
-                            <a href="/JOBSEEKER/frontend/components/job-detail.html?id=${job.id}" class="protected-link text-indigo-400 hover:text-indigo-300 font-semibold text-sm">
+                            <a href="/frontend/components/job-detail.html?id=${job.id}" class="protected-link text-indigo-400 hover:text-indigo-300 font-semibold text-sm">
                                 View Details <i class="fas fa-arrow-right ml-1"></i>
                             </a>
                         </div>
@@ -567,7 +567,7 @@
             const keyword = document.getElementById('hero-keyword').value;
             const location = document.getElementById('hero-location').value;
             if (!isUserLoggedIn) {
-                window.location.href = '/JOBSEEKER/frontend/components/signUp.html';
+                window.location.href = '/frontend/components/signUp.html';
             } else {
                 window.location.href = `jobs.html?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
             }
