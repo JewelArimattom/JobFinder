@@ -10,240 +10,199 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9; /* bg-slate-100 */
+            background-color: #020617; /* bg-slate-950 */
+            color: #cbd5e1;
         }
-        
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
         .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a7b2f5 0%, #cda3f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .nav-blur {
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid #e2e8f0;
+            backdrop-filter: blur(16px);
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
         }
         .btn-secondary {
-            background-color: #e2e8f0;
-            color: #475569;
+            background-color: #334155;
+            color: #f1f5f9;
+            transition: all 0.3s ease;
         }
         .btn-secondary:hover {
-            background-color: #cbd5e1;
+            background-color: #475569;
         }
 
         .form-card {
-            background-color: white;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1.5rem;
-            box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
         }
 
         .form-input, .form-textarea, .form-select {
             width: 100%;
-            border: 2px solid #e2e8f0;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid #334155;
             border-radius: 0.75rem;
             padding: 0.75rem 1rem;
             transition: all 0.3s ease;
+            color: white;
         }
         .form-input:focus, .form-textarea:focus, .form-select:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
             outline: none;
+            background: #0f172a;
         }
         
         .form-label {
             font-weight: 600;
-            color: #334155; /* slate-700 */
+            color: #94a3b8; /* slate-400 */
             margin-bottom: 0.5rem;
             display: block;
         }
         
         .file-upload-area {
-            border: 2px dashed #cbd5e1;
+            border: 2px dashed #475569;
             transition: all 0.3s ease;
         }
         .file-upload-area.drag-over {
-            border-color: #6366f1;
-            background-color: #eef2ff;
+            border-color: #667eea;
+            background-color: rgba(99, 102, 241, 0.1);
         }
 
         /* Stepper Styles */
-        .stepper-item {
-            transition: all 0.3s ease;
-        }
-        .stepper-item.active .stepper-circle {
-            background-color: #6366f1;
-            color: white;
-            border-color: #6366f1;
-        }
-        .stepper-item.active .stepper-text {
-            color: #1e293b;
-            font-weight: 600;
-        }
-        .stepper-item.completed .stepper-circle {
-            background-color: #10b981;
-            color: white;
-            border-color: #10b981;
-        }
-        .stepper-item.completed .stepper-line {
-            background-color: #10b981;
-        }
-        .stepper-line {
-            transition: all 0.3s ease;
-        }
+        .stepper-item.active .stepper-circle { background-color: #6366f1; color: white; border-color: #6366f1; }
+        .stepper-item.active .stepper-text { color: #f1f5f9; font-weight: 600; }
+        .stepper-item.completed .stepper-circle { background-color: #10b981; color: white; border-color: #10b981; }
+        .stepper-item.completed .stepper-line { background-color: #10b981; }
+        .stepper-line { background-color: #334155; transition: all 0.3s ease; }
+        .stepper-circle { transition: all 0.3s ease; }
     </style>
 </head>
-<body class="text-slate-800">
+<body class="text-slate-300">
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">CareerBridge</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="py-16 md:py-24">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header -->
-            <div class="text-center mb-12">
-                <h1 id="form-title" class="text-3xl md:text-4xl font-black text-slate-900">Apply for Senior Frontend Developer</h1>
-                <p id="form-subtitle" class="text-lg text-slate-600 mt-2">at TechCorp</p>
-            </div>
-
-            <!-- Application Form -->
-            <div class="form-card p-8">
-                <!-- Stepper -->
-                <div class="flex items-center mb-12">
-                    <div id="step-1" class="stepper-item flex-1 flex items-center gap-4">
-                        <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500">1</div>
-                        <span class="stepper-text text-slate-500">Personal Info</span>
-                    </div>
-                    <div class="stepper-line flex-1 h-1 bg-slate-200"></div>
-                    <div id="step-2" class="stepper-item flex-1 flex items-center gap-4">
-                        <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500">2</div>
-                        <span class="stepper-text text-slate-500">Experience</span>
-                    </div>
-                    <div class="stepper-line flex-1 h-1 bg-slate-200"></div>
-                    <div id="step-3" class="stepper-item flex-1 flex items-center gap-4">
-                        <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500">3</div>
-                        <span class="stepper-text text-slate-500">Review</span>
+    <canvas id="particles-canvas"></canvas>
+    
+    <div class="content-wrapper">
+        <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex-shrink-0">
+                        <a href="../index.html" class="text-2xl font-black gradient-text">CareerBridge</a>
                     </div>
                 </div>
-
-                <form id="application-form" action="/JOBSEEKER/backend/apply_handler.php" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" id="job_id" name="job_id" value="">
-                    
-                    <!-- Step 1: Personal Information -->
-                    <fieldset id="form-step-1">
-                        <div class="space-y-6">
-                            <div>
-                                <label for="full-name" class="form-label">Full Name</label>
-                                <input type="text" id="full-name" name="full_name" class="form-input" placeholder="e.g., Priya Sharma" required>
-                            </div>
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required>
-                                </div>
-                                <div>
-                                    <label for="phone" class="form-label">Phone Number</label>
-                                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 98765 43210" required>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="portfolio" class="form-label">Portfolio / LinkedIn URL (Optional)</label>
-                                <input type="url" id="portfolio" name="portfolio_url" class="form-input" placeholder="https://linkedin.com/in/...">
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <!-- Step 2: Experience & Resume -->
-                    <fieldset id="form-step-2" class="hidden">
-                        <div class="space-y-6">
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="current-salary" class="form-label">Current Salary (LPA)</label>
-                                    <input type="text" id="current-salary" name="current_salary" class="form-input" placeholder="e.g., 15 LPA">
-                                </div>
-                                <div>
-                                    <label for="expected-salary" class="form-label">Expected Salary (LPA)</label>
-                                    <input type="text" id="expected-salary" name="expected_salary" class="form-input" placeholder="e.g., 20 LPA">
-                                </div>
-                            </div>
-                             <div>
-                                <label for="notice-period" class="form-label">Notice Period</label>
-                                <select id="notice-period" name="notice_period" class="form-select">
-                                    <option>Immediate Joiner</option>
-                                    <option>15 Days</option>
-                                    <option>1 Month</option>
-                                    <option>2 Months</option>
-                                    <option>3 Months or more</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="form-label">Upload Your Resume/CV</label>
-                                <div id="file-upload-area" class="file-upload-area rounded-lg p-8 text-center">
-                                    <i class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-4"></i>
-                                    <p class="font-semibold text-slate-700 mb-2">Drag & drop your file here</p>
-                                    <p class="text-sm text-slate-500 mb-4">or</p>
-                                    <label for="resume-file" class="cursor-pointer font-bold text-indigo-600 bg-indigo-100 px-4 py-2 rounded-lg hover:bg-indigo-200 transition-colors">Browse File</label>
-                                    <input type="file" id="resume-file" name="resume_file" class="hidden" required>
-                                    <p id="file-name" class="text-sm text-slate-600 mt-4"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <!-- Step 3: Review Application -->
-                    <fieldset id="form-step-3" class="hidden">
-                        <div id="review-section" class="space-y-4">
-                            <!-- Review content will be populated here -->
-                        </div>
-                         <div class="mt-8 flex items-start">
-                            <input id="terms" name="terms" type="checkbox" class="h-5 w-5 mt-1 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded" required>
-                            <label for="terms" class="ml-3 block text-sm text-slate-600">
-                                I confirm that all the information provided is accurate and true.
-                            </label>
-                        </div>
-                    </fieldset>
-
-                    <!-- Navigation Buttons -->
-                    <div id="form-navigation" class="pt-8 border-t border-slate-200 flex justify-between items-center">
-                        <button type="button" id="prev-btn" class="font-bold py-3 px-6 rounded-xl btn-secondary hidden">Previous</button>
-                        <button type="button" id="next-btn" class="font-bold py-3 px-6 rounded-xl btn-primary ml-auto">Next Step</button>
-                        <button type="submit" id="submit-btn" class="font-bold py-3 px-6 rounded-xl btn-primary hidden">Submit Application</button>
-                    </div>
-                </form>
             </div>
-        </div>
-    </main>
+        </nav>
+
+        <main class="py-16 md:py-24">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h1 id="form-title" class="text-3xl md:text-4xl font-black text-slate-100">Loading Job...</h1>
+                    <p id="form-subtitle" class="text-lg text-slate-400 mt-2"></p>
+                </div>
+
+                <div class="form-card p-8">
+                    <div class="flex items-center mb-12">
+                        <div id="step-1" class="stepper-item flex-1 flex items-center gap-4">
+                            <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-600 flex items-center justify-center font-bold text-slate-400">1</div>
+                            <span class="stepper-text text-slate-400 hidden sm:inline">Personal Info</span>
+                        </div>
+                        <div class="stepper-line flex-1 h-1"></div>
+                        <div id="step-2" class="stepper-item flex-1 flex items-center gap-4">
+                            <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-600 flex items-center justify-center font-bold text-slate-400">2</div>
+                            <span class="stepper-text text-slate-400 hidden sm:inline">Experience</span>
+                        </div>
+                        <div class="stepper-line flex-1 h-1"></div>
+                        <div id="step-3" class="stepper-item flex-1 flex items-center gap-4">
+                            <div class="stepper-circle w-10 h-10 rounded-full border-2 border-slate-600 flex items-center justify-center font-bold text-slate-400">3</div>
+                            <span class="stepper-text text-slate-400 hidden sm:inline">Review</span>
+                        </div>
+                    </div>
+
+                    <form id="application-form" action="/JOBSEEKER/backend/apply_handler.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" id="job_id" name="job_id" value="">
+                        
+                        <fieldset id="form-step-1"><div class="space-y-6"><div><label for="full-name" class="form-label">Full Name</label><input type="text" id="full-name" name="full_name" class="form-input" placeholder="e.g., Priya Sharma" required></div><div class="grid md:grid-cols-2 gap-6"><div><label for="email" class="form-label">Email Address</label><input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required></div><div><label for="phone" class="form-label">Phone Number</label><input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 98765 43210" required></div></div><div><label for="portfolio" class="form-label">Portfolio / LinkedIn URL (Optional)</label><input type="url" id="portfolio" name="portfolio_url" class="form-input" placeholder="https://linkedin.com/in/..."></div></div></fieldset>
+                        <fieldset id="form-step-2" class="hidden"><div class="space-y-6"><div class="grid md:grid-cols-2 gap-6"><div><label for="current-salary" class="form-label">Current Salary (LPA)</label><input type="text" id="current-salary" name="current_salary" class="form-input" placeholder="e.g., 15 LPA"></div><div><label for="expected-salary" class="form-label">Expected Salary (LPA)</label><input type="text" id="expected-salary" name="expected_salary" class="form-input" placeholder="e.g., 20 LPA"></div></div><div><label for="notice-period" class="form-label">Notice Period</label><select id="notice-period" name="notice_period" class="form-select"><option>Immediate Joiner</option><option>15 Days</option><option>1 Month</option><option>2 Months</option><option>3 Months or more</option></select></div><div><label class="form-label">Upload Your Resume/CV</label><div id="file-upload-area" class="file-upload-area rounded-lg p-8 text-center"><i class="fas fa-cloud-upload-alt text-4xl text-slate-500 mb-4"></i><p class="font-semibold text-slate-300 mb-2">Drag & drop your file here</p><p class="text-sm text-slate-500 mb-4">or</p><label for="resume-file" class="cursor-pointer font-bold text-indigo-300 bg-indigo-500/10 px-4 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Browse File</label><input type="file" id="resume-file" name="resume_file" class="hidden" required><p id="file-name" class="text-sm text-slate-400 mt-4"></p></div></div></div></fieldset>
+                        <fieldset id="form-step-3" class="hidden"><div id="review-section" class="space-y-4"></div><div class="mt-8 flex items-start"><input id="terms" name="terms" type="checkbox" class="h-5 w-5 mt-1 bg-slate-700 border-slate-600 text-indigo-500 focus:ring-indigo-600 rounded" required><label for="terms" class="ml-3 block text-sm text-slate-400">I confirm that all the information provided is accurate and true.</label></div></fieldset>
+
+                        <div id="form-navigation" class="pt-8 mt-8 border-t border-slate-700 flex justify-between items-center">
+                            <button type="button" id="prev-btn" class="font-bold py-3 px-6 rounded-xl btn-secondary hidden">Previous</button>
+                            <button type="button" id="next-btn" class="font-bold py-3 px-6 rounded-xl btn-primary ml-auto text-white">Next Step</button>
+                            <button type="submit" id="submit-btn" class="font-bold py-3 px-6 rounded-xl btn-primary hidden text-white">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
     
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // This data is just for displaying the title, the form works independently
-    const allJobs = [
-        { id: 1, title: 'Senior Frontend Developer', company: 'TechCorp' },
-        { id: 2, title: 'Product Manager', company: 'InnovateHub' },
-        { id: 3, title: 'UI/UX Designer', company: 'CreativeMinds' },
-    ];
+    // --- Floating Particles Effect ---
+    const canvas = document.getElementById('particles-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const setup = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            const particleCount = Math.floor(canvas.width * canvas.height / 20000);
+            for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); }
+        };
+        class Particle {
+            constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.vx = Math.random() - 0.5; this.vy = Math.random() - 0.5; this.radius = Math.random() * 1.5 + 1; this.color = 'rgba(167, 178, 245, 0.8)'; }
+            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > canvas.width) this.vx *= -1; if (this.y < 0 || this.y > canvas.height) this.vy *= -1; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
+        }
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i; j < particles.length; j++) {
+                    const dist = Math.sqrt(Math.pow(particles[i].x - particles[j].x, 2) + Math.pow(particles[i].y - particles[j].y, 2));
+                    if (dist < 100) {
+                        const opacity = 1 - (dist / 100);
+                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(167, 178, 245, ${opacity})`; ctx.lineWidth = 0.5; ctx.stroke();
+                    }
+                }
+            }
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+        window.addEventListener('resize', setup);
+        setup();
+        animate();
+    }
 
+    // --- Form Logic ---
+    const allJobs = [ { id: 1, title: 'Senior Frontend Developer', company: 'TechCorp' }, { id: 2, title: 'Product Manager', company: 'InnovateHub' }, { id: 3, title: 'UI/UX Designer', company: 'CreativeMinds' } ];
     const formTitle = document.getElementById('form-title');
     const formSubtitle = document.getElementById('form-subtitle');
     const applicationForm = document.getElementById('application-form');
@@ -256,50 +215,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const steps = [document.getElementById('form-step-1'), document.getElementById('form-step-2'), document.getElementById('form-step-3')];
     const stepperItems = [document.getElementById('step-1'), document.getElementById('step-2'), document.getElementById('step-3')];
     const jobIdInput = document.getElementById('job_id');
-
     let currentStep = 1;
 
     function loadJobInfo() {
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = parseInt(urlParams.get('id'));
-        if (!jobId) {
-            formTitle.textContent = "Application Form";
-            formSubtitle.textContent = "Job not specified";
-            return;
-        }
-        
-        jobIdInput.value = jobId; // Set the hidden job_id input
-
+        if (!jobId) { formTitle.textContent = "Application Form"; formSubtitle.textContent = "Job not specified"; return; }
+        jobIdInput.value = jobId;
         const job = allJobs.find(j => j.id === jobId);
-        if (job) {
-            document.title = `Apply for ${job.title} - JobFinder`;
-            formTitle.textContent = `Apply for ${job.title}`;
-            formSubtitle.textContent = `at ${job.company}`;
-        } else {
-            formTitle.textContent = "Job Not Found";
-            formSubtitle.textContent = "This listing may have expired.";
-        }
+        if (job) { document.title = `Apply for ${job.title} - CareerBridge`; formTitle.textContent = `Apply for ${job.title}`; formSubtitle.textContent = `at ${job.company}`; }
+        else { formTitle.textContent = "Job Not Found"; formSubtitle.textContent = "This listing may have expired."; }
     }
 
     function updateFormStep() {
-        steps.forEach((step, index) => {
-            step.classList.toggle('hidden', index + 1 !== currentStep);
-        });
-
+        steps.forEach((step, index) => { step.classList.toggle('hidden', index + 1 !== currentStep); });
         stepperItems.forEach((item, index) => {
             const circle = item.querySelector('.stepper-circle');
             item.classList.remove('active', 'completed');
-            if (index + 1 < currentStep) {
-                item.classList.add('completed');
-                circle.innerHTML = `<i class="fas fa-check"></i>`;
-            } else if (index + 1 === currentStep) {
-                item.classList.add('active');
-                circle.textContent = index + 1;
-            } else {
-                 circle.textContent = index + 1;
-            }
+            if (index + 1 < currentStep) { item.classList.add('completed'); circle.innerHTML = `<i class="fas fa-check"></i>`; }
+            else if (index + 1 === currentStep) { item.classList.add('active'); circle.textContent = index + 1; }
+            else { circle.textContent = index + 1; }
         });
-
         prevBtn.classList.toggle('hidden', currentStep === 1);
         nextBtn.classList.toggle('hidden', currentStep === steps.length);
         submitBtn.classList.toggle('hidden', currentStep !== steps.length);
@@ -308,14 +244,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function validateStep(stepNumber) {
         const currentFields = steps[stepNumber - 1].querySelectorAll('input[required], select[required]');
         for (const field of currentFields) {
-            if (!field.value.trim()) {
-                alert(`Please fill out the ${field.previousElementSibling.textContent} field.`);
-                return false;
-            }
-            if (field.type === 'file' && field.files.length === 0) {
-                alert('Please upload your resume.');
-                return false;
-            }
+            if (!field.value.trim()) { alert(`Please fill out the ${field.previousElementSibling.textContent} field.`); return false; }
+            if (field.type === 'file' && field.files.length === 0) { alert('Please upload your resume.'); return false; }
         }
         return true;
     }
@@ -323,71 +253,41 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateReview() {
         const reviewSection = document.getElementById('review-section');
         const formData = {
-            "Full Name": document.getElementById('full-name').value,
-            "Email": document.getElementById('email').value,
-            "Phone": document.getElementById('phone').value,
-            "Portfolio": document.getElementById('portfolio').value,
-            "Current Salary": document.getElementById('current-salary').value,
-            "Expected Salary": document.getElementById('expected-salary').value,
-            "Notice Period": document.getElementById('notice-period').value,
-            "Resume": resumeFileInput.files.length > 0 ? resumeFileInput.files[0].name : "Not provided"
+            "Full Name": document.getElementById('full-name').value, "Email": document.getElementById('email').value, "Phone": document.getElementById('phone').value,
+            "Portfolio": document.getElementById('portfolio').value, "Current Salary": document.getElementById('current-salary').value, "Expected Salary": document.getElementById('expected-salary').value,
+            "Notice Period": document.getElementById('notice-period').value, "Resume": resumeFileInput.files.length > 0 ? resumeFileInput.files[0].name : "Not provided"
         };
-
-        let reviewHtml = `<h3 class="text-xl font-bold text-slate-800 mb-4">Please review your information</h3>`;
+        let reviewHtml = `<h3 class="text-xl font-bold text-slate-100 mb-4">Please review your information</h3>`;
         for (const [key, value] of Object.entries(formData)) {
-            reviewHtml += `
-                <div class="grid grid-cols-3 gap-4 py-2 border-b border-slate-100">
-                    <dt class="font-semibold text-slate-500">${key}</dt>
-                    <dd class="col-span-2 text-slate-700">${value || '-'}</dd>
-                </div>
-            `;
+            reviewHtml += `<div class="grid grid-cols-3 gap-4 py-2 border-b border-slate-700"><dt class="font-semibold text-slate-400">${key}</dt><dd class="col-span-2 text-slate-100">${value || '-'}</dd></div>`;
         }
         reviewSection.innerHTML = reviewHtml;
     }
 
     nextBtn.addEventListener('click', () => {
-        if (!validateStep(currentStep)) {
-            return;
-        }
+        if (!validateStep(currentStep)) { return; }
         if (currentStep < steps.length) {
             currentStep++;
-            if(currentStep === steps.length) {
-                populateReview();
-            }
+            if(currentStep === steps.length) { populateReview(); }
             updateFormStep();
         }
     });
 
-    prevBtn.addEventListener('click', () => {
-        if (currentStep > 1) {
-            currentStep--;
-            updateFormStep();
-        }
-    });
+    prevBtn.addEventListener('click', () => { if (currentStep > 1) { currentStep--; updateFormStep(); } });
 
-    // File upload UI handlers
     fileUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); fileUploadArea.classList.add('drag-over'); });
     fileUploadArea.addEventListener('dragleave', () => fileUploadArea.classList.remove('drag-over'));
     fileUploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        fileUploadArea.classList.remove('drag-over');
+        e.preventDefault(); fileUploadArea.classList.remove('drag-over');
         const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            resumeFileInput.files = files;
-            fileNameDisplay.textContent = `File selected: ${files[0].name}`;
-        }
+        if (files.length > 0) { resumeFileInput.files = files; fileNameDisplay.textContent = `File selected: ${files[0].name}`; }
     });
     resumeFileInput.addEventListener('change', () => {
-        if (resumeFileInput.files.length > 0) {
-            fileNameDisplay.textContent = `File selected: ${files[0].name}`;
-        }
+        if (resumeFileInput.files.length > 0) { fileNameDisplay.textContent = `File selected: ${resumeFileInput.files[0].name}`; }
     });
 
     applicationForm.addEventListener('submit', (e) => {
-        if (!document.getElementById('terms').checked) {
-            e.preventDefault();
-            alert('You must confirm that your information is accurate.');
-        }
+        if (!document.getElementById('terms').checked) { e.preventDefault(); alert('You must confirm that your information is accurate.'); }
     });
 
     loadJobInfo();

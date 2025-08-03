@@ -3,62 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages - JobFinder</title>
+    <title>Messages - CareerBridge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
-        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .nav-blur { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid #e2e8f0; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            color: #cbd5e1;
+            /* Galaxy Background Effect */
+            background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .content-wrapper { position: relative; z-index: 10; }
+        .gradient-text { background: linear-gradient(135deg, #a7b2f5 0%, #cda3f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-blur { 
+            backdrop-filter: blur(16px); 
+            background: rgba(15, 23, 42, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
         .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease; }
-        .chat-container { height: calc(100vh - 128px); }
-        .contact-item.active { background-color: #eef2ff; border-right: 4px solid #6366f1; }
-        .contact-item:hover { background-color: #f8fafc; }
-        .message-sent { background-color: #6366f1; color: white; }
-        .message-received { background-color: #e2e8f0; color: #1e293b; }
+        .chat-container { 
+            height: calc(100vh - 112px); /* Adjusted height */
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .contact-item.active { background-color: rgba(71, 85, 105, 0.5); border-left: 4px solid #818cf8; padding-left: 0.75rem; }
+        .contact-item:hover { background-color: rgba(51, 65, 85, 0.5); }
+        .message-sent { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .message-received { background-color: #334155; color: #f1f5f9; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        #message-input { background: rgba(15, 23, 42, 0.5); border: 1px solid #334155; color: white; }
+        #message-input:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2); outline: none; background: #0f172a; }
+
+        /* Mobile View Toggle */
+        #contact-list-container { display: flex; }
+        #chat-window-container { display: none; }
+        .mobile-chat-active #contact-list-container { display: none; }
+        .mobile-chat-active #chat-window-container { display: flex; }
+
+        @media (min-width: 768px) {
+            #contact-list-container { display: flex; }
+            #chat-window-container { display: flex; }
+            .mobile-chat-active #contact-list-container { display: flex; }
+        }
     </style>
 </head>
-<body class="text-slate-800">
+<body>
 
-    <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <a href="index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+    <div class="content-wrapper">
+        <nav class="sticky top-0 left-0 right-0 z-50 nav-blur">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <a href="../index.html" class="text-2xl font-black gradient-text">CareerBridge</a>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 chat-container flex overflow-hidden">
-            
-            <aside class="w-1/3 border-r border-slate-200 flex flex-col">
-                <div class="p-4 border-b border-slate-200">
-                    <h2 class="text-xl font-bold text-slate-800">Conversations</h2>
-                </div>
-                <div id="contact-list" class="flex-1 overflow-y-auto custom-scrollbar">
-                    <p class="p-4 text-slate-500">Loading conversations...</p>
-                </div>
-            </aside>
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div id="chat-app-container" class="rounded-2xl shadow-lg chat-container flex overflow-hidden">
+                
+                <aside id="contact-list-container" class="w-full md:w-1/3 border-r border-slate-700/50 flex-col">
+                    <div class="p-4 border-b border-slate-700/50 flex-shrink-0">
+                        <h2 class="text-xl font-bold text-slate-100">Conversations</h2>
+                    </div>
+                    <div id="contact-list" class="flex-1 overflow-y-auto custom-scrollbar">
+                        <p class="p-4 text-slate-400">Loading conversations...</p>
+                    </div>
+                </aside>
 
-            <section id="chat-window" class="w-2/3 flex flex-col items-center justify-center text-center">
-                <i class="fas fa-comments text-6xl text-slate-300 mb-4"></i>
-                <h2 class="text-2xl font-bold text-slate-600">Select a conversation</h2>
-                <p class="text-slate-400">Choose a contact from the left to start chatting.</p>
-            </section>
-        </div>
-    </main>
+                <section id="chat-window-container" class="w-full md:w-2/3 flex-col items-center justify-center text-center p-4 bg-slate-800/20">
+                    <i class="fas fa-comments text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold text-slate-300">Select a conversation</h2>
+                    <p class="text-slate-500">Choose a contact from the left to start chatting.</p>
+                </section>
+            </div>
+        </main>
+    </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     let activeContactId = null;
-
+    const contactListContainer = document.getElementById('contact-list-container');
+    const chatContainer = document.getElementById('chat-app-container');
     const contactListEl = document.getElementById('contact-list');
-    const chatWindowEl = document.getElementById('chat-window');
+    const chatWindowEl = document.getElementById('chat-window-container');
 
     function renderContactList(conversations) {
         contactListEl.innerHTML = '';
@@ -66,24 +101,19 @@ document.addEventListener('DOMContentLoaded', () => {
             contactListEl.innerHTML = '<p class="p-4 text-slate-500">No conversations yet.</p>';
             return;
         }
-
         conversations.forEach(convo => {
             const isActive = convo.contact_id == activeContactId;
+            const avatar = convo.avatar || `https://placehold.co/100x100/1e293b/a7b2f5?text=${convo.contact_name.charAt(0)}`;
             const contactHtml = `
-                <div class="contact-item ${isActive ? 'active' : ''} p-4 flex items-center cursor-pointer transition-colors border-t border-slate-100" data-id="${convo.contact_id}">
-                    <img src="${convo.avatar}" alt="${convo.contact_name}" class="w-12 h-12 rounded-full mr-4">
+                <div class="contact-item ${isActive ? 'active' : ''} p-3 flex items-center cursor-pointer transition-colors border-t border-slate-800" data-id="${convo.contact_id}">
+                    <img src="${avatar}" alt="${convo.contact_name}" class="w-12 h-12 rounded-full mr-4 object-cover">
                     <div class="flex-1 overflow-hidden">
-                        <div class="flex justify-between">
-                            <h3 class="font-bold text-slate-800 truncate">${convo.contact_name}</h3>
-                            <span class="text-xs text-slate-500 flex-shrink-0 ml-2">${convo.timestamp_formatted}</span>
-                        </div>
-                        <p class="text-sm text-slate-500 truncate">${convo.last_message}</p>
+                        <div class="flex justify-between items-center"><h3 class="font-bold text-slate-100 truncate">${convo.contact_name}</h3><span class="text-xs text-slate-500 flex-shrink-0 ml-2">${convo.timestamp_formatted}</span></div>
+                        <p class="text-sm text-slate-400 truncate">${convo.last_message}</p>
                     </div>
-                </div>
-            `;
+                </div>`;
             contactListEl.insertAdjacentHTML('beforeend', contactHtml);
         });
-
         document.querySelectorAll('.contact-item').forEach(item => {
             item.addEventListener('click', () => {
                 const contactId = item.dataset.id;
@@ -91,32 +121,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     activeContactId = contactId;
                     loadChat(activeContactId);
                 }
+                chatContainer.classList.add('mobile-chat-active');
             });
         });
     }
 
     function renderChatWindow(data) {
         const messagesHtml = data.messages.map(msg => {
-            return msg.sender === 'me'
-                ? `<div class="flex items-start justify-end"><div class="message-sent max-w-lg p-3 rounded-lg rounded-br-none"><p>${msg.text}</p><span class="text-xs text-indigo-200 block text-left mt-1">${msg.time}</span></div></div>`
-                : `<div class="flex items-start"><div class="message-received max-w-lg p-3 rounded-lg rounded-bl-none"><p>${msg.text}</p><span class="text-xs text-slate-500 block text-right mt-1">${msg.time}</span></div></div>`;
+            const alignmentClass = msg.sender === 'me' ? 'justify-end' : 'justify-start';
+            const bubbleClass = msg.sender === 'me' ? 'message-sent rounded-br-none' : 'message-received rounded-bl-none';
+            const timeClass = msg.sender === 'me' ? 'text-indigo-200' : 'text-slate-400';
+            return `<div class="w-full flex ${alignmentClass}"><div class="max-w-xl p-3 rounded-2xl ${bubbleClass}"><p class="break-words">${msg.text}</p><span class="text-xs ${timeClass} block text-right mt-1">${msg.time}</span></div></div>`;
         }).join('');
 
+        const avatar = data.contact_info.avatar || `https://placehold.co/100x100/1e293b/a7b2f5?text=${data.contact_info.full_name.charAt(0)}`;
         const chatWindowHtml = `
-            <div class="p-4 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
+            <div class="p-4 border-b border-slate-700/50 flex items-center justify-between flex-shrink-0">
                 <div class="flex items-center">
-                    <img src="${data.contact_info.avatar}" alt="${data.contact_info.full_name}" class="w-10 h-10 rounded-full mr-4">
-                    <div><h3 class="font-bold text-lg text-slate-800">${data.contact_info.full_name}</h3></div>
+                    <button id="back-to-contacts" class="md:hidden text-slate-400 hover:text-white mr-4"><i class="fas fa-chevron-left"></i></button>
+                    <img src="${avatar}" alt="${data.contact_info.full_name}" class="w-10 h-10 rounded-full mr-3 object-cover">
+                    <div><h3 class="font-bold text-lg text-slate-100">${data.contact_info.full_name}</h3></div>
                 </div>
             </div>
             <div id="messages-area" class="flex-1 p-6 overflow-y-auto custom-scrollbar"><div class="space-y-4">${messagesHtml}</div></div>
-            <div class="p-4 border-t border-slate-200 bg-slate-50 flex-shrink-0">
+            <div class="p-4 border-t border-slate-700/50 flex-shrink-0">
                 <form id="message-form" class="relative flex items-center">
-                    <input id="message-input" type="text" placeholder="Type your message here..." class="w-full pr-20 py-3 px-4 rounded-full border-2 border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition" autocomplete="off">
+                    <input id="message-input" type="text" placeholder="Type your message..." class="w-full pr-14 py-3 px-4 rounded-full focus:ring-1 transition" autocomplete="off">
                     <button type="submit" class="absolute right-2 btn-primary h-10 w-10 rounded-full text-white flex items-center justify-center"><i class="fas fa-paper-plane"></i></button>
                 </form>
-            </div>
-        `;
+            </div>`;
         chatWindowEl.innerHTML = chatWindowHtml;
 
         const messagesArea = document.getElementById('messages-area');
@@ -129,12 +162,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (messageText && activeContactId) {
                 await sendMessage(activeContactId, messageText);
                 input.value = '';
-                // UPDATED LINE: Changed 'false' to 'true' to refresh the conversation list
                 await loadChat(activeContactId, true); 
             }
         });
+        
+        document.getElementById('back-to-contacts').addEventListener('click', () => {
+            chatContainer.classList.remove('mobile-chat-active');
+            activeContactId = null;
+            loadConversations();
+        });
     }
-
+    
+    // --- Full Backend Functions ---
     async function loadConversations() {
         try {
             const response = await fetch('/JOBSEEKER/backend/get_conversations.php');
@@ -142,10 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 renderContactList(data.conversations);
             } else {
-                contactListEl.innerHTML = '<p class="p-4 text-red-500">' + data.message + '</p>';
+                contactListEl.innerHTML = `<p class="p-4 text-red-400">${data.message || 'Failed to load conversations.'}</p>`;
             }
         } catch (error) {
-            contactListEl.innerHTML = '<p class="p-4 text-red-500">Error loading conversations.</p>';
+            console.error("Error loading conversations:", error);
+            contactListEl.innerHTML = '<p class="p-4 text-red-400">An error occurred while loading conversations.</p>';
         }
     }
 
@@ -160,20 +200,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 renderChatWindow(data);
             } else {
-                chatWindowEl.innerHTML = '<div class="flex items-center justify-center h-full"><p class="p-4 text-red-500">' + data.message + '</p></div>';
+                chatWindowEl.innerHTML = `<div class="flex items-center justify-center h-full"><p class="p-4 text-red-400">${data.message || 'Failed to load chat.'}</p></div>`;
             }
         } catch (error) {
-            chatWindowEl.innerHTML = '<div class="flex items-center justify-center h-full"><p class="p-4 text-red-500">Error loading chat.</p></div>';
+            console.error("Error loading chat:", error);
+            chatWindowEl.innerHTML = '<div class="flex items-center justify-center h-full"><p class="p-4 text-red-400">An error occurred while loading the chat.</p></div>';
         }
     }
     
     async function sendMessage(recipientId, messageText) {
         try {
-            await fetch('/JOBSEEKER/backend/send_message.php', {
+            const response = await fetch('/JOBSEEKER/backend/send_message.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ recipient_id: recipientId, message_text: messageText })
             });
+            if (!response.ok) {
+                console.error("Server responded with an error:", response.status);
+            }
         } catch (error) {
             console.error("Failed to send message:", error);
         }
@@ -189,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.contact-item').forEach(item => {
                 item.classList.toggle('active', item.dataset.id == activeContactId);
             });
+            chatContainer.classList.add('mobile-chat-active');
         }
     }
 
