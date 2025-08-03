@@ -75,7 +75,7 @@ To run this project locally, you will need a server environment like XAMPP or WA
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repository-url>
+    gh repo clone JewelArimattom/JobFinder
     ```
 
 2.  **Set up the server:**
