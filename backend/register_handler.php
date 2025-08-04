@@ -11,7 +11,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 function show_message($title, $message, $is_success = true) {
     $icon = $is_success ? 'fa-check-circle text-green-500' : 'fa-exclamation-triangle text-red-500';
     $button_text = $is_success ? 'Login Now' : 'Try Again';
-    $button_link = $is_success ? '/JOBSEEKER/frontend/components/signUp.html' : 'javascript:history.back()';
+    $button_link = $is_success ? '/CareerBridge/frontend/components/signUp.html' : 'javascript:history.back()';
 
     echo <<<HTML
 <!DOCTYPE html>
