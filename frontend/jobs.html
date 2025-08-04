@@ -170,7 +170,7 @@
                         <a href="#" class="text-slate-400 hover:text-white font-medium">Companies</a>
                         <a href="resources.html" class="text-slate-400 hover:text-white font-medium">Resources</a>
                         <a href="about.html" class="text-slate-400 hover:text-white font-medium">About</a>
-                        <a href="/JOBSEEKER/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
+                        <a href="/CareerBridge/frontend/components/post-job.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">
                             Post Job
                         </a>
                     </div>
@@ -185,7 +185,7 @@
             <a href="#" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">Companies</a>
             <a href="resources.html" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">Resources</a>
             <a href="about.html" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">About</a>
-            <a href="/JOBSEEKER/frontend/components/post-job.html" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">Post Job</a>
+            <a href="/CareerBridge/frontend/components/post-job.html" class="block px-3 py-2 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-700">Post Job</a>
         </div>
     </nav>
 
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
         listingsContainer.innerHTML = skeletons;
 
         try {
-            const response = await fetch('/JOBSEEKER/backend/get_jobs.php');
+            const response = await fetch('/CareerBridge/backend/get_jobs.php');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             allJobs = await response.json();
             handleUrlParams();

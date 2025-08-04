@@ -1,6 +1,7 @@
-# CareerBridge:  Job Portal
 
-Welcome to CareerBridge, a modern, feature-rich job portal designed to connect talented professionals with the best opportunities across India. This platform leverages a dark, high-tech aesthetic with dynamic visual effects to create an engaging user experience for both job seekers and employers.
+# CareerBridge: Job Portal
+
+Welcome to CareerBridge, a modern, feature-rich job portal designed to connect talented professionals with the best opportunities across India. This platform leverages a dark, high-tech aesthetic with dynamic visual effects to create an engaging user experience for both job seekers and job providers.
 
 ## ✨ Features
 
@@ -14,10 +15,10 @@ Welcome to CareerBridge, a modern, feature-rich job portal designed to connect t
 - **Multi-Step Application Form:** A streamlined, multi-step form for applying to jobs.
 - **Direct Messaging:** A built-in chat system to communicate directly with recruiters.
 
-### For Employers
-- **Secure Registration & Login:** Separate authentication for employers.
+### For Job Providers
+- **Secure Registration & Login:** Separate authentication for job providers.
 - **Post and Manage Jobs:** An intuitive form for posting new job openings.
-- **Employer Dashboard:** A central hub to view all posted jobs and the number of applications received for each.
+- **Job Provider Dashboard:** A central hub to view all posted jobs and the number of applications received for each.
 - **View Applications:** A dedicated page to review the list of candidates who have applied for a specific job.
 
 ## 💻 Tech Stack
@@ -37,8 +38,7 @@ Welcome to CareerBridge, a modern, feature-rich job portal designed to connect t
 
 The project is organized into a `frontend` and `backend` directory structure.
 
-
-/JOBSEEKER/
+/CareerBridge/
 ├── backend/
 │   ├── apply_handler.php
 │   ├── check_auth.php
@@ -56,7 +56,7 @@ The project is organized into a `frontend` and `backend` directory structure.
 ├── components/
 │   ├── about.html
 │   ├── apply.html
-│   ├── employer_profile.html
+│   ├── job_provider_profile.html
 │   ├── job-detail.html
 │   ├── message.html
 │   ├── post-job.html
@@ -68,7 +68,6 @@ The project is organized into a `frontend` and `backend` directory structure.
 ├── jobs.html
 └── resumes/ (Directory for uploaded resumes)
 
-
 ## 🚀 Setup and Installation
 
 To run this project locally, you will need a server environment like XAMPP or WAMP.
@@ -79,7 +78,7 @@ To run this project locally, you will need a server environment like XAMPP or WA
     ```
 
 2.  **Set up the server:**
-    - Place the entire `JOBSEEKER` folder inside the `htdocs` directory (for XAMPP) or `www` directory (for WAMP).
+    - Place the entire `CareerBridge` folder inside the `htdocs` directory (for XAMPP) or `www` directory (for WAMP).
 
 3.  **Database Setup:**
     - Open **phpMyAdmin** from your XAMPP/WAMP control panel.
@@ -98,12 +97,12 @@ To run this project locally, you will need a server environment like XAMPP or WA
 
 5.  **Run the project:**
     - Start the Apache and MySQL services from your XAMPP/WAMP control panel.
-    - Open your web browser and navigate to: `http://localhost/JOBSEEKER/frontend/`
+    - Open your web browser and navigate to: `http://localhost/CareerBridge/frontend/`
 
 ## Usage
 
 - **Job Seeker:** Navigate to the homepage, browse jobs, sign up for an account, apply for positions, and use the resources like the Resume Builder and AI Skill Advisor.
-- **Employer:** Sign up with an "employer" role, log in, post new jobs through the "Post Job" form, and view applications for your listings from your employer dashboard.
+- **Job Provider:** Sign up with a "job provider" role, log in, post new jobs through the "Post Job" form, and view applications for your listings from your job provider dashboard.
 
 ## ✨ Visual Effects
 

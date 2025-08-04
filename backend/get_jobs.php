@@ -37,7 +37,7 @@ try {
                 'type' => $row['job_type'],
                 'experience' => $row['experience_level'],
                 'posted' => time_ago($row['posted_at']),
-                'logo' => '/JOBSEEKER/backend/' . $row['company_logo_path'], // Assuming logos are in backend/uploads
+                'logo' => '/CareerBridge/backend/' . $row['company_logo_path'], // Assuming logos are in backend/uploads
                 'tags' => !empty($row['skills']) ? array_map('trim', explode(',', $row['skills'])) : []
             ];
             $jobs[] = $formatted_job;

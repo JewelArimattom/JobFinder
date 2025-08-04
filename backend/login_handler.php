@@ -43,7 +43,7 @@ function show_error_message($message) {
             {$message}
         </p>
 
-        <a href="/JOBSEEKER/frontend/components/signUp.html" class="inline-block bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+        <a href="/CareerBridge/frontend/components/signUp.html" class="inline-block bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
             <i class="fas fa-redo-alt mr-2"></i> Try Again
         </a>
 
@@ -96,7 +96,7 @@ try {
                 $_SESSION['loggedin'] = true;
 
                 // Redirect to the home page after successful login
-                header("Location: /JOBSEEKER/frontend/index.html");
+                header("Location: /CareerBridge/frontend/index.html");
                 exit();
 
             } else {
