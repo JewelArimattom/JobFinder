@@ -258,8 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const [jobResponse, allJobsResponse] = await Promise.all([
-                fetch(`/JOBSEEKER/backend/get_job_detail.php?id=${jobId}`),
-                fetch(`/JOBSEEKER/backend/get_jobs.php`)
+                fetch(`/CareerBridge/backend/get_job_detail.php?id=${jobId}`),
+                fetch(`/CareerBridge/backend/get_jobs.php`)
             ]);
             
             if (!jobResponse.ok) throw new Error(`HTTP error! status: ${jobResponse.status}`);
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             document.title = `${job.job_title} - CareerBridge`;
             const companyInitial = job.company_name ? job.company_name.charAt(0).toUpperCase() : 'C';
-            const logoSrc = job.company_logo_path && !job.company_logo_path.endsWith('/') ? `/JOBSEEKER/backend/${job.company_logo_path}` : `https://placehold.co/100x100/667eea/ffffff?text=${companyInitial}&font=inter`;
+            const logoSrc = job.company_logo_path && !job.company_logo_path.endsWith('/') ? `/CareerBridge/backend/${job.company_logo_path}` : `https://placehold.co/100x100/667eea/ffffff?text=${companyInitial}&font=inter`;
             
             const headerHtml = `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

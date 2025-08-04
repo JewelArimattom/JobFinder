@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Full Backend Functions ---
     async function loadConversations() {
         try {
-            const response = await fetch('/JOBSEEKER/backend/get_conversations.php');
+            const response = await fetch('/CareerBridge/backend/get_conversations.php');
             const data = await response.json();
             if (data.success) {
                 renderContactList(data.conversations);
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         chatWindowEl.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-slate-500">Loading chat...</p></div>';
         try {
-            const response = await fetch(`/JOBSEEKER/backend/get_chat_messages.php?contact_id=${contactId}`);
+            const response = await fetch(`/CareerBridge/backend/get_chat_messages.php?contact_id=${contactId}`);
             const data = await response.json();
             if (data.success) {
                 renderChatWindow(data);
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function sendMessage(recipientId, messageText) {
         try {
-            const response = await fetch('/JOBSEEKER/backend/send_message.php', {
+            const response = await fetch('/CareerBridge/backend/send_message.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ recipient_id: recipientId, message_text: messageText })

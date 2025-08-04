@@ -366,7 +366,7 @@
                 <div class="reveal-on-scroll"><h4 class="font-bold text-slate-100 mb-4 tracking-wider">Legal</h4><ul class="space-y-3"><li><a href="#" class="text-slate-400 hover:text-white transition-colors">Privacy Policy</a></li><li><a href="#" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a></li><li><a href="#" class="text-slate-400 hover:text-white transition-colors">Contact</a></li></ul></div>
                 <div class="reveal-on-scroll"><h4 class="font-bold text-slate-100 mb-4 tracking-wider">Connect With Us</h4><div class="flex space-x-5"><a href="#" aria-label="Twitter" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fab fa-twitter"></i></a><a href="#" aria-label="LinkedIn" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fab fa-linkedin-in"></i></a><a href="#" aria-label="GitHub" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fab fa-github"></i></a><a href="#" aria-label="Instagram" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fab fa-instagram"></i></a></div></div>
             </div>
-            <div class="border-t border-slate-800 pt-8 text-center text-slate-500 reveal-on-scroll"><p>&copy; 2025 CareerBridge. All rights reserved. Made with ❤️ for India's workforce.</p></div>
+            <div class="border-t border-slate-800 pt-8 text-center text-slate-500 reveal-on-scroll"><p>&copy; 2025 CareerBridge. All rights reserved.</p></div>
         </div>
     </footer>
 
@@ -446,13 +446,13 @@
         async function updateAuthState() {
             try {
                 navLinksContainer.innerHTML = `<a href="jobs.html" class="protected-link text-slate-400 hover:text-white font-medium transition-colors">Jobs</a><a href="resources.html" class="text-slate-400 hover:text-white font-medium transition-colors">Resources</a><a href="about.html" class="text-slate-400 hover:text-white font-medium transition-colors">About</a>`;
-                const response = await fetch('/backend/check_auth.php');
+                const response = await fetch('/CareerBridge/backend/check_auth.php');
                 const authData = await response.json();
                 isUserLoggedIn = authData.loggedin;
 
                 if (isUserLoggedIn) {
                     const isEmployer = authData.roles && authData.roles.includes('employer');
-                    const profileLink = isEmployer ? 'components/employer_profile.html' : 'components/profile.html';
+                    const profileLink = isEmployer ? 'employer_profile.html' : 'profile.html';
 
                     if (isEmployer) {
                         navLinksContainer.innerHTML += `<a href="/frontend/components/post-Job.html" class="text-slate-400 hover:text-white font-medium transition-colors">Post Job</a>`;
@@ -466,7 +466,7 @@
                             <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-50 ring-1 ring-black ring-opacity-5">
                                 <div class="py-1">
                                     <a href="${profileLink}" class="protected-link block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">My Profile</a>
-                                    <a href="/backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">Logout</a>
+                                    <a href="/CareerBridge/backend/logout_handler.php" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">Logout</a>
                                  </div>
                             </div>
                         </div>`;
@@ -475,13 +475,13 @@
                     addDropdownListeners();
                 } else {
                     navLinksContainer.insertAdjacentHTML('beforeend', `
-                        <a href="/frontend/components/post-Job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>
-                        <a href="/frontend/components/signUp.html" class="font-semibold text-slate-300 hover:text-white">Login</a>`);
+                        <a href="/CareerBridge/frontend/components/post-Job.html" class="protected-link"><button class="btn-primary text-white px-6 py-2 rounded-full font-semibold text-sm">Post Job</button></a>
+                        <a href="/CareerBridge/frontend/components/signUp.html" class="font-semibold text-slate-300 hover:text-white">Login</a>`);
                 }
             } catch (error) {
                 console.error("Auth check failed:", error);
                 isUserLoggedIn = false;
-                navLinksContainer.insertAdjacentHTML('beforeend', `<a href="/frontend/components/signUp.html" class="font-semibold text-slate-300 hover:text-white">Login</a>`);
+                navLinksContainer.insertAdjacentHTML('beforeend', `<a href="/CareerBridge/frontend/components/signUp.html" class="font-semibold text-slate-300 hover:text-white">Login</a>`);
             }
             protectLinks();
         }
@@ -506,7 +506,7 @@
                 newLink.addEventListener('click', (event) => {
                     if (!isUserLoggedIn) {
                         event.preventDefault();
-                        window.location.href = '/frontend/components/signUp.html';
+                        window.location.href = '/CareerBridge/frontend/components/signUp.html';
                     }
                 });
             });
@@ -517,7 +517,7 @@
             if (!listingsContainer) return;
             listingsContainer.innerHTML = '<p class="text-slate-400 col-span-4 text-center">Loading latest jobs...</p>';
             try {
-                const response = await fetch('/backend/get_jobs.php?limit=4');
+                const response = await fetch('/CareerBridge/backend/get_jobs.php?limit=4');
                 const jobs = await response.json();
                 listingsContainer.innerHTML = '';
                 if (!jobs || jobs.length === 0) {
@@ -567,7 +567,7 @@
             const keyword = document.getElementById('hero-keyword').value;
             const location = document.getElementById('hero-location').value;
             if (!isUserLoggedIn) {
-                window.location.href = '/frontend/components/signUp.html';
+                window.location.href = '/CareerBridge/frontend/components/signUp.html';
             } else {
                 window.location.href = `jobs.html?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
             }

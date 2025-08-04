@@ -88,7 +88,7 @@
                 <div>
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-slate-100">Your Posted Jobs</h2>
-                        <a href="components/postJobs.html" class="btn-primary text-white font-bold px-6 py-3 rounded-lg">
+                        <a href="/CareerBridge/frontend/components/post-Job.html" class="btn-primary text-white font-bold px-6 py-3 rounded-lg">
                             <i class="fas fa-plus mr-2"></i>Post New Job
                         </a>
                     </div>
@@ -219,7 +219,7 @@
                     const profileLink = isEmployer ? 'employer_profile.html' : 'profile.html';
 
                     if (isEmployer) {
-                        navHtml += `<a href="components/postJobs.html" class="text-slate-400 hover:text-white font-medium">Post Job</a>`;
+                        navHtml += `<a href="/CareerBridge/frontend/components/post-job.html" class="text-slate-400 hover:text-white font-medium">Post Job</a>`;
                     }
                     
                     navHtml += `
@@ -287,7 +287,7 @@
                             <p><strong class="text-slate-500">Applications:</strong> <span class="font-bold text-indigo-300 text-base">${job.application_count}</span></p>
                         </div>
                         <div class="mt-4 pt-4 border-t border-slate-700">
-                            <a href="components/view_applications.html?job_id=${job.id}" class="text-indigo-400 hover:text-indigo-300 font-semibold text-sm">View Applications <i class="fas fa-arrow-right ml-1"></i></a>
+                            <a href="/CareerBridge/components/view_applications.html?job_id=${job.id}" class="text-indigo-400 hover:text-indigo-300 font-semibold text-sm">View Applications <i class="fas fa-arrow-right ml-1"></i></a>
                         </div>
                     </div>`;
                     container.insertAdjacentHTML('beforeend', card);

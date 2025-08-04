@@ -11,7 +11,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 function show_message($title, $message, $is_success = true) {
     $icon = $is_success ? 'fa-check-circle text-green-500' : 'fa-exclamation-triangle text-red-500';
     $button_text = $is_success ? 'Login Now' : 'Try Again';
-    $button_link = $is_success ? '/JOBSEEKER/frontend/components/login.html' : 'javascript:history.back()';
+    $button_link = $is_success ? '/JOBSEEKER/frontend/components/signUp.html' : 'javascript:history.back()';
 
     echo <<<HTML
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ function show_message($title, $message, $is_success = true) {
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
-    <nav class="bg-white shadow-sm"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex items-center justify-between h-16"><a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a></div></div></nav>
+    <nav class="bg-white shadow-sm"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex items-center justify-between h-16"><a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">CareerBridge</a></div></div></nav>
     <main class="flex-grow flex items-center justify-center"><div class="max-w-lg w-full bg-white p-8 rounded-2xl shadow-lg text-center"><i class="fas $icon text-6xl mb-6"></i><h1 class="text-3xl font-black text-slate-900">$title</h1><p class="text-slate-600 mt-4 text-lg">$message</p><div class="mt-8"><a href="$button_link" class="btn-primary text-white font-bold px-8 py-3 rounded-xl">$button_text</a></div></div></main>
 </body>
 </html>
