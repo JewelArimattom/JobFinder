@@ -1,11 +1,7 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder"; 
+require_once 'database.php';
 
 // Check if the user is logged in and is an employer
 if (!isset($_SESSION['user_id']) || !in_array('employer', $_SESSION['roles'])) {

@@ -1,14 +1,6 @@
 <?php
 session_start(); // Start the session at the very beginning
-
-// --- DATABASE CONFIGURATION ---
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
-
-// --- SCRIPT LOGIC ---
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+require_once 'database.php';
 
 function show_error_message($message) {
     // Using heredoc for cleaner HTML without escaping quotes

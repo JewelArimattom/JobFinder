@@ -1,9 +1,7 @@
 <?php
 session_start();
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder"; header('Content-Type: application/json');
+require_once 'database.php';
+header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);

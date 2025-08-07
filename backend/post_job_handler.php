@@ -1,18 +1,9 @@
 <?php
-// --- ADDED: Start session to access logged-in user data ---
 session_start();
-
-// --- DATABASE CONFIGURATION ---
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
+require_once 'database.php';
 
 // --- FILE UPLOAD CONFIGURATION ---
 $upload_dir = "../frontend/uploads/";
-
-// --- SCRIPT LOGIC ---
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 function show_message($title, $message, $is_success = true) {
     $icon = $is_success ? 'fa-check-circle text-green-500' : 'fa-exclamation-triangle text-red-500';

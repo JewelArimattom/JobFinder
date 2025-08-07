@@ -1,18 +1,9 @@
 <?php
-// --- ADD SESSION START AT THE VERY TOP ---
 session_start();
-
-// --- DATABASE CONFIGURATION ---
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
+require_once 'database.php';
 
 // --- FILE UPLOAD CONFIGURATION ---
 $upload_dir = "../frontend/resumes/"; 
-
-// --- SCRIPT LOGIC ---
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 function show_message($title, $message, $is_success = true) {
     // This function remains the same...

@@ -1,9 +1,6 @@
 <?php
 session_start();
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
+require_once 'database.php';
 
 if (!isset($_SESSION['user_id']) || !isset($_GET['contact_id'])) {
     http_response_code(400);

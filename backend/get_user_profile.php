@@ -1,12 +1,7 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-
-// --- DATABASE CONFIGURATION ---
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
+require_once 'database.php';
 
 // Default response structure
 $response = [

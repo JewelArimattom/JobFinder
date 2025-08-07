@@ -38,7 +38,7 @@ CREATE TABLE `applications` (
   KEY `job_id` (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-____________________________________________________________________________________________________
+
 -- Step 1: Create the `users` table (without the user_type column)
 -- This table will store the core information for every user.
 

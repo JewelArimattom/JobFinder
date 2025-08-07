@@ -1,9 +1,6 @@
 <?php
 session_start();
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
+require_once 'database.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {
