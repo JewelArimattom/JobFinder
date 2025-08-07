@@ -1,9 +1,6 @@
 <?php
 session_start();
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
+require_once 'database.php';
 
 // The message data is sent as a JSON payload in the request body
 $data = json_decode(file_get_contents('php://input'), true);

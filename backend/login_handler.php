@@ -1,14 +1,6 @@
 <?php
 session_start(); // Start the session at the very beginning
-
-// --- DATABASE CONFIGURATION ---
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
-
-// --- SCRIPT LOGIC ---
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+require_once 'database.php';
 
 function show_error_message($message) {
     // Using heredoc for cleaner HTML without escaping quotes
@@ -43,7 +35,7 @@ function show_error_message($message) {
             {$message}
         </p>
 
-        <a href="/CareerBridge/frontend/components/signUp.html" class="inline-block bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+        <a href="../frontend/components/signUp.html" class="inline-block bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
             <i class="fas fa-redo-alt mr-2"></i> Try Again
         </a>
 
@@ -54,7 +46,30 @@ HTML;
 }
 
 try {
+    // Log the current script path and included file path
+    error_log("Current script path: " . __FILE__);
+    error_log("Database include path: " . realpath('database.php'));
+    
+    // Check if database variables are set
+    if (!isset($servername) || !isset($username) || !isset($password) || !isset($dbname)) {
+        error_log("Database variables not set. Contents of database.php:");
+        error_log(file_get_contents('database.php'));
+        throw new Exception("Database configuration not loaded properly. Check database.php");
+    }
+    
+    // Log database connection attempt
+    error_log("Attempting database connection with:");
+    error_log("Server: " . $servername);
+    error_log("Username: " . $username);
+    error_log("Database: " . $dbname);
+    
+    // Test database connection with error logging
     $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        error_log("Database connection failed: " . $conn->connect_error);
+        throw new Exception("Database connection failed: " . $conn->connect_error);
+    }
+    error_log("Database connection successful");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST['email']) || empty($_POST['password'])) {
@@ -88,15 +103,30 @@ try {
                     $roles[] = $row['name'];
                 }
                 
+                // Clear any existing session data
+                session_unset();
+                
                 // Store user data in session
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['full_name'] = $user['full_name'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['roles'] = $roles;
                 $_SESSION['loggedin'] = true;
+                
+                // Ensure session is written
+                session_write_close();
+                session_start();
 
+                // Log the redirect path
+                $redirect_path = realpath(__DIR__ . '/../index.html');
+                error_log("Attempting to redirect to: " . $redirect_path);
+                if (!file_exists($redirect_path)) {
+                    error_log("Error: index.html not found at " . $redirect_path);
+                    throw new Exception("Unable to find the home page. Please contact support.");
+                }
+                
                 // Redirect to the home page after successful login
-                header("Location: /CareerBridge/frontend/index.html");
+                header("Location: ../index.html");
                 exit();
 
             } else {
@@ -112,6 +142,17 @@ try {
     $conn->close();
 
 } catch (Exception $e) {
-    show_error_message("An error occurred: " . $e->getMessage());
+    error_log("Login Error: " . $e->getMessage());
+    error_log("Stack trace: " . $e->getTraceAsString());
+    
+    // Show detailed error in both development and production
+    $error_message = "An error occurred: " . $e->getMessage() . "\n\n";
+    $error_message .= "File: " . __FILE__ . "\n";
+    $error_message .= "Database Path: " . realpath('database.php') . "\n";
+    $error_message .= "Index Path: " . realpath(__DIR__ . '/../index.html') . "\n";
+    $error_message .= "Current Directory: " . getcwd() . "\n";
+    $error_message .= "Stack Trace: " . $e->getTraceAsString();
+    
+    show_error_message($error_message);
 }
 ?>

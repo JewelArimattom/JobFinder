@@ -1,9 +1,5 @@
 <?php
-// --- DATABASE CONFIGURATION ---
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder"; // Corrected database name
+require_once 'database.php';
 
 // Set the header to output JSON
 header('Content-Type: application/json');

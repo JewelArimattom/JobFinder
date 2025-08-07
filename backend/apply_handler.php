@@ -1,24 +1,15 @@
 <?php
-// --- ADD SESSION START AT THE VERY TOP ---
 session_start();
-
-// --- DATABASE CONFIGURATION ---
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder";
+require_once 'database.php';
 
 // --- FILE UPLOAD CONFIGURATION ---
 $upload_dir = "../frontend/resumes/"; 
-
-// --- SCRIPT LOGIC ---
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 function show_message($title, $message, $is_success = true) {
     // This function remains the same...
     $icon = $is_success ? 'fa-check-circle text-green-500' : 'fa-exclamation-triangle text-red-500';
     $button_text = $is_success ? 'Find More Jobs' : 'Try Again';
-    $button_link = $is_success ? '/JOBSEEKER/frontend/jobs.html' : 'javascript:history.back()';
+    $button_link = $is_success ? '../frontend/jobs.html' : 'javascript:history.back()';
 
     echo <<<HTML
 <!DOCTYPE html>
@@ -41,7 +32,7 @@ function show_message($title, $message, $is_success = true) {
     <nav class="bg-white shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="/JOBSEEKER/frontend/index.html" class="text-2xl font-black gradient-text">JobFinder</a>
+                <a href="../index.html" class="text-2xl font-black gradient-text">CareerBridge</a>
             </div>
         </div>
     </nav>

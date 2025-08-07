@@ -1,22 +1,11 @@
 <?php
-// --- DATABASE CONFIGURATION ---
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "jobfinder"; // Corrected database name
+// Include the database configuration
+require_once 'database.php';
 
 // Set the header to output JSON
 header('Content-Type: application/json');
 
-// Set the timezone to India Standard Time
-date_default_timezone_set('Asia/Kolkata');
-
-// Enable error reporting for debugging
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
 try {
-    // Create database connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
 
     // SQL query to fetch all jobs, ordered by the newest first
     $sql = "SELECT id, job_title, company_name, location, salary_min, salary_max, salary_unit, job_type, experience_level, posted_at, company_logo_path, skills FROM jobs ORDER BY posted_at DESC";

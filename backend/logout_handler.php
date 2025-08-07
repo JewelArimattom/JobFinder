@@ -9,6 +9,6 @@ $_SESSION = array();
 session_destroy();
 
 // Redirect to the homepage after logout
-header("Location: /CareerBridge/frontend/index.html");
+header("Location: ../index.html");
 exit;
 ?>
