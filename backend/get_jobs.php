@@ -6,27 +6,41 @@ require_once 'database.php';
 header('Content-Type: application/json');
 
 try {
-
-    // SQL query to fetch all jobs, ordered by the newest first
-    $sql = "SELECT id, job_title, company_name, location, salary_min, salary_max, salary_unit, job_type, experience_level, posted_at, company_logo_path, skills FROM jobs ORDER BY posted_at DESC";
+    // Get the limit parameter, default to 10 if not specified
+    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
     
-    $result = $conn->query($sql);
+    // Validate limit
+    if ($limit < 1) $limit = 10;
+    
+    // SQL query to fetch jobs, ordered by the newest first with limit
+    $sql = "SELECT id, job_title, company_name, location, salary_min, salary_max, salary_unit, job_type, experience_level, posted_at, company_logo_path, skills FROM jobs ORDER BY posted_at DESC LIMIT ?";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $limit);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     $jobs = [];
     if ($result->num_rows > 0) {
         // Fetch all results into an associative array
         while($row = $result->fetch_assoc()) {
+            // Format salary with validation
+            $salary = "Not Disclosed";
+            if (!empty($row['salary_min']) || !empty($row['salary_max'])) {
+                $salary = '₹' . number_format($row['salary_min']) . ' - ₹' . number_format($row['salary_max']) . ' ' . $row['salary_unit'];
+            }
+            
             // Format the data to match the structure expected by the JavaScript frontend
             $formatted_job = [
-                'id' => $row['id'],
-                'title' => $row['job_title'],
-                'company' => $row['company_name'],
-                'location' => $row['location'],
-                'salary' => '₹' . $row['salary_min'] . ' - ₹' . $row['salary_max'] . ' ' . $row['salary_unit'],
-                'type' => $row['job_type'],
-                'experience' => $row['experience_level'],
+                'id' => intval($row['id']),
+                'title' => htmlspecialchars($row['job_title']),
+                'company' => htmlspecialchars($row['company_name']),
+                'location' => htmlspecialchars($row['location']),
+                'salary' => $salary,
+                'type' => htmlspecialchars($row['job_type']),
+                'experience' => htmlspecialchars($row['experience_level']),
                 'posted' => time_ago($row['posted_at']),
-                'logo' => '/CareerBridge/backend/' . $row['company_logo_path'], // Assuming logos are in backend/uploads
+                'logo' => !empty($row['company_logo_path']) ? '/CareerBridge/backend/' . htmlspecialchars($row['company_logo_path']) : null,
                 'tags' => !empty($row['skills']) ? array_map('trim', explode(',', $row['skills'])) : []
             ];
             $jobs[] = $formatted_job;
